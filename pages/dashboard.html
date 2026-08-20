@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard</title>
+
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="dashboard-header">
+
+        <div class="header-left">
+            <h1>Student Dashboard</h1>
+            <p>Attendance & Performance Analytics</p>
+        </div>
+
+        <div class="header-right">
+            <span id="userName">Student</span>
+
+            <button
+                type="button"
+                id="logoutBtn"
+                class="logout-btn">
+                Logout
+            </button>
+        </div>
+
+    </header>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav class="dashboard-nav">
+
+        <a href="dashboard.html" class="active">
+            Dashboard
+        </a>
+
+        <a href="attendance.html">
+            Attendance
+        </a>
+
+        <a href="attendance-rules.html">
+            Attendance Rules
+        </a>
+
+        <a href="attendance-sessions.html">
+            Attendance Sessions
+        </a>
+
+        <a href="performance.html">
+            Performance
+        </a>
+
+        <a href="analytics.html">
+            Analytics
+        </a>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="dashboard-container">
+
+        <!-- Welcome -->
+
+        <section class="welcome-section">
+
+            <div>
+                <h2>
+                    Welcome, <span id="welcomeName">Student</span> 👋
+                </h2>
+
+                <p>
+                    Here's your academic overview.
+                </p>
+            </div>
+
+            <div class="date-box">
+                <span id="currentDate"></span>
+            </div>
+
+        </section>
+
+
+        <!-- ================= STAT CARDS ================= -->
+
+        <section class="stats-grid">
+
+            <!-- Attendance -->
+
+            <div class="stat-card attendance-card">
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+                <div class="stat-content">
+                    <h3>Attendance</h3>
+
+                    <p
+                        class="stat-value"
+                        id="attendancePercentage">
+                        85%
+                    </p>
+
+                    <span class="stat-label">
+                        Overall Attendance
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Performance -->
+
+            <div class="stat-card performance-card">
+
+                <div class="stat-icon">
+                    📈
+                </div>
+
+                <div class="stat-content">
+                    <h3>Performance</h3>
+
+                    <p
+                        class="stat-value"
+                        id="performancePercentage">
+                        78%
+                    </p>
+
+                    <span class="stat-label">
+                        Overall Performance
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- Present Days -->
+
+            <div class="stat-card present-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div class="stat-content">
+                    <h3>Present Days</h3>
+
+                    <p
+                        class="stat-value"
+                        id="presentDays">
+                        42
+                    </p>
+
+                    <span class="stat-label">
+                        This Semester
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- At Risk -->
+
+            <div class="stat-card risk-card">
+
+                <div class="stat-icon">
+                    ⚠️
+                </div>
+
+                <div class="stat-content">
+                    <h3>At Risk</h3>
+
+                    <p
+                        class="stat-value"
+                        id="riskStatus">
+                        No
+                    </p>
+
+                    <span class="stat-label">
+                        Academic Risk Status
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ATTENDANCE OVERVIEW ================= -->
+
+        <section class="dashboard-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Attendance Overview</h2>
+
+                    <p>
+                        Your current attendance summary
+                    </p>
+                </div>
+
+                <a
+                    href="attendance.html"
+                    class="view-btn">
+                    View Attendance
+                </a>
+
+            </div>
+
+
+            <div class="attendance-overview">
+
+                <div class="progress-container">
+
+                    <div class="progress-info">
+                        <span>Overall Attendance</span>
+
+                        <strong id="attendanceText">
+                            85%
+                        </strong>
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            id="attendanceProgress">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="attendance-details">
+
+                    <div>
+                        <span>Present</span>
+                        <strong id="presentCount">42</strong>
+                    </div>
+
+                    <div>
+                        <span>Absent</span>
+                        <strong id="absentCount">7</strong>
+                    </div>
+
+                    <div>
+                        <span>Late</span>
+                        <strong id="lateCount">1</strong>
+                    </div>
+
+                    <div>
+                        <span>Total Classes</span>
+                        <strong id="totalClasses">50</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECENT ATTENDANCE ================= -->
+
+        <section class="dashboard-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Recent Attendance</h2>
+
+                    <p>
+                        Latest attendance records
+                    </p>
+                </div>
+
+                <a
+                    href="attendance.html"
+                    class="view-btn">
+                    View All
+                </a>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="attendanceTableBody">
+
+                        <tr>
+                            <td>Data Structures</td>
+                            <td>20 Aug 2026</td>
+                            <td>
+                                <span class="status present">
+                                    Present
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>DBMS</td>
+                            <td>19 Aug 2026</td>
+                            <td>
+                                <span class="status present">
+                                    Present
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Web Development</td>
+                            <td>18 Aug 2026</td>
+                            <td>
+                                <span class="status absent">
+                                    Absent
+                                </span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Python</td>
+                            <td>17 Aug 2026</td>
+                            <td>
+                                <span class="status present">
+                                    Present
+                                </span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUICK ACTIONS ================= -->
+
+        <section class="dashboard-card">
+
+            <div class="section-header">
+
+                <div>
+                    <h2>Quick Actions</h2>
+
+                    <p>
+                        Access important sections quickly
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+                <a
+                    href="attendance.html"
+                    class="action-btn">
+                    <span>📊</span>
+                    <strong>View Attendance</strong>
+                </a>
+
+
+                <a
+                    href="attendance-sessions.html"
+                    class="action-btn">
+                    <span>🕐</span>
+                    <strong>Attendance Sessions</strong>
+                </a>
+
+
+                <a
+                    href="attendance-rules.html"
+                    class="action-btn">
+                    <span>📋</span>
+                    <strong>Attendance Rules</strong>
+                </a>
+
+
+                <a
+                    href="performance.html"
+                    class="action-btn">
+                    <span>📈</span>
+                    <strong>View Performance</strong>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="dashboard-footer">
+
+        <p>
+            © 2026 Attendance & Performance Analytics
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script src="../js/dashboard.js"></script>
+
+</body>
+</html>
