@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Attendance Sessions</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/attendance.css"
+    >
+
+</head>
+
+<body>
+
+    <header class="page-header">
+
+        <div>
+
+            <h1>Attendance Sessions</h1>
+
+            <p>
+                View scheduled and completed sessions
+            </p>
+
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="dashboard.html"
+                class="header-btn"
+            >
+                Dashboard
+            </a>
+
+            <button
+                type="button"
+                id="logoutBtn"
+                class="logout-btn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <nav class="page-nav">
+
+        <a href="dashboard.html">
+            Dashboard
+        </a>
+
+        <a href="attendance.html">
+            Attendance
+        </a>
+
+        <a href="attendance-rules.html">
+            Attendance Rules
+        </a>
+
+        <a
+            href="attendance-sessions.html"
+            class="active"
+        >
+            Attendance Sessions
+        </a>
+
+    </nav>
+
+
+    <main class="attendance-container">
+
+        <section class="welcome-card">
+
+            <div>
+
+                <h2>
+                    Today's Sessions
+                </h2>
+
+                <p>
+                    View your attendance sessions.
+                </p>
+
+            </div>
+
+            <div class="student-name">
+
+                Student:
+                <strong>
+                    Yasaswini
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <section class="content-card">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                #
+                            </th>
+
+                            <th>
+                                Subject
+                            </th>
+
+                            <th>
+                                Faculty
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Start
+                            </th>
+
+                            <th>
+                                End
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="sessionsTableBody">
+                    </tbody>
+
+                </table>
+
+                <div
+                    id="emptySessionMessage"
+                    class="empty-message"
+                    hidden
+                >
+                    No sessions available.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="page-footer">
+
+        <p>
+            © 2026 Attendance & Performance Analytics
+        </p>
+
+    </footer>
+
+
+    <script src="../js/attendance-sessions.js"></script>
+
+</body>
+
+</html>
