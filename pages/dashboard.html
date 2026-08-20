@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PresentTrack Dashboard</title>
+
+    <meta
+        name="description"
+        content="PresentTrack attendance and performance analytics dashboard"
+    >
+
+    <title>Dashboard | PresentTrack</title>
+
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
@@ -11,77 +18,84 @@
 
     <div class="app-layout">
 
-        <!-- Sidebar -->
+        <!-- ==================== SIDEBAR ==================== -->
+
         <aside class="sidebar">
 
             <div class="brand">
-                <div class="brand-logo">PT</div>
 
-                <div class="brand-info">
+                <div class="brand-logo" aria-hidden="true">
+                    PT
+                </div>
+
+                <div class="brand-text">
                     <h2>PresentTrack</h2>
                     <p>Attendance &amp; Performance</p>
                 </div>
+
             </div>
+
 
             <nav class="sidebar-nav" aria-label="Main navigation">
 
-                <a href="dashboard.html" class="nav-link active">
-                    <span class="nav-icon">🏠</span>
+                <a href="dashboard.html" class="nav-link active" aria-current="page">
+                    <span class="nav-icon" aria-hidden="true">🏠</span>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="attendance.html" class="nav-link">
-                    <span class="nav-icon">📅</span>
+                    <span class="nav-icon" aria-hidden="true">📅</span>
                     <span>Attendance</span>
                 </a>
 
                 <a href="performance.html" class="nav-link">
-                    <span class="nav-icon">📊</span>
+                    <span class="nav-icon" aria-hidden="true">📊</span>
                     <span>Performance</span>
                 </a>
 
                 <a href="analytics.html" class="nav-link">
-                    <span class="nav-icon">📈</span>
+                    <span class="nav-icon" aria-hidden="true">📈</span>
                     <span>Analytics</span>
                 </a>
 
                 <a href="timetable.html" class="nav-link">
-                    <span class="nav-icon">🕐</span>
+                    <span class="nav-icon" aria-hidden="true">🕐</span>
                     <span>Timetable</span>
                 </a>
 
                 <a href="students.html" class="nav-link">
-                    <span class="nav-icon">👥</span>
+                    <span class="nav-icon" aria-hidden="true">👥</span>
                     <span>Students</span>
                 </a>
 
                 <a href="faculty.html" class="nav-link">
-                    <span class="nav-icon">👨‍🏫</span>
+                    <span class="nav-icon" aria-hidden="true">👨‍🏫</span>
                     <span>Faculty</span>
                 </a>
 
                 <a href="reports.html" class="nav-link">
-                    <span class="nav-icon">📄</span>
+                    <span class="nav-icon" aria-hidden="true">📄</span>
                     <span>Reports</span>
                 </a>
 
                 <a href="at-risk.html" class="nav-link">
-                    <span class="nav-icon">⚠️</span>
+                    <span class="nav-icon" aria-hidden="true">⚠️</span>
                     <span>At-Risk</span>
                 </a>
 
                 <a href="settings.html" class="nav-link">
-                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-icon" aria-hidden="true">⚙️</span>
                     <span>Settings</span>
                 </a>
 
             </nav>
 
+
             <div class="sidebar-footer">
 
                 <div class="profile-mini">
 
-                    <div class="avatar">
+                    <div class="avatar" aria-hidden="true">
                         YA
                     </div>
 
@@ -97,35 +111,45 @@
         </aside>
 
 
-        <!-- Main Content -->
+        <!-- ==================== MAIN CONTENT ==================== -->
+
         <main class="main-content">
 
-            <!-- Header -->
+            <!-- TOP HEADER -->
+
             <header class="top-header">
 
-                <div class="header-title">
-                    <p class="welcome-text">Welcome back 👋</p>
+                <div class="page-heading">
+
+                    <p class="welcome-text">
+                        Welcome back, Yasaswini 👋
+                    </p>
+
                     <h1>Dashboard</h1>
+
                 </div>
+
 
                 <div class="header-actions">
 
                     <button
-                        type="button"
                         class="icon-button"
-                        id="notificationButton"
-                        aria-label="Notifications"
-                        title="Notifications">
+                        type="button"
+                        title="Notifications"
+                        aria-label="Notifications">
+
                         🔔
+
                     </button>
+
 
                     <div class="header-profile">
 
-                        <div class="avatar">
+                        <div class="avatar" aria-hidden="true">
                             YA
                         </div>
 
-                        <div class="header-profile-details">
+                        <div class="header-profile-text">
                             <strong>Yasaswini</strong>
                             <span>Administrator</span>
                         </div>
@@ -137,7 +161,8 @@
             </header>
 
 
-            <!-- Hero Section -->
+            <!-- ==================== HERO ==================== -->
+
             <section class="hero-section">
 
                 <div class="hero-content">
@@ -146,84 +171,144 @@
                         2026 - 2027 Academic Year
                     </span>
 
-                    <h2>Smart Attendance Management</h2>
+                    <h2>
+                        Smart Attendance Management
+                    </h2>
 
                     <p>
                         Track attendance, monitor student performance,
                         and identify attendance risks from one place.
                     </p>
 
-                    <a href="attendance.html" class="hero-button">
-                        Mark Attendance →
+                    <a
+                        href="attendance.html"
+                        class="hero-button">
+
+                        Mark Attendance
+                        <span aria-hidden="true">→</span>
+
                     </a>
 
                 </div>
 
+
                 <div class="hero-illustration" aria-hidden="true">
-                    📊
+
+                    <div class="hero-chart-icon">
+                        📊
+                    </div>
+
+                    <div class="hero-chart-line line-one"></div>
+                    <div class="hero-chart-line line-two"></div>
+                    <div class="hero-chart-line line-three"></div>
+
                 </div>
 
             </section>
 
 
-            <!-- Statistics -->
-            <section class="stats-grid" aria-label="Attendance statistics">
+            <!-- ==================== STATISTICS ==================== -->
 
-                <article class="stat-card blue">
+            <section
+                class="stats-grid"
+                aria-label="Attendance statistics">
 
-                    <div class="stat-icon">
+
+                <!-- TOTAL STUDENTS -->
+
+                <article class="stat-card stat-blue">
+
+                    <div class="stat-icon" aria-hidden="true">
                         👥
                     </div>
 
                     <div class="stat-content">
+
                         <p>Total Students</p>
-                        <h2 id="totalStudents">120</h2>
-                        <span>Active students</span>
+
+                        <h2 id="totalStudents">
+                            779
+                        </h2>
+
+                        <span>
+                            Active students
+                        </span>
+
                     </div>
 
                 </article>
 
 
-                <article class="stat-card green">
+                <!-- AVERAGE ATTENDANCE -->
 
-                    <div class="stat-icon">
+                <article class="stat-card stat-green">
+
+                    <div class="stat-icon" aria-hidden="true">
                         ✓
                     </div>
 
                     <div class="stat-content">
+
                         <p>Average Attendance</p>
-                        <h2 id="averageAttendance">87%</h2>
-                        <span>Overall attendance</span>
+
+                        <h2 id="averageAttendance">
+                            87%
+                        </h2>
+
+                        <span>
+                            Overall attendance
+                        </span>
+
                     </div>
 
                 </article>
 
 
-                <article class="stat-card purple">
+                <!-- TODAY ATTENDANCE -->
 
-                    <div class="stat-icon">
+                <article class="stat-card stat-purple">
+
+                    <div class="stat-icon" aria-hidden="true">
                         📅
                     </div>
 
                     <div class="stat-content">
+
                         <p>Today's Attendance</p>
-                        <h2 id="todayAttendance">91%</h2>
-                        <span>Today's record</span>
+
+                        <h2 id="todayAttendance">
+                            91%
+                        </h2>
+
+                        <span>
+                            Today's record
+                        </span>
+
                     </div>
 
                 </article>
 
 
-                <article class="stat-card orange">
+                <!-- AT RISK -->
 
-                    <div class="stat-icon">
+                <article class="stat-card stat-orange">
+
+                    <div class="stat-icon" aria-hidden="true">
                         ⚠
                     </div>
 
                     <div class="stat-content">
+
                         <p>At-Risk Students</p>
-                        <h2 id="riskStudents">14</h2>
-                        <span>Need attention</span>
+
+                        <h2 id="riskStudents">
+                            14
+                        </h2>
+
+                        <span>
+                            Need attention
+                        </span>
+
                     </div>
 
                 </article>
@@ -231,86 +316,196 @@
             </section>
 
 
-            <!-- Dashboard Grid -->
-            <section class="dashboard-grid">
+            <!-- ==================== FILTER ==================== -->
 
-                <!-- Attendance Overview -->
-                <article class="dashboard-card attendance-card">
+            <section class="filter-card">
 
-                    <div class="card-header">
+                <div class="section-heading">
 
-                        <div>
-                            <h3>Attendance Overview</h3>
-                            <p>Weekly attendance performance</p>
-                        </div>
+                    <div>
 
-                        <div class="select-wrapper">
+                        <h2>Attendance Analytics</h2>
 
-                            <label for="monthSelect">
-                                Month
-                            </label>
-
-                            <select id="monthSelect" name="month">
-
-                                <option value="august-2026">
-                                    August 2026
-                                </option>
-
-                                <option value="july-2026">
-                                    July 2026
-                                </option>
-
-                                <option value="june-2026">
-                                    June 2026
-                                </option>
-
-                                <option value="may-2026">
-                                    May 2026
-                                </option>
-
-                            </select>
-
-                        </div>
+                        <p>
+                            View attendance performance for the current week.
+                        </p>
 
                     </div>
 
 
-                    <div class="chart-area">
+                    <label
+                        class="select-wrapper"
+                        for="monthSelect">
 
-                        <div class="y-axis" aria-hidden="true">
+                        <span class="sr-only">
+                            Select month
+                        </span>
+
+                        <select
+                            id="monthSelect"
+                            name="month">
+
+                            <option value="august-2026">
+                                August 2026
+                            </option>
+
+                            <option value="july-2026">
+                                July 2026
+                            </option>
+
+                            <option value="june-2026">
+                                June 2026
+                            </option>
+
+                            <option value="may-2026">
+                                May 2026
+                            </option>
+
+                        </select>
+
+                    </label>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================== CHART ROW ==================== -->
+
+            <section class="chart-grid">
+
+
+                <!-- WEEKLY ATTENDANCE -->
+
+                <article class="dashboard-card large-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h2>Weekly Attendance</h2>
+
+                            <p>
+                                Attendance percentage by day
+                            </p>
+
+                        </div>
+
+                        <span class="card-badge">
+                            87% Average
+                        </span>
+
+                    </div>
+
+
+                    <div class="bar-chart-container">
+
+                        <div class="chart-y-axis">
+
                             <span>100%</span>
                             <span>75%</span>
                             <span>50%</span>
                             <span>25%</span>
                             <span>0%</span>
+
                         </div>
 
 
-                        <div class="bar-chart">
+                        <div class="bar-chart-area">
 
-                            <div class="bar-column">
-                                <div class="bar bar-82"></div>
-                                <span>Mon</span>
-                            </div>
+                            <div class="chart-grid-line line-100"></div>
+                            <div class="chart-grid-line line-75"></div>
+                            <div class="chart-grid-line line-50"></div>
+                            <div class="chart-grid-line line-25"></div>
+                            <div class="chart-grid-line line-0"></div>
 
-                            <div class="bar-column">
-                                <div class="bar bar-90"></div>
-                                <span>Tue</span>
-                            </div>
 
-                            <div class="bar-column">
-                                <div class="bar bar-76"></div>
-                                <span>Wed</span>
-                            </div>
+                            <div class="bars">
 
-                            <div class="bar-column">
-                                <div class="bar bar-94"></div>
-                                <span>Thu</span>
-                            </div>
+                                <div class="bar-item">
 
-                            <div class="bar-column">
-                                <div class="bar bar-88"></div>
-                                <span>Fri</span>
+                                    <div
+                                        class="bar-value"
+                                        aria-label="Monday attendance 82 percent">
+
+                                        82%
+
+                                    </div>
+
+                                    <div class="bar bar-blue bar-82"></div>
+
+                                    <span>Mon</span>
+
+                                </div>
+
+
+                                <div class="bar-item">
+
+                                    <div
+                                        class="bar-value"
+                                        aria-label="Tuesday attendance 90 percent">
+
+                                        90%
+
+                                    </div>
+
+                                    <div class="bar bar-blue bar-90"></div>
+
+                                    <span>Tue</span>
+
+                                </div>
+
+
+                                <div class="bar-item">
+
+                                    <div
+                                        class="bar-value"
+                                        aria-label="Wednesday attendance 76 percent">
+
+                                        76%
+
+                                    </div>
+
+                                    <div class="bar bar-blue bar-76"></div>
+
+                                    <span>Wed</span>
+
+                                </div>
+
+
+                                <div class="bar-item">
+
+                                    <div
+                                        class="bar-value"
+                                        aria-label="Thursday attendance 94 percent">
+
+                                        94%
+
+                                    </div>
+
+                                    <div class="bar bar-blue bar-94"></div>
+
+                                    <span>Thu</span>
+
+                                </div>
+
+
+                                <div class="bar-item">
+
+                                    <div
+                                        class="bar-value"
+                                        aria-label="Friday attendance 88 percent">
+
+                                        88%
+
+                                    </div>
+
+                                    <div class="bar bar-blue bar-88"></div>
+
+                                    <span>Fri</span>
+
+                                </div>
+
                             </div>
 
                         </div>
@@ -320,75 +515,86 @@
                 </article>
 
 
-                <!-- Quick Actions -->
+                <!-- ATTENDANCE DISTRIBUTION -->
+
                 <article class="dashboard-card">
 
                     <div class="card-header">
 
                         <div>
-                            <h3>Quick Actions</h3>
-                            <p>Frequently used actions</p>
+
+                            <h2>Attendance Distribution</h2>
+
+                            <p>
+                                Student performance categories
+                            </p>
+
                         </div>
 
                     </div>
 
 
-                    <div class="quick-actions">
+                    <div class="donut-section">
 
-                        <a
-                            href="attendance.html"
-                            class="quick-action blue-action">
+                        <div class="donut-chart">
 
-                            <span class="quick-icon">📅</span>
+                            <div class="donut-center">
 
-                            <div>
-                                <strong>Mark Attendance</strong>
-                                <small>Record today's attendance</small>
+                                <strong>779</strong>
+
+                                <span>Students</span>
+
                             </div>
 
-                        </a>
+                        </div>
 
 
-                        <a
-                            href="attendance-sessions.html"
-                            class="quick-action purple-action">
+                        <div class="donut-legend">
 
-                            <span class="quick-icon">📝</span>
+                            <div class="legend-item">
 
-                            <div>
-                                <strong>Attendance Sessions</strong>
-                                <small>Manage attendance sessions</small>
+                                <span class="legend-dot excellent-dot"></span>
+
+                                <span>Excellent</span>
+
+                                <strong>35%</strong>
+
                             </div>
 
-                        </a>
 
+                            <div class="legend-item">
 
-                        <a
-                            href="attendance-rules.html"
-                            class="quick-action green-action">
+                                <span class="legend-dot good-dot"></span>
 
-                            <span class="quick-icon">⚙️</span>
+                                <span>Good</span>
 
-                            <div>
-                                <strong>Attendance Rules</strong>
-                                <small>Configure attendance rules</small>
+                                <strong>42%</strong>
+
                             </div>
 
-                        </a>
 
+                            <div class="legend-item">
 
-                        <a
-                            href="reports.html"
-                            class="quick-action orange-action">
+                                <span class="legend-dot attention-dot"></span>
 
-                            <span class="quick-icon">📄</span>
+                                <span>Needs Attention</span>
 
-                            <div>
-                                <strong>Generate Report</strong>
-                                <small>View attendance reports</small>
+                                <strong>17%</strong>
+
                             </div>
 
-                        </a>
+
+                            <div class="legend-item">
+
+                                <span class="legend-dot critical-dot"></span>
+
+                                <span>Critical</span>
+
+                                <strong>6%</strong>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -397,21 +603,132 @@
             </section>
 
 
-            <!-- Lower Grid -->
+            <!-- ==================== HOUSE PERFORMANCE ==================== -->
+
+            <section class="dashboard-card full-width-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>Attendance by Department</h2>
+
+                        <p>
+                            Average attendance across departments
+                        </p>
+
+                    </div>
+
+                    <span class="card-badge">
+                        Current Semester
+                    </span>
+
+                </div>
+
+
+                <div class="horizontal-chart">
+
+                    <div class="horizontal-row">
+
+                        <div class="horizontal-label">
+                            <span>CSE</span>
+                            <strong>92%</strong>
+                        </div>
+
+                        <div class="horizontal-track">
+                            <div class="horizontal-fill fill-92"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="horizontal-row">
+
+                        <div class="horizontal-label">
+                            <span>ECE</span>
+                            <strong>88%</strong>
+                        </div>
+
+                        <div class="horizontal-track">
+                            <div class="horizontal-fill fill-88"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="horizontal-row">
+
+                        <div class="horizontal-label">
+                            <span>EEE</span>
+                            <strong>85%</strong>
+                        </div>
+
+                        <div class="horizontal-track">
+                            <div class="horizontal-fill fill-85"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="horizontal-row">
+
+                        <div class="horizontal-label">
+                            <span>Mechanical</span>
+                            <strong>81%</strong>
+                        </div>
+
+                        <div class="horizontal-track">
+                            <div class="horizontal-fill fill-81"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="horizontal-row">
+
+                        <div class="horizontal-label">
+                            <span>Civil</span>
+                            <strong>78%</strong>
+                        </div>
+
+                        <div class="horizontal-track">
+                            <div class="horizontal-fill fill-78"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================== LOWER SECTION ==================== -->
+
             <section class="lower-grid">
 
-                <!-- Recent Attendance -->
+
+                <!-- RECENT ATTENDANCE -->
+
                 <article class="dashboard-card">
 
                     <div class="card-header">
 
                         <div>
-                            <h3>Recent Attendance</h3>
-                            <p>Latest attendance activity</p>
+
+                            <h2>Recent Attendance</h2>
+
+                            <p>
+                                Latest attendance activity
+                            </p>
+
                         </div>
 
-                        <a href="attendance.html" class="view-link">
+                        <a
+                            href="attendance.html"
+                            class="view-link">
+
                             View All →
+
                         </a>
 
                     </div>
@@ -419,11 +736,12 @@
 
                     <div class="attendance-list">
 
+
                         <div class="attendance-row">
 
                             <div class="student-info">
 
-                                <div class="student-avatar blue-avatar">
+                                <div class="student-avatar avatar-blue">
                                     AR
                                 </div>
 
@@ -434,7 +752,7 @@
 
                             </div>
 
-                            <span class="status present">
+                            <span class="status status-present">
                                 Present
                             </span>
 
@@ -445,7 +763,7 @@
 
                             <div class="student-info">
 
-                                <div class="student-avatar purple-avatar">
+                                <div class="student-avatar avatar-purple">
                                     SK
                                 </div>
 
@@ -456,7 +774,7 @@
 
                             </div>
 
-                            <span class="status present">
+                            <span class="status status-present">
                                 Present
                             </span>
 
@@ -467,7 +785,7 @@
 
                             <div class="student-info">
 
-                                <div class="student-avatar orange-avatar">
+                                <div class="student-avatar avatar-orange">
                                     MP
                                 </div>
 
@@ -478,7 +796,7 @@
 
                             </div>
 
-                            <span class="status absent">
+                            <span class="status status-absent">
                                 Absent
                             </span>
 
@@ -489,7 +807,7 @@
 
                             <div class="student-info">
 
-                                <div class="student-avatar green-avatar">
+                                <div class="student-avatar avatar-green">
                                     RK
                                 </div>
 
@@ -500,7 +818,7 @@
 
                             </div>
 
-                            <span class="status late">
+                            <span class="status status-late">
                                 Late
                             </span>
 
@@ -511,91 +829,134 @@
                 </article>
 
 
-                <!-- Attendance Summary -->
+                <!-- QUICK ACTIONS -->
+
                 <article class="dashboard-card">
 
                     <div class="card-header">
 
                         <div>
-                            <h3>Attendance Summary</h3>
-                            <p>Current academic performance</p>
-                        </div>
 
-                    </div>
+                            <h2>Quick Actions</h2>
 
-
-                    <div class="summary-progress">
-
-                        <div class="progress-item">
-
-                            <div class="progress-label">
-                                <span>Excellent</span>
-                                <strong>35%</strong>
-                            </div>
-
-                            <div class="progress-track">
-                                <div class="progress excellent progress-35"></div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="progress-item">
-
-                            <div class="progress-label">
-                                <span>Good</span>
-                                <strong>42%</strong>
-                            </div>
-
-                            <div class="progress-track">
-                                <div class="progress good progress-42"></div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="progress-item">
-
-                            <div class="progress-label">
-                                <span>Needs Attention</span>
-                                <strong>17%</strong>
-                            </div>
-
-                            <div class="progress-track">
-                                <div class="progress attention progress-17"></div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="progress-item">
-
-                            <div class="progress-label">
-                                <span>Critical</span>
-                                <strong>6%</strong>
-                            </div>
-
-                            <div class="progress-track">
-                                <div class="progress critical progress-6"></div>
-                            </div>
+                            <p>
+                                Frequently used actions
+                            </p>
 
                         </div>
 
                     </div>
 
 
-                    <div class="summary-footer">
+                    <div class="quick-actions">
 
-                        <div>
-                            <strong>87%</strong>
-                            <span>Average Attendance</span>
-                        </div>
 
-                        <div
-                            class="summary-icon"
-                            aria-hidden="true">
-                            🎯
-                        </div>
+                        <a
+                            href="attendance.html"
+                            class="quick-action action-blue">
+
+                            <span class="action-icon">
+                                📅
+                            </span>
+
+                            <span class="action-text">
+
+                                <strong>
+                                    Mark Attendance
+                                </strong>
+
+                                <small>
+                                    Record today's attendance
+                                </small>
+
+                            </span>
+
+                            <span class="action-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="attendance-sessions.html"
+                            class="quick-action action-purple">
+
+                            <span class="action-icon">
+                                📝
+                            </span>
+
+                            <span class="action-text">
+
+                                <strong>
+                                    Attendance Sessions
+                                </strong>
+
+                                <small>
+                                    Manage attendance sessions
+                                </small>
+
+                            </span>
+
+                            <span class="action-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="attendance-rules.html"
+                            class="quick-action action-green">
+
+                            <span class="action-icon">
+                                ⚙️
+                            </span>
+
+                            <span class="action-text">
+
+                                <strong>
+                                    Attendance Rules
+                                </strong>
+
+                                <small>
+                                    Configure attendance rules
+                                </small>
+
+                            </span>
+
+                            <span class="action-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="reports.html"
+                            class="quick-action action-orange">
+
+                            <span class="action-icon">
+                                📄
+                            </span>
+
+                            <span class="action-text">
+
+                                <strong>
+                                    Generate Report
+                                </strong>
+
+                                <small>
+                                    View attendance reports
+                                </small>
+
+                            </span>
+
+                            <span class="action-arrow">
+                                →
+                            </span>
+
+                        </a>
 
                     </div>
 
@@ -604,7 +965,118 @@
             </section>
 
 
-            <!-- Footer -->
+            <!-- ==================== PERFORMANCE SUMMARY ==================== -->
+
+            <section class="dashboard-card full-width-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h2>Attendance Performance Summary</h2>
+
+                        <p>
+                            Overall student attendance categories
+                        </p>
+
+                    </div>
+
+                    <strong class="overall-percentage">
+                        87% Overall
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-grid">
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-label">
+
+                            <span>Excellent</span>
+                            <strong>35%</strong>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill progress-excellent">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-label">
+
+                            <span>Good</span>
+                            <strong>42%</strong>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill progress-good">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-label">
+
+                            <span>Needs Attention</span>
+                            <strong>17%</strong>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill progress-attention">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-item">
+
+                        <div class="progress-label">
+
+                            <span>Critical</span>
+                            <strong>6%</strong>
+
+                        </div>
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill progress-critical">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==================== FOOTER ==================== -->
+
             <footer class="page-footer">
 
                 <p>
