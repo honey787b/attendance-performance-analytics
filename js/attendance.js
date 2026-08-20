@@ -1,411 +1,536 @@
-/* =====================================================
-   ATTENDANCE PAGE
-===================================================== */
+document.addEventListener("DOMContentLoaded", function () {
 
-
-/* DEMO DATA */
-
-const attendanceData = {
-
-    student: {
-        name: "Yasaswini"
-    },
-
-    summary: {
-        percentage: 85,
-        present: 42,
-        absent: 7,
-        late: 1,
-        total: 50
-    },
-
-    records: [
-
+    const students = [
         {
-            subject: "Data Structures",
-            date: "20 Aug 2026",
-            time: "09:00 AM",
-            faculty: "Faculty A",
-            status: "Present"
+            id: 1,
+            name: "Arjun Reddy",
+            roll: "CSE001",
+            department: "CSE",
+            year: "1",
+            attendance: 96
         },
-
         {
-            subject: "DBMS",
-            date: "19 Aug 2026",
-            time: "10:00 AM",
-            faculty: "Faculty B",
-            status: "Present"
+            id: 2,
+            name: "Sneha Rani",
+            roll: "CSE002",
+            department: "CSE",
+            year: "1",
+            attendance: 91
         },
-
         {
-            subject: "Web Development",
-            date: "18 Aug 2026",
-            time: "11:00 AM",
-            faculty: "Faculty C",
-            status: "Absent"
+            id: 3,
+            name: "Rahul Kumar",
+            roll: "CSE003",
+            department: "CSE",
+            year: "2",
+            attendance: 86
         },
-
         {
-            subject: "Python",
-            date: "17 Aug 2026",
-            time: "09:00 AM",
-            faculty: "Faculty D",
-            status: "Present"
+            id: 4,
+            name: "Meghana Priya",
+            roll: "ECE001",
+            department: "ECE",
+            year: "2",
+            attendance: 78
         },
-
         {
-            subject: "Data Structures",
-            date: "16 Aug 2026",
-            time: "09:00 AM",
-            faculty: "Faculty A",
-            status: "Late"
+            id: 5,
+            name: "Sanjay Rao",
+            roll: "ECE002",
+            department: "ECE",
+            year: "3",
+            attendance: 93
         },
-
         {
-            subject: "DBMS",
-            date: "15 Aug 2026",
-            time: "10:00 AM",
-            faculty: "Faculty B",
-            status: "Present"
+            id: 6,
+            name: "Kavya Sri",
+            roll: "EEE001",
+            department: "EEE",
+            year: "1",
+            attendance: 88
         },
-
         {
-            subject: "Python",
-            date: "14 Aug 2026",
-            time: "11:00 AM",
-            faculty: "Faculty D",
-            status: "Present"
+            id: 7,
+            name: "Vishal Kumar",
+            roll: "CSE004",
+            department: "CSE",
+            year: "3",
+            attendance: 97
+        },
+        {
+            id: 8,
+            name: "Priya Sharma",
+            roll: "ECE003",
+            department: "ECE",
+            year: "4",
+            attendance: 82
+        },
+        {
+            id: 9,
+            name: "Nikhil Varma",
+            roll: "EEE002",
+            department: "EEE",
+            year: "2",
+            attendance: 74
+        },
+        {
+            id: 10,
+            name: "Anjali Devi",
+            roll: "CSE005",
+            department: "CSE",
+            year: "4",
+            attendance: 95
         }
-
-    ]
-};
+    ];
 
 
-/* GET ELEMENT */
-
-function getElement(id) {
-
-    return document.getElementById(id);
-}
+    let attendanceStatus = {};
 
 
-/* LOAD SUMMARY */
+    const savedStatus =
+        localStorage.getItem("todayAttendanceStatus");
 
-function loadSummary() {
-
-    const summary =
-        attendanceData.summary;
-
-
-    getElement("studentName").textContent =
-        attendanceData.student.name;
-
-
-    getElement("attendancePercentage").textContent =
-        `${summary.percentage}%`;
-
-
-    getElement("presentCount").textContent =
-        summary.present;
-
-
-    getElement("absentCount").textContent =
-        summary.absent;
-
-
-    getElement("lateCount").textContent =
-        summary.late;
-
-
-    getElement("percentageText").textContent =
-        `${summary.percentage}%`;
-
-
-    getElement("progressPresent").textContent =
-        summary.present;
-
-
-    getElement("totalClasses").textContent =
-        summary.total;
-
-
-    const progress =
-        getElement("attendanceProgress");
-
-
-    if (progress) {
-
-        progress.style.width =
-            `${summary.percentage}%`;
-    }
-}
-
-
-/* CREATE STATUS */
-
-function createStatus(status) {
-
-    const span =
-        document.createElement("span");
-
-    span.classList.add("status");
-
-
-    if (status === "Present") {
-
-        span.classList.add("present");
-
-    } else if (status === "Absent") {
-
-        span.classList.add("absent");
-
-    } else if (status === "Late") {
-
-        span.classList.add("late");
+    if (savedStatus) {
+        attendanceStatus = JSON.parse(savedStatus);
     }
 
-
-    span.textContent = status;
-
-
-    return span;
-}
-
-
-/* DISPLAY RECORDS */
-
-function displayRecords() {
 
     const tableBody =
-        getElement("attendanceTableBody");
+        document.getElementById("studentTableBody");
 
-    const emptyMessage =
-        getElement("emptyMessage");
+    const searchInput =
+        document.getElementById("studentSearch");
+
+    const departmentFilter =
+        document.getElementById("departmentFilter");
+
+    const yearFilter =
+        document.getElementById("yearFilter");
+
+    const sectionFilter =
+        document.getElementById("sectionFilter");
+
+    const dateInput =
+        document.getElementById("attendanceDate");
 
 
-    if (!tableBody) {
-        return;
+    const totalStudentsElement =
+        document.getElementById("totalStudents");
+
+    const presentTodayElement =
+        document.getElementById("presentToday");
+
+    const absentTodayElement =
+        document.getElementById("absentToday");
+
+    const studentCountElement =
+        document.getElementById("studentCount");
+
+
+    const today = new Date();
+
+    const formattedDate =
+        today.toISOString().split("T")[0];
+
+    dateInput.value = formattedDate;
+
+
+    function getInitials(name) {
+
+        return name
+            .split(" ")
+            .map(word => word.charAt(0))
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
     }
 
 
-    const subjectFilter =
-        getElement("subjectFilter").value;
+    function getAttendanceClass(value) {
+
+        if (value >= 90) {
+            return "percentage-good";
+        }
+
+        if (value >= 80) {
+            return "percentage-warning";
+        }
+
+        return "percentage-danger";
+    }
 
 
-    const statusFilter =
-        getElement("statusFilter").value;
+    function getStatus(id) {
+
+        return attendanceStatus[id] || "not-marked";
+
+    }
 
 
-    const filteredRecords =
-        attendanceData.records.filter(
-            record => {
+    function getStatusHTML(status) {
 
-                const subjectMatch =
-                    subjectFilter === "all" ||
-                    record.subject === subjectFilter;
+        if (status === "present") {
+            return `
+                <span class="status-badge status-present">
+                    Present
+                </span>
+            `;
+        }
+
+        if (status === "absent") {
+            return `
+                <span class="status-badge status-absent">
+                    Absent
+                </span>
+            `;
+        }
+
+        if (status === "late") {
+            return `
+                <span class="status-badge status-late">
+                    Late
+                </span>
+            `;
+        }
+
+        return `
+            <span class="status-badge status-not-marked">
+                Not Marked
+            </span>
+        `;
+
+    }
 
 
-                const statusMatch =
-                    statusFilter === "all" ||
-                    record.status === statusFilter;
+    function renderStudents() {
 
+        const searchValue =
+            searchInput.value.toLowerCase().trim();
+
+        const department =
+            departmentFilter.value;
+
+        const year =
+            yearFilter.value;
+
+
+        const filteredStudents =
+            students.filter(student => {
+
+                const matchesSearch =
+                    student.name.toLowerCase().includes(searchValue) ||
+                    student.roll.toLowerCase().includes(searchValue);
+
+                const matchesDepartment =
+                    department === "all" ||
+                    student.department.toLowerCase() === department;
+
+                const matchesYear =
+                    year === "all" ||
+                    student.year === year;
 
                 return (
-                    subjectMatch &&
-                    statusMatch
+                    matchesSearch &&
+                    matchesDepartment &&
+                    matchesYear
                 );
-            }
-        );
+
+            });
 
 
-    tableBody.innerHTML = "";
+        tableBody.innerHTML = "";
 
 
-    if (filteredRecords.length === 0) {
+        filteredStudents.forEach((student, index) => {
 
-        emptyMessage.hidden = false;
+            const status =
+                getStatus(student.id);
 
-        return;
-
-    } else {
-
-        emptyMessage.hidden = true;
-    }
-
-
-    filteredRecords.forEach(
-        (record, index) => {
 
             const row =
                 document.createElement("tr");
 
 
-            const number =
-                document.createElement("td");
+            row.innerHTML = `
 
-            number.textContent =
-                index + 1;
-
-
-            const subject =
-                document.createElement("td");
-
-            subject.textContent =
-                record.subject;
+                <td>
+                    ${index + 1}
+                </td>
 
 
-            const date =
-                document.createElement("td");
+                <td>
 
-            date.textContent =
-                record.date;
+                    <div class="student-cell">
 
+                        <div class="student-table-avatar">
+                            ${getInitials(student.name)}
+                        </div>
 
-            const time =
-                document.createElement("td");
+                        <strong>
+                            ${student.name}
+                        </strong>
 
-            time.textContent =
-                record.time;
+                    </div>
 
-
-            const faculty =
-                document.createElement("td");
-
-            faculty.textContent =
-                record.faculty;
+                </td>
 
 
-            const status =
-                document.createElement("td");
-
-            status.appendChild(
-                createStatus(
-                    record.status
-                )
-            );
+                <td>
+                    ${student.roll}
+                </td>
 
 
-            row.appendChild(number);
+                <td>
+                    ${student.department}
+                </td>
 
-            row.appendChild(subject);
 
-            row.appendChild(date);
+                <td>
+                    ${student.year}
+                </td>
 
-            row.appendChild(time);
 
-            row.appendChild(faculty);
+                <td>
 
-            row.appendChild(status);
+                    <span class="attendance-percentage
+                        ${getAttendanceClass(student.attendance)}">
+
+                        ${student.attendance}%
+
+                    </span>
+
+                </td>
+
+
+                <td>
+                    ${getStatusHTML(status)}
+                </td>
+
+
+                <td>
+
+                    <div class="action-buttons">
+
+                        <button
+                            class="status-button present-button"
+                            data-id="${student.id}"
+                            data-status="present">
+
+                            ✓
+
+                        </button>
+
+                        <button
+                            class="status-button absent-button"
+                            data-id="${student.id}"
+                            data-status="absent">
+
+                            ✕
+
+                        </button>
+
+                        <button
+                            class="status-button late-button"
+                            data-id="${student.id}"
+                            data-status="late">
+
+                            L
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            `;
 
 
             tableBody.appendChild(row);
-        }
-    );
-}
+
+        });
 
 
-/* RESET FILTERS */
-
-function resetFilters() {
-
-    getElement("subjectFilter").value =
-        "all";
-
-    getElement("statusFilter").value =
-        "all";
+        studentCountElement.textContent =
+            `Showing ${filteredStudents.length} students`;
 
 
-    displayRecords();
-}
+        attachStatusEvents();
 
+        updateSummary();
 
-/* LOGOUT */
-
-function setupLogout() {
-
-    const logoutBtn =
-        getElement("logoutBtn");
-
-
-    if (!logoutBtn) {
-        return;
     }
 
 
-    logoutBtn.addEventListener(
-        "click",
-        () => {
+    function attachStatusEvents() {
 
-            const confirmed =
-                window.confirm(
-                    "Are you sure you want to logout?"
+        const buttons =
+            document.querySelectorAll(".status-button");
+
+
+        buttons.forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                const id =
+                    Number(this.dataset.id);
+
+                const status =
+                    this.dataset.status;
+
+                attendanceStatus[id] =
+                    status;
+
+                localStorage.setItem(
+                    "todayAttendanceStatus",
+                    JSON.stringify(attendanceStatus)
                 );
 
+                renderStudents();
 
-            if (!confirmed) {
-                return;
-            }
+            });
 
+        });
 
-            localStorage.removeItem(
-                "token"
-            );
-
-            localStorage.removeItem(
-                "accessToken"
-            );
-
-            localStorage.removeItem(
-                "user"
-            );
+    }
 
 
-            window.location.href =
-                "../index.html";
-        }
+    function updateSummary() {
+
+        const statuses =
+            Object.values(attendanceStatus);
+
+        const present =
+            statuses.filter(
+                status => status === "present"
+            ).length;
+
+        const absent =
+            statuses.filter(
+                status => status === "absent"
+            ).length;
+
+
+        totalStudentsElement.textContent =
+            students.length;
+
+        presentTodayElement.textContent =
+            present;
+
+        absentTodayElement.textContent =
+            absent;
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        renderStudents
     );
-}
 
 
-/* INITIALIZE */
-
-function initializeAttendance() {
-
-    loadSummary();
-
-    displayRecords();
-
-    setupLogout();
-
-
-    getElement(
-        "subjectFilter"
-    ).addEventListener(
+    departmentFilter.addEventListener(
         "change",
-        displayRecords
+        renderStudents
     );
 
 
-    getElement(
-        "statusFilter"
-    ).addEventListener(
+    yearFilter.addEventListener(
         "change",
-        displayRecords
+        renderStudents
     );
 
 
-    getElement(
-        "resetFilters"
-    ).addEventListener(
-        "click",
-        resetFilters
+    sectionFilter.addEventListener(
+        "change",
+        renderStudents
     );
-}
 
 
-/* START */
+    document
+        .getElementById("clearFilters")
+        .addEventListener("click", function () {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    initializeAttendance
-);
+            searchInput.value = "";
+
+            departmentFilter.value = "all";
+
+            yearFilter.value = "all";
+
+            sectionFilter.value = "all";
+
+            renderStudents();
+
+        });
+
+
+    document
+        .getElementById("markAllPresent")
+        .addEventListener("click", function () {
+
+            students.forEach(student => {
+
+                attendanceStatus[student.id] =
+                    "present";
+
+            });
+
+
+            localStorage.setItem(
+                "todayAttendanceStatus",
+                JSON.stringify(attendanceStatus)
+            );
+
+
+            renderStudents();
+
+        });
+
+
+    document
+        .getElementById("saveAttendance")
+        .addEventListener("click", function () {
+
+            localStorage.setItem(
+                "todayAttendanceStatus",
+                JSON.stringify(attendanceStatus)
+            );
+
+
+            const message =
+                document.getElementById(
+                    "attendanceMessage"
+                );
+
+            message.textContent =
+                "✓ Attendance saved successfully!";
+
+            message.style.color =
+                "#16a34a";
+
+
+            setTimeout(function () {
+
+                message.textContent =
+                    "Make sure attendance is updated before saving.";
+
+                message.style.color =
+                    "";
+
+            }, 2500);
+
+        });
+
+
+    document
+        .getElementById("notificationButton")
+        .addEventListener("click", function () {
+
+            alert("No new attendance notifications.");
+
+        });
+
+
+    renderStudents();
+
+});

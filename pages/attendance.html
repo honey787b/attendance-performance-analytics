@@ -1,241 +1,281 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Attendance | PresentTrack</title>
 
-    <title>Attendance</title>
-    <link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/attendance.css">
-    <link
-        rel="stylesheet"
-        href="../css/attendance.css"
-    >
+    <link rel="stylesheet" href="../css/attendance.css">
+
 </head>
 
 <body>
 
-    <!-- HEADER -->
+<div class="app-layout">
 
-    <header class="page-header">
+    <!-- SIDEBAR -->
 
-        <div>
-            <h1>Attendance</h1>
+    <aside class="sidebar">
 
-            <p>
-                Track your attendance and class records
-            </p>
+        <div class="brand">
+
+            <div class="brand-logo">
+                PT
+            </div>
+
+            <div>
+                <h2>PresentTrack</h2>
+                <p>Attendance & Performance</p>
+            </div>
+
         </div>
 
-        <div class="header-actions">
 
-            <a
-                href="dashboard.html"
-                class="header-btn"
-            >
-                Dashboard
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-link">
+                <span>🏠</span>
+                <span>Dashboard</span>
             </a>
 
-            <button
-                type="button"
-                id="logoutBtn"
-                class="logout-btn"
-            >
-                Logout
-            </button>
+            <a href="attendance.html" class="nav-link active">
+                <span>📅</span>
+                <span>Attendance</span>
+            </a>
+
+            <a href="performance.html" class="nav-link">
+                <span>📊</span>
+                <span>Performance</span>
+            </a>
+
+            <a href="analytics.html" class="nav-link">
+                <span>📈</span>
+                <span>Analytics</span>
+            </a>
+
+            <a href="timetable.html" class="nav-link">
+                <span>🕐</span>
+                <span>Timetable</span>
+            </a>
+
+            <a href="students.html" class="nav-link">
+                <span>👥</span>
+                <span>Students</span>
+            </a>
+
+            <a href="faculty.html" class="nav-link">
+                <span>👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="reports.html" class="nav-link">
+                <span>📄</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="at-risk.html" class="nav-link">
+                <span>⚠️</span>
+                <span>At-Risk</span>
+            </a>
+
+            <a href="settings.html" class="nav-link">
+                <span>⚙️</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="profile-mini">
+
+                <div class="avatar">
+                    YA
+                </div>
+
+                <div>
+                    <strong>Yasaswini</strong>
+                    <small>Administrator</small>
+                </div>
+
+            </div>
 
         </div>
 
-    </header>
-
-
-    <!-- NAVIGATION -->
-
-    <nav class="page-nav">
-
-        <a href="dashboard.html">
-            Dashboard
-        </a>
-
-        <a
-            href="attendance.html"
-            class="active"
-        >
-            Attendance
-        </a>
-
-        <a href="attendance-rules.html">
-            Attendance Rules
-        </a>
-
-        <a href="attendance-sessions.html">
-            Attendance Sessions
-        </a>
-
-    </nav>
+    </aside>
 
 
     <!-- MAIN -->
 
-    <main class="attendance-container">
+    <main class="main-content">
 
-        <!-- PAGE TITLE -->
-
-        <section class="welcome-card">
+        <header class="top-header">
 
             <div>
 
-                <h2>
-                    Attendance Overview
-                </h2>
-
-                <p>
-                    Check your attendance status for this semester.
+                <p class="welcome-text">
+                    Attendance Management
                 </p>
 
-            </div>
-
-            <div class="student-name">
-
-                Student:
-                <strong id="studentName">
-                    Yasaswini
-                </strong>
+                <h1>Attendance Analytics</h1>
 
             </div>
 
-        </section>
+            <div class="header-actions">
 
+                <button
+                    class="icon-button"
+                    id="notificationButton">
+                    🔔
+                </button>
 
-        <!-- SUMMARY CARDS -->
+                <div class="header-profile">
 
-        <section class="summary-grid">
+                    <div class="avatar">
+                        YA
+                    </div>
 
-            <div class="summary-card">
+                    <div>
+                        <strong>Yasaswini</strong>
+                        <span>Administrator</span>
+                    </div>
 
-                <div class="summary-icon">
-                    📊
-                </div>
-
-                <div>
-                    <p>Attendance</p>
-
-                    <h3 id="attendancePercentage">
-                        85%
-                    </h3>
                 </div>
 
             </div>
 
-
-            <div class="summary-card">
-
-                <div class="summary-icon">
-                    ✅
-                </div>
-
-                <div>
-                    <p>Present</p>
-
-                    <h3 id="presentCount">
-                        42
-                    </h3>
-                </div>
-
-            </div>
+        </header>
 
 
-            <div class="summary-card">
+        <!-- HERO -->
 
-                <div class="summary-icon">
-                    ❌
-                </div>
+        <section class="attendance-hero">
 
-                <div>
-                    <p>Absent</p>
+            <div>
 
-                    <h3 id="absentCount">
-                        7
-                    </h3>
-                </div>
-
-            </div>
-
-
-            <div class="summary-card">
-
-                <div class="summary-icon">
-                    🕐
-                </div>
-
-                <div>
-                    <p>Late</p>
-
-                    <h3 id="lateCount">
-                        1
-                    </h3>
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- PROGRESS -->
-
-        <section class="content-card">
-
-            <div class="card-heading">
+                <span class="hero-icon">
+                    📅
+                </span>
 
                 <div>
 
-                    <h2>
-                        Attendance Percentage
-                    </h2>
+                    <h2>Attendance Analytics</h2>
 
                     <p>
-                        Overall attendance for the semester
+                        Track, manage and analyse student attendance
+                        with real-time insights.
                     </p>
 
                 </div>
 
-                <strong id="percentageText">
-                    85%
-                </strong>
+            </div>
+
+
+            <a href="attendance-sessions.html"
+               class="primary-button">
+
+                + New Session
+
+            </a>
+
+        </section>
+
+
+        <!-- STAT CARDS -->
+
+        <section class="attendance-stats">
+
+            <div class="attendance-stat blue-stat">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div>
+
+                    <span>Total Students</span>
+
+                    <strong id="totalStudents">
+                        120
+                    </strong>
+
+                    <small>
+                        Active students
+                    </small>
+
+                </div>
 
             </div>
 
 
-            <div class="progress-bar">
+            <div class="attendance-stat green-stat">
 
-                <div
-                    id="attendanceProgress"
-                    class="progress-fill"
-                ></div>
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>Average Attendance</span>
+
+                    <strong id="averageAttendance">
+                        87%
+                    </strong>
+
+                    <small>
+                        Overall average
+                    </small>
+
+                </div>
 
             </div>
 
 
-            <div class="progress-info">
+            <div class="attendance-stat purple-stat">
 
-                <span>
-                    Present:
-                    <strong id="progressPresent">
-                        42
-                    </strong>
-                </span>
+                <div class="stat-icon">
+                    📅
+                </div>
 
-                <span>
-                    Total Classes:
-                    <strong id="totalClasses">
-                        50
+                <div>
+
+                    <span>Present Today</span>
+
+                    <strong id="presentToday">
+                        109
                     </strong>
-                </span>
+
+                    <small>
+                        Students present
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="attendance-stat red-stat">
+
+                <div class="stat-icon">
+                    ⚠️
+                </div>
+
+                <div>
+
+                    <span>Absent Today</span>
+
+                    <strong id="absentToday">
+                        11
+                    </strong>
+
+                    <small>
+                        Students absent
+                    </small>
+
+                </div>
 
             </div>
 
@@ -244,53 +284,61 @@
 
         <!-- FILTERS -->
 
-        <section class="content-card">
+        <section class="filter-card">
 
-            <div class="card-heading">
+            <div class="filter-heading">
 
                 <div>
-
-                    <h2>
-                        Attendance Records
-                    </h2>
-
-                    <p>
-                        Filter attendance records by subject and status.
-                    </p>
-
+                    <h3>🔎 Attendance Filters</h3>
+                    <p>Filter students before marking attendance</p>
                 </div>
+
+                <button
+                    class="clear-button"
+                    id="clearFilters">
+                    Clear Filters
+                </button>
 
             </div>
 
 
-            <div class="filters">
+            <div class="filter-grid">
 
-                <div class="filter-group">
+                <div class="input-group">
 
-                    <label for="subjectFilter">
-                        Subject
+                    <label for="attendanceDate">
+                        Date
                     </label>
 
-                    <select id="subjectFilter">
+                    <input
+                        type="date"
+                        id="attendanceDate">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="departmentFilter">
+                        Department
+                    </label>
+
+                    <select id="departmentFilter">
 
                         <option value="all">
-                            All Subjects
+                            All Departments
                         </option>
 
-                        <option value="Data Structures">
-                            Data Structures
+                        <option value="cse">
+                            Computer Science
                         </option>
 
-                        <option value="DBMS">
-                            DBMS
+                        <option value="ece">
+                            Electronics
                         </option>
 
-                        <option value="Web Development">
-                            Web Development
-                        </option>
-
-                        <option value="Python">
-                            Python
+                        <option value="eee">
+                            Electrical
                         </option>
 
                     </select>
@@ -298,28 +346,32 @@
                 </div>
 
 
-                <div class="filter-group">
+                <div class="input-group">
 
-                    <label for="statusFilter">
-                        Status
+                    <label for="yearFilter">
+                        Year
                     </label>
 
-                    <select id="statusFilter">
+                    <select id="yearFilter">
 
                         <option value="all">
-                            All Status
+                            All Years
                         </option>
 
-                        <option value="Present">
-                            Present
+                        <option value="1">
+                            1st Year
                         </option>
 
-                        <option value="Absent">
-                            Absent
+                        <option value="2">
+                            2nd Year
                         </option>
 
-                        <option value="Late">
-                            Late
+                        <option value="3">
+                            3rd Year
+                        </option>
+
+                        <option value="4">
+                            4th Year
                         </option>
 
                     </select>
@@ -327,22 +379,73 @@
                 </div>
 
 
-                <button
-                    type="button"
-                    id="resetFilters"
-                    class="reset-btn"
-                >
-                    Reset
-                </button>
+                <div class="input-group">
+
+                    <label for="sectionFilter">
+                        Section
+                    </label>
+
+                    <select id="sectionFilter">
+
+                        <option value="all">
+                            All Sections
+                        </option>
+
+                        <option value="A">
+                            Section A
+                        </option>
+
+                        <option value="B">
+                            Section B
+                        </option>
+
+                        <option value="C">
+                            Section C
+                        </option>
+
+                    </select>
+
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- TABLE -->
+        <!-- ATTENDANCE TABLE -->
 
-        <section class="content-card">
+        <section class="attendance-table-card">
+
+            <div class="table-header">
+
+                <div>
+
+                    <h3>Mark Attendance</h3>
+
+                    <p id="studentCount">
+                        Showing 10 students
+                    </p>
+
+                </div>
+
+
+                <div class="table-actions">
+
+                    <input
+                        type="search"
+                        id="studentSearch"
+                        placeholder="Search student...">
+
+                    <button
+                        class="mark-all-button"
+                        id="markAllPresent">
+                        ✓ Mark All Present
+                    </button>
+
+                </div>
+
+            </div>
+
 
             <div class="table-wrapper">
 
@@ -352,111 +455,94 @@
 
                         <tr>
 
-                            <th>
-                                #
-                            </th>
+                            <th>#</th>
 
-                            <th>
-                                Subject
-                            </th>
+                            <th>Student</th>
 
-                            <th>
-                                Date
-                            </th>
+                            <th>Roll Number</th>
 
-                            <th>
-                                Time
-                            </th>
+                            <th>Department</th>
 
-                            <th>
-                                Faculty
-                            </th>
+                            <th>Year</th>
 
-                            <th>
-                                Status
-                            </th>
+                            <th>Attendance</th>
+
+                            <th>Today's Status</th>
+
+                            <th>Action</th>
 
                         </tr>
 
                     </thead>
 
-                    <tbody id="attendanceTableBody">
+
+                    <tbody id="studentTableBody">
+
                     </tbody>
 
                 </table>
 
-                <div
-                    id="emptyMessage"
-                    class="empty-message"
-                    hidden
-                >
-                    No attendance records found.
-                </div>
+            </div>
+
+
+            <div class="table-footer">
+
+                <span id="attendanceMessage">
+                    Make sure attendance is updated before saving.
+                </span>
+
+                <button
+                    class="save-button"
+                    id="saveAttendance">
+
+                    Save Attendance
+
+                </button>
 
             </div>
 
         </section>
 
 
-        <!-- QUICK LINKS -->
+        <!-- ATTENDANCE LEGEND -->
 
-        <section class="quick-links">
+        <section class="legend-card">
 
-            <a
-                href="attendance-rules.html"
-                class="quick-link"
-            >
-                <span>📋</span>
+            <div class="legend-item">
+                <span class="legend-dot excellent-dot"></span>
+                Excellent: 95%+
+            </div>
 
-                <div>
-                    <strong>
-                        Attendance Rules
-                    </strong>
+            <div class="legend-item">
+                <span class="legend-dot good-dot"></span>
+                Good: 90–94%
+            </div>
 
-                    <small>
-                        View attendance requirements
-                    </small>
-                </div>
+            <div class="legend-item">
+                <span class="legend-dot concern-dot"></span>
+                Concerning: 80–89%
+            </div>
 
-            </a>
-
-
-            <a
-                href="attendance-sessions.html"
-                class="quick-link"
-            >
-                <span>🕐</span>
-
-                <div>
-                    <strong>
-                        Attendance Sessions
-                    </strong>
-
-                    <small>
-                        View class sessions
-                    </small>
-                </div>
-
-            </a>
+            <div class="legend-item">
+                <span class="legend-dot poor-dot"></span>
+                Poor: Below 80%
+            </div>
 
         </section>
 
+
+        <footer class="page-footer">
+
+            © 2026 PresentTrack · Attendance & Performance Analytics
+
+        </footer>
+
     </main>
 
-
-    <!-- FOOTER -->
-
-    <footer class="page-footer">
-
-        <p>
-            © 2026 Attendance & Performance Analytics
-        </p>
-
-    </footer>
+</div>
 
 
-    <script src="../js/attendance.js"></script>
+<script src="../js/attendance.js"></script>
 
 </body>
-
 </html>

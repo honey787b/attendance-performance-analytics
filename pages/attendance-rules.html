@@ -4,143 +4,134 @@
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>Attendance Rules | PresentTrack</title>
 
-    <title>Attendance Rules</title>
-
-    <link
-        rel="stylesheet"
-        href="../css/attendance.css"
-    >
+    <link rel="stylesheet" href="../css/attendance.css">
 
 </head>
 
 <body>
 
-    <header class="page-header">
+<div class="app-layout">
 
-        <div>
+    <aside class="sidebar">
 
-            <h1>Attendance Rules</h1>
+        <div class="brand">
 
-            <p>
-                Attendance requirements and guidelines
-            </p>
+            <div class="brand-logo">PT</div>
+
+            <div>
+                <h2>PresentTrack</h2>
+                <p>Attendance & Performance</p>
+            </div>
 
         </div>
 
-        <div class="header-actions">
 
-            <a
-                href="dashboard.html"
-                class="header-btn"
-            >
-                Dashboard
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-link">
+                <span>🏠</span>
+                <span>Dashboard</span>
             </a>
 
-            <button
-                type="button"
-                id="logoutBtn"
-                class="logout-btn"
-            >
-                Logout
-            </button>
+            <a href="attendance.html" class="nav-link active">
+                <span>📅</span>
+                <span>Attendance</span>
+            </a>
 
-        </div>
+            <a href="performance.html" class="nav-link">
+                <span>📊</span>
+                <span>Performance</span>
+            </a>
 
-    </header>
+            <a href="analytics.html" class="nav-link">
+                <span>📈</span>
+                <span>Analytics</span>
+            </a>
+
+            <a href="timetable.html" class="nav-link">
+                <span>🕐</span>
+                <span>Timetable</span>
+            </a>
+
+            <a href="students.html" class="nav-link">
+                <span>👥</span>
+                <span>Students</span>
+            </a>
+
+            <a href="faculty.html" class="nav-link">
+                <span>👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="reports.html" class="nav-link">
+                <span>📄</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="at-risk.html" class="nav-link">
+                <span>⚠️</span>
+                <span>At-Risk</span>
+            </a>
+
+            <a href="settings.html" class="nav-link">
+                <span>⚙️</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+    </aside>
 
 
-    <nav class="page-nav">
+    <main class="main-content">
 
-        <a href="dashboard.html">
-            Dashboard
-        </a>
+        <header class="top-header">
 
-        <a href="attendance.html">
-            Attendance
-        </a>
+            <div>
+                <p class="welcome-text">Attendance Management</p>
+                <h1>Attendance Rules</h1>
+            </div>
 
-        <a
-            href="attendance-rules.html"
-            class="active"
-        >
-            Attendance Rules
-        </a>
-
-        <a href="attendance-sessions.html">
-            Attendance Sessions
-        </a>
-
-    </nav>
+        </header>
 
 
-    <main class="attendance-container">
-
-        <section class="welcome-card">
+        <section class="attendance-hero">
 
             <div>
 
-                <h2>
-                    Attendance Requirements
-                </h2>
-
-                <p>
-                    Please follow the attendance policies.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <section class="content-card">
-
-            <div class="card-heading">
+                <span class="hero-icon">⚙️</span>
 
                 <div>
 
-                    <h2>
-                        Minimum Attendance
-                    </h2>
+                    <h2>Attendance Rules</h2>
 
                     <p>
-                        Required attendance percentage
+                        Configure attendance thresholds and
+                        academic attendance policies.
                     </p>
 
                 </div>
 
-                <strong>
-                    75%
-                </strong>
-
             </div>
-
-            <p>
-                Students should maintain at least
-                75% attendance to meet the minimum
-                attendance requirement.
-            </p>
 
         </section>
 
 
-        <section class="content-card">
+        <section class="filter-card" style="margin-top:20px;">
 
-            <div class="card-heading">
+            <div class="filter-heading">
 
                 <div>
 
-                    <h2>
-                        Attendance Guidelines
-                    </h2>
+                    <h3>Attendance Thresholds</h3>
 
                     <p>
-                        Important rules for students
+                        Define the percentage ranges used by
+                        attendance analytics.
                     </p>
 
                 </div>
@@ -148,55 +139,99 @@
             </div>
 
 
-            <div class="rules-list">
+            <div class="filter-grid">
 
-                <p>
-                    <strong>1.</strong>
-                    Students should attend classes regularly.
-                </p>
+                <div class="input-group">
 
-                <p>
-                    <strong>2.</strong>
-                    Attendance is recorded for every scheduled session.
-                </p>
+                    <label for="excellent">
+                        Excellent Minimum (%)
+                    </label>
 
-                <p>
-                    <strong>3.</strong>
-                    Students must maintain the required minimum attendance.
-                </p>
+                    <input
+                        type="number"
+                        id="excellent"
+                        min="0"
+                        max="100"
+                        value="95">
 
-                <p>
-                    <strong>4.</strong>
-                    Late arrival may be recorded separately.
-                </p>
+                </div>
 
-                <p>
-                    <strong>5.</strong>
-                    Approved leave should follow institutional policies.
-                </p>
 
-                <p>
-                    <strong>6.</strong>
-                    Students should check their attendance records regularly.
-                </p>
+                <div class="input-group">
+
+                    <label for="good">
+                        Good Minimum (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="good"
+                        min="0"
+                        max="100"
+                        value="90">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="warning">
+                        Warning Minimum (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="warning"
+                        min="0"
+                        max="100"
+                        value="80">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="critical">
+                        Critical Below (%)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="critical"
+                        min="0"
+                        max="100"
+                        value="75">
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top:20px;">
+
+                <button
+                    class="save-button"
+                    id="saveRules">
+
+                    Save Attendance Rules
+
+                </button>
 
             </div>
 
         </section>
 
 
-        <section class="content-card">
+        <section class="filter-card" style="margin-top:20px;">
 
-            <div class="card-heading">
+            <div class="filter-heading">
 
                 <div>
 
-                    <h2>
-                        Attendance Status
-                    </h2>
+                    <h3>Attendance Policy</h3>
 
                     <p>
-                        Understanding your attendance
+                        Configure basic attendance requirements.
                     </p>
 
                 </div>
@@ -204,63 +239,61 @@
             </div>
 
 
-            <div class="quick-links">
+            <div class="filter-grid">
 
-                <div class="quick-link">
+                <div class="input-group">
 
-                    <span>🟢</span>
+                    <label for="minimumAttendance">
+                        Minimum Required Attendance (%)
+                    </label>
 
-                    <div>
-
-                        <strong>
-                            Good Attendance
-                        </strong>
-
-                        <small>
-                            75% or above
-                        </small>
-
-                    </div>
+                    <input
+                        type="number"
+                        id="minimumAttendance"
+                        min="0"
+                        max="100"
+                        value="75">
 
                 </div>
 
 
-                <div class="quick-link">
+                <div class="input-group">
 
-                    <span>🟡</span>
+                    <label for="lateLimit">
+                        Late Limit Per Month
+                    </label>
 
-                    <div>
-
-                        <strong>
-                            Warning
-                        </strong>
-
-                        <small>
-                            Below the required percentage
-                        </small>
-
-                    </div>
+                    <input
+                        type="number"
+                        id="lateLimit"
+                        min="0"
+                        value="3">
 
                 </div>
 
             </div>
 
         </section>
+
+
+        <p
+            id="ruleMessage"
+            style="
+                margin-top:20px;
+                color:#64748b;
+                font-size:12px;
+            ">
+
+            Changes are saved only on this browser.
+
+        </p>
 
     </main>
 
-
-    <footer class="page-footer">
-
-        <p>
-            © 2026 Attendance & Performance Analytics
-        </p>
-
-    </footer>
+</div>
 
 
-    <script src="../js/attendance-rules.js"></script>
+<script src="../js/attendance-rules.js"></script>
 
 </body>
-
 </html>
