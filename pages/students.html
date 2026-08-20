@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Students | PresentTrack</title>
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Students Page Styles -->
+    <link rel="stylesheet" href="../css/students.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>PresentTrack</h2>
+            <span>Attendance & Performance</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html">
+                🏠 Dashboard
+            </a>
+
+            <a href="attendance.html">
+                📅 Attendance
+            </a>
+
+            <a href="performance.html">
+                📊 Performance
+            </a>
+
+            <a href="analytics.html">
+                📈 Analytics
+            </a>
+
+            <a href="timetable.html">
+                🕐 Timetable
+            </a>
+
+            <a href="students.html" class="active">
+                👥 Students
+            </a>
+
+            <a href="faculty.html">
+                👨‍🏫 Faculty
+            </a>
+
+            <a href="reports.html">
+                📄 Reports
+            </a>
+
+            <a href="at-risk.html">
+                ⚠️ At-Risk
+            </a>
+
+            <a href="settings.html">
+                ⚙️ Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main-content">
+
+        <!-- Page Header -->
+
+        <header class="page-header">
+
+            <div>
+                <h1>Students</h1>
+
+                <p>
+                    Manage and view student information
+                </p>
+            </div>
+
+            <button class="btn-primary">
+                + Add Student
+            </button>
+
+        </header>
+
+
+        <!-- ================================
+             PAGE CONTENT
+        ================================= -->
+
+        <div class="students-container">
+
+
+            <!-- ================================
+                 SUMMARY CARDS
+            ================================= -->
+
+            <section class="student-summary">
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        👥
+                    </span>
+
+                    <div>
+                        <p>Total Students</p>
+                        <h3>240</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        🟢
+                    </span>
+
+                    <div>
+                        <p>Active Students</p>
+                        <h3>228</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        ⚠️
+                    </span>
+
+                    <div>
+                        <p>Needs Attention</p>
+                        <h3>12</h3>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================
+                 SEARCH & FILTERS
+            ================================= -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>
+                            Student Directory
+                        </h2>
+
+                        <p>
+                            Search and filter student records
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="student-filters">
+
+
+                    <!-- Search -->
+
+                    <div class="filter-group">
+
+                        <label for="student-search">
+                            Search Student
+                        </label>
+
+                        <input
+                            type="text"
+                            id="student-search"
+                            placeholder="Search by name or ID"
+                        >
+
+                    </div>
+
+
+                    <!-- Year -->
+
+                    <div class="filter-group">
+
+                        <label for="year-filter">
+                            Year
+                        </label>
+
+                        <select id="year-filter">
+
+                            <option>All Years</option>
+
+                            <option>1st Year</option>
+
+                            <option>2nd Year</option>
+
+                            <option>3rd Year</option>
+
+                            <option>4th Year</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Branch -->
+
+                    <div class="filter-group">
+
+                        <label for="branch-filter">
+                            Branch
+                        </label>
+
+                        <select id="branch-filter">
+
+                            <option>All Branches</option>
+
+                            <option>CSE</option>
+
+                            <option>AI & ML</option>
+
+                            <option>ECE</option>
+
+                            <option>EEE</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button class="btn-primary">
+                        Apply Filters
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================
+                 STUDENT TABLE
+            ================================= -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>
+                            Student Records
+                        </h2>
+
+                        <p>
+                            Currently enrolled students
+                        </p>
+
+                    </div>
+
+                    <span class="student-count">
+                        240 Students
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student ID
+                                </th>
+
+                                <th>
+                                    Name
+                                </th>
+
+                                <th>
+                                    Branch
+                                </th>
+
+                                <th>
+                                    Year
+                                </th>
+
+                                <th>
+                                    Section
+                                </th>
+
+                                <th>
+                                    Attendance
+                                </th>
+
+                                <th>
+                                    Performance
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- Student 1 -->
+
+                            <tr>
+
+                                <td>
+                                    24CSE001
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Ananya Reddy
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    CSE
+                                </td>
+
+                                <td>
+                                    1st
+                                </td>
+
+                                <td>
+                                    A
+                                </td>
+
+                                <td>
+
+                                    <span class="attendance-good">
+                                        92%
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    8.8 CGPA
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- Student 2 -->
+
+                            <tr>
+
+                                <td>
+                                    24CSE002
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Rahul Kumar
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    CSE
+                                </td>
+
+                                <td>
+                                    1st
+                                </td>
+
+                                <td>
+                                    A
+                                </td>
+
+                                <td>
+
+                                    <span class="attendance-warning">
+                                        76%
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    7.4 CGPA
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-warning">
+                                        Attention
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- Student 3 -->
+
+                            <tr>
+
+                                <td>
+                                    24AIM003
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Priya Sharma
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    AI & ML
+                                </td>
+
+                                <td>
+                                    1st
+                                </td>
+
+                                <td>
+                                    B
+                                </td>
+
+                                <td>
+
+                                    <span class="attendance-danger">
+                                        68%
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    6.9 CGPA
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-danger">
+                                        At Risk
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- Student 4 -->
+
+                            <tr>
+
+                                <td>
+                                    24ECE004
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        Arjun Rao
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    ECE
+                                </td>
+
+                                <td>
+                                    1st
+                                </td>
+
+                                <td>
+                                    A
+                                </td>
+
+                                <td>
+
+                                    <span class="attendance-good">
+                                        89%
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    8.2 CGPA
+                                </td>
+
+                                <td>
+
+                                    <span class="status-badge status-active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================================
+                 PAGINATION
+            ================================= -->
+
+            <div class="pagination">
+
+                <button class="pagination-btn">
+                    Previous
+                </button>
+
+                <span>
+                    Page 1 of 12
+                </span>
+
+                <button class="pagination-btn">
+                    Next
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================================
+             FOOTER
+        ================================= -->
+
+        <footer class="page-footer">
+
+            PresentTrack — Attendance & Performance Analytics
+
+        </footer>
+
+    </main>
+
+</body>
+</html>
