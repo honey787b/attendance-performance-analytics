@@ -2,298 +2,299 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Attendance Rules | PresentTrack</title>
 
     <link rel="stylesheet" href="../css/attendance.css">
-
 </head>
 
 <body>
 
-<div class="app-layout">
+    <div class="app-layout">
 
-    <aside class="sidebar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
 
-        <div class="brand">
+            <div class="brand">
 
-            <div class="brand-logo">PT</div>
-
-            <div>
-                <h2>PresentTrack</h2>
-                <p>Attendance & Performance</p>
-            </div>
-
-        </div>
-
-
-        <nav class="sidebar-nav">
-
-            <a href="dashboard.html" class="nav-link">
-                <span>🏠</span>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="attendance.html" class="nav-link active">
-                <span>📅</span>
-                <span>Attendance</span>
-            </a>
-
-            <a href="performance.html" class="nav-link">
-                <span>📊</span>
-                <span>Performance</span>
-            </a>
-
-            <a href="analytics.html" class="nav-link">
-                <span>📈</span>
-                <span>Analytics</span>
-            </a>
-
-            <a href="timetable.html" class="nav-link">
-                <span>🕐</span>
-                <span>Timetable</span>
-            </a>
-
-            <a href="students.html" class="nav-link">
-                <span>👥</span>
-                <span>Students</span>
-            </a>
-
-            <a href="faculty.html" class="nav-link">
-                <span>👨‍🏫</span>
-                <span>Faculty</span>
-            </a>
-
-            <a href="reports.html" class="nav-link">
-                <span>📄</span>
-                <span>Reports</span>
-            </a>
-
-            <a href="at-risk.html" class="nav-link">
-                <span>⚠️</span>
-                <span>At-Risk</span>
-            </a>
-
-            <a href="settings.html" class="nav-link">
-                <span>⚙️</span>
-                <span>Settings</span>
-            </a>
-
-        </nav>
-
-    </aside>
-
-
-    <main class="main-content">
-
-        <header class="top-header">
-
-            <div>
-                <p class="welcome-text">Attendance Management</p>
-                <h1>Attendance Rules</h1>
-            </div>
-
-        </header>
-
-
-        <section class="attendance-hero">
-
-            <div>
-
-                <span class="hero-icon">⚙️</span>
+                <div class="brand-logo">PT</div>
 
                 <div>
-
-                    <h2>Attendance Rules</h2>
-
-                    <p>
-                        Configure attendance thresholds and
-                        academic attendance policies.
-                    </p>
-
+                    <h2>PresentTrack</h2>
+                    <p>Attendance &amp; Performance</p>
                 </div>
 
             </div>
 
-        </section>
+            <!-- NAVIGATION -->
+            <nav class="sidebar-nav" aria-label="Main navigation">
 
+                <a href="dashboard.html" class="nav-link">
+                    <span aria-hidden="true">🏠</span>
+                    <span>Dashboard</span>
+                </a>
 
-        <section class="filter-card" style="margin-top:20px;">
+                <a href="attendance.html" class="nav-link active" aria-current="page">
+                    <span aria-hidden="true">📅</span>
+                    <span>Attendance</span>
+                </a>
 
-            <div class="filter-heading">
+                <a href="performance.html" class="nav-link">
+                    <span aria-hidden="true">📊</span>
+                    <span>Performance</span>
+                </a>
+
+                <a href="analytics.html" class="nav-link">
+                    <span aria-hidden="true">📈</span>
+                    <span>Analytics</span>
+                </a>
+
+                <a href="timetable.html" class="nav-link">
+                    <span aria-hidden="true">🕐</span>
+                    <span>Timetable</span>
+                </a>
+
+                <a href="students.html" class="nav-link">
+                    <span aria-hidden="true">👥</span>
+                    <span>Students</span>
+                </a>
+
+                <a href="faculty.html" class="nav-link">
+                    <span aria-hidden="true">👨‍🏫</span>
+                    <span>Faculty</span>
+                </a>
+
+                <a href="reports.html" class="nav-link">
+                    <span aria-hidden="true">📄</span>
+                    <span>Reports</span>
+                </a>
+
+                <a href="at-risk.html" class="nav-link">
+                    <span aria-hidden="true">⚠️</span>
+                    <span>At-Risk</span>
+                </a>
+
+                <a href="settings.html" class="nav-link">
+                    <span aria-hidden="true">⚙️</span>
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- HEADER -->
+            <header class="top-header">
 
                 <div>
+                    <p class="welcome-text">Attendance Management</p>
+                    <h1>Attendance Rules</h1>
+                </div>
 
-                    <h3>Attendance Thresholds</h3>
+            </header>
 
-                    <p>
-                        Define the percentage ranges used by
-                        attendance analytics.
-                    </p>
+            <!-- HERO -->
+            <section class="attendance-hero">
+
+                <div class="hero-content">
+
+                    <span class="hero-icon" aria-hidden="true">⚙️</span>
+
+                    <div>
+                        <h2>Attendance Rules</h2>
+
+                        <p>
+                            Configure attendance thresholds and
+                            academic attendance policies.
+                        </p>
+                    </div>
 
                 </div>
 
-            </div>
+            </section>
 
+            <!-- ATTENDANCE THRESHOLDS -->
+            <section class="filter-card rules-card">
 
-            <div class="filter-grid">
+                <div class="filter-heading">
 
-                <div class="input-group">
+                    <div>
+                        <h3>Attendance Thresholds</h3>
 
-                    <label for="excellent">
-                        Excellent Minimum (%)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="excellent"
-                        min="0"
-                        max="100"
-                        value="95">
+                        <p>
+                            Define the percentage ranges used by
+                            attendance analytics.
+                        </p>
+                    </div>
 
                 </div>
 
+                <div class="filter-grid">
 
-                <div class="input-group">
+                    <div class="input-group">
 
-                    <label for="good">
-                        Good Minimum (%)
-                    </label>
+                        <label for="excellent">
+                            Excellent Minimum (%)
+                        </label>
 
-                    <input
-                        type="number"
-                        id="good"
-                        min="0"
-                        max="100"
-                        value="90">
+                        <input
+                            type="number"
+                            id="excellent"
+                            name="excellent"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value="95">
 
-                </div>
+                    </div>
 
+                    <div class="input-group">
 
-                <div class="input-group">
+                        <label for="good">
+                            Good Minimum (%)
+                        </label>
 
-                    <label for="warning">
-                        Warning Minimum (%)
-                    </label>
+                        <input
+                            type="number"
+                            id="good"
+                            name="good"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value="90">
 
-                    <input
-                        type="number"
-                        id="warning"
-                        min="0"
-                        max="100"
-                        value="80">
+                    </div>
 
-                </div>
+                    <div class="input-group">
 
+                        <label for="warning">
+                            Warning Minimum (%)
+                        </label>
 
-                <div class="input-group">
+                        <input
+                            type="number"
+                            id="warning"
+                            name="warning"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value="80">
 
-                    <label for="critical">
-                        Critical Below (%)
-                    </label>
+                    </div>
 
-                    <input
-                        type="number"
-                        id="critical"
-                        min="0"
-                        max="100"
-                        value="75">
+                    <div class="input-group">
 
-                </div>
+                        <label for="critical">
+                            Critical Below (%)
+                        </label>
 
-            </div>
+                        <input
+                            type="number"
+                            id="critical"
+                            name="critical"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value="75">
 
-
-            <div style="margin-top:20px;">
-
-                <button
-                    class="save-button"
-                    id="saveRules">
-
-                    Save Attendance Rules
-
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <section class="filter-card" style="margin-top:20px;">
-
-            <div class="filter-heading">
-
-                <div>
-
-                    <h3>Attendance Policy</h3>
-
-                    <p>
-                        Configure basic attendance requirements.
-                    </p>
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="button-area">
 
+                    <button
+                        type="button"
+                        class="save-button"
+                        id="saveRules">
 
-            <div class="filter-grid">
+                        Save Attendance Rules
 
-                <div class="input-group">
-
-                    <label for="minimumAttendance">
-                        Minimum Required Attendance (%)
-                    </label>
-
-                    <input
-                        type="number"
-                        id="minimumAttendance"
-                        min="0"
-                        max="100"
-                        value="75">
+                    </button>
 
                 </div>
 
+            </section>
 
-                <div class="input-group">
+            <!-- ATTENDANCE POLICY -->
+            <section class="filter-card rules-card">
 
-                    <label for="lateLimit">
-                        Late Limit Per Month
-                    </label>
+                <div class="filter-heading">
 
-                    <input
-                        type="number"
-                        id="lateLimit"
-                        min="0"
-                        value="3">
+                    <div>
+
+                        <h3>Attendance Policy</h3>
+
+                        <p>
+                            Configure basic attendance requirements.
+                        </p>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <div class="filter-grid">
 
-        </section>
+                    <div class="input-group">
 
+                        <label for="minimumAttendance">
+                            Minimum Required Attendance (%)
+                        </label>
 
-        <p
-            id="ruleMessage"
-            style="
-                margin-top:20px;
-                color:#64748b;
-                font-size:12px;
-            ">
+                        <input
+                            type="number"
+                            id="minimumAttendance"
+                            name="minimumAttendance"
+                            min="0"
+                            max="100"
+                            step="1"
+                            value="75">
 
-            Changes are saved only on this browser.
+                    </div>
 
-        </p>
+                    <div class="input-group">
 
-    </main>
+                        <label for="lateLimit">
+                            Late Limit Per Month
+                        </label>
 
-</div>
+                        <input
+                            type="number"
+                            id="lateLimit"
+                            name="lateLimit"
+                            min="0"
+                            step="1"
+                            value="3">
 
+                    </div>
 
-<script src="../js/attendance-rules.js"></script>
+                </div>
+
+            </section>
+
+            <!-- MESSAGE -->
+            <p
+                id="ruleMessage"
+                class="rule-message">
+
+                Changes are saved only on this browser.
+
+            </p>
+
+        </main>
+
+    </div>
+
+    <script
+        src="../js/attendance-rules.js"
+        defer>
+    </script>
 
 </body>
+
 </html>
