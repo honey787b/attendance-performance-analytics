@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Performance Intelligence | PresenTrack</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/performance.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+
+            <div>
+                <h2>PresenTrack</h2>
+                <span>Attendance & Performance</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="../index.html">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="attendance.html">
+                <i class="fas fa-calendar-check"></i>
+                <span>Attendance</span>
+            </a>
+
+            <a href="performance.html" class="active">
+                <i class="fas fa-chart-column"></i>
+                <span>Performance</span>
+            </a>
+
+            <a href="analytics.html">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+
+            <a href="timetable.html">
+                <i class="fas fa-clock"></i>
+                <span>Timetable</span>
+            </a>
+
+            <a href="students.html">
+                <i class="fas fa-users"></i>
+                <span>Students</span>
+            </a>
+
+            <a href="faculty.html">
+                <i class="fas fa-user-tie"></i>
+                <span>Faculty</span>
+            </a>
+
+
+            <p class="nav-title">REPORTS & MANAGEMENT</p>
+
+            <a href="reports.html">
+                <i class="fas fa-file-lines"></i>
+                <span>Reports</span>
+            </a>
+
+            <a href="atrisk.html">
+                <i class="fas fa-triangle-exclamation"></i>
+                <span>At-Risk Students</span>
+            </a>
+
+            <a href="settings.html">
+                <i class="fas fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <!-- ROLE -->
+
+        <div class="user-card">
+
+            <div class="user-avatar">
+                RA
+            </div>
+
+            <div>
+                <strong>Dr. R. Anand</strong>
+                <span id="currentRole">Faculty</span>
+            </div>
+
+            <button onclick="openRolePanel()">
+                <i class="fas fa-ellipsis"></i>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div>
+
+                <div class="breadcrumb">
+                    Dashboard / Performance
+                </div>
+
+                <h1>Performance Intelligence</h1>
+
+                <p>
+                    Predict. Understand. Intervene. Improve.
+                </p>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <button class="icon-button"
+                        onclick="toggleNotifications()">
+
+                    <i class="fas fa-bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+
+                <button class="btn-primary"
+                        onclick="generateReport()">
+
+                    <i class="fas fa-file-export"></i>
+
+                    Generate Report
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             HERO INTELLIGENCE BANNER
+        ====================================================== -->
+
+        <section class="intelligence-banner">
+
+            <div class="banner-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+
+            <div class="banner-content">
+
+                <span class="eyebrow">
+                    PresenTRACK INTELLIGENCE ENGINE
+                </span>
+
+                <h2>
+                    Early intervention can change the outcome.
+                </h2>
+
+                <p>
+                    PresenTrack analyzes attendance, internal marks,
+                    performance trends and recent behavior to identify
+                    students who may need support.
+                </p>
+
+            </div>
+
+            <button class="banner-button"
+                    onclick="scrollToSection('riskSection')">
+
+                View Risk Analysis
+                <i class="fas fa-arrow-right"></i>
+
+            </button>
+
+        </section>
+
+
+        <!-- =====================================================
+             KPI CARDS
+        ====================================================== -->
+
+        <section class="stats-grid">
+
+            <div class="metric-card">
+
+                <div class="metric-icon purple">
+                    <i class="fas fa-users"></i>
+                </div>
+
+                <div>
+                    <span>Total Students</span>
+                    <h2>240</h2>
+                    <small>Current academic year</small>
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon green">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+
+                <div>
+                    <span>Average Performance</span>
+                    <h2>82.4%</h2>
+                    <small class="positive">
+                        <i class="fas fa-arrow-up"></i>
+                        5.2% improvement
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon orange">
+                    <i class="fas fa-triangle-exclamation"></i>
+                </div>
+
+                <div>
+                    <span>At-Risk Students</span>
+                    <h2 id="riskCount">12</h2>
+                    <small class="negative">
+                        Needs attention
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="metric-card">
+
+                <div class="metric-icon blue">
+                    <i class="fas fa-arrow-trend-up"></i>
+                </div>
+
+                <div>
+                    <span>Improving Students</span>
+                    <h2>86</h2>
+                    <small class="positive">
+                        Trending upward
+                    </small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SEMESTER CONTROL
+        ====================================================== -->
+
+        <section class="card semester-control">
+
+            <div>
+
+                <span class="section-label">
+                    ACADEMIC PERIOD
+                </span>
+
+                <h2>Performance Analysis</h2>
+
+            </div>
+
+
+            <div class="semester-controls">
+
+                <select id="semesterSelect"
+                        onchange="changeSemester()">
+
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3" selected>Semester 3</option>
+                    <option value="4">Semester 4</option>
+
+                </select>
+
+
+                <div class="segmented-control">
+
+                    <button class="active"
+                            onclick="changeExam('mid1', this)">
+                        Mid 1
+                    </button>
+
+                    <button onclick="changeExam('mid2', this)">
+                        Mid 2
+                    </button>
+
+                    <button onclick="changeExam('semester', this)">
+                        Semester
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RISK ANALYSIS
+        ====================================================== -->
+
+        <section id="riskSection">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        EARLY WARNING SYSTEM
+                    </span>
+
+                    <h2>Students Requiring Attention</h2>
+
+                    <p>
+                        Students identified using the PresenTrack
+                        academic risk engine.
+                    </p>
+
+                </div>
+
+                <button class="outline-button"
+                        onclick="openAllStudents()">
+
+                    View All
+                    <i class="fas fa-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="risk-layout">
+
+
+                <!-- RISK STUDENTS -->
+
+                <div class="card risk-students">
+
+                    <div class="student-risk-row"
+                         onclick="selectStudent('Rahul Verma')">
+
+                        <div class="student-mini-avatar red">
+                            RV
+                        </div>
+
+                        <div class="student-info">
+
+                            <strong>Rahul Verma</strong>
+
+                            <span>
+                                PT103 · CSE · 2nd Year
+                            </span>
+
+                        </div>
+
+                        <div class="risk-score high">
+                            <strong>82%</strong>
+                            <span>High Risk</span>
+                        </div>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                    </div>
+
+
+                    <div class="student-risk-row"
+                         onclick="selectStudent('Vikram Singh')">
+
+                        <div class="student-mini-avatar red">
+                            VS
+                        </div>
+
+                        <div class="student-info">
+
+                            <strong>Vikram Singh</strong>
+
+                            <span>
+                                PT105 · CSE · 2nd Year
+                            </span>
+
+                        </div>
+
+                        <div class="risk-score high">
+                            <strong>76%</strong>
+                            <span>High Risk</span>
+                        </div>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                    </div>
+
+
+                    <div class="student-risk-row"
+                         onclick="selectStudent('Sneha Reddy')">
+
+                        <div class="student-mini-avatar yellow">
+                            SR
+                        </div>
+
+                        <div class="student-info">
+
+                            <strong>Sneha Reddy</strong>
+
+                            <span>
+                                PT104 · CSE · 2nd Year
+                            </span>
+
+                        </div>
+
+                        <div class="risk-score moderate">
+                            <strong>64%</strong>
+                            <span>Moderate</span>
+                        </div>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                    </div>
+
+
+                    <div class="student-risk-row"
+                         onclick="selectStudent('Ishta Nair')">
+
+                        <div class="student-mini-avatar yellow">
+                            IN
+                        </div>
+
+                        <div class="student-info">
+
+                            <strong>Ishta Nair</strong>
+
+                            <span>
+                                PT106 · CSE · 2nd Year
+                            </span>
+
+                        </div>
+
+                        <div class="risk-score moderate">
+                            <strong>57%</strong>
+                            <span>Moderate</span>
+                        </div>
+
+                        <i class="fas fa-chevron-right"></i>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RISK EXPLANATION -->
+
+                <div class="card risk-explanation">
+
+                    <div class="selected-student">
+
+                        <div class="student-large-avatar">
+                            RV
+                        </div>
+
+                        <div>
+                            <h3 id="selectedStudentName">
+                                Rahul Verma
+                            </h3>
+
+                            <span>
+                                Academic Risk Analysis
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-meter">
+
+                        <div class="risk-meter-circle">
+
+                            <strong id="riskPercentage">
+                                82%
+                            </strong>
+
+                            <span>Risk</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>Why is this student at risk?</h3>
+
+
+                    <div class="risk-factor">
+
+                        <div>
+                            <span>Attendance</span>
+
+                            <div class="factor-bar">
+                                <div style="width:58%"></div>
+                            </div>
+                        </div>
+
+                        <strong>58%</strong>
+
+                    </div>
+
+
+                    <div class="risk-factor">
+
+                        <div>
+                            <span>Internal Marks</span>
+
+                            <div class="factor-bar">
+                                <div style="width:64%"></div>
+                            </div>
+                        </div>
+
+                        <strong>64%</strong>
+
+                    </div>
+
+
+                    <div class="risk-factor">
+
+                        <div>
+                            <span>Performance Trend</span>
+
+                            <div class="factor-bar">
+                                <div style="width:48%"></div>
+                            </div>
+                        </div>
+
+                        <strong>↓</strong>
+
+                    </div>
+
+
+                    <div class="risk-recommendation">
+
+                        <i class="fas fa-lightbulb"></i>
+
+                        <div>
+
+                            <strong>Recommended Intervention</strong>
+
+                            <p>
+                                Faculty mentoring + attendance
+                                recovery plan + parent notification.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <button class="btn-primary full-width"
+                            onclick="openIntervention()">
+
+                        Create Intervention Plan
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PERFORMANCE + GROWTH
+        ====================================================== -->
+
+        <section class="two-column">
+
+
+            <!-- SEMESTER TREND -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            PERFORMANCE TREND
+                        </span>
+
+                        <h2>Semester-to-Semester</h2>
+
+                    </div>
+
+                    <span class="trend-badge">
+                        <i class="fas fa-arrow-up"></i>
+                        Improving
+                    </span>
+
+                </div>
+
+
+                <div class="chart">
+
+                    <div class="chart-y">
+                        <span>100</span>
+                        <span>80</span>
+                        <span>60</span>
+                        <span>40</span>
+                        <span>20</span>
+                        <span>0</span>
+                    </div>
+
+                    <div class="chart-area">
+
+                        <div class="grid-line one"></div>
+                        <div class="grid-line two"></div>
+                        <div class="grid-line three"></div>
+                        <div class="grid-line four"></div>
+
+                        <div class="chart-bars">
+
+                            <div class="chart-column">
+                                <div class="chart-value">72%</div>
+                                <div class="chart-bar"
+                                     style="height:72%">
+                                </div>
+                                <span>Sem 1</span>
+                            </div>
+
+                            <div class="chart-column">
+                                <div class="chart-value">76%</div>
+                                <div class="chart-bar"
+                                     style="height:76%">
+                                </div>
+                                <span>Sem 2</span>
+                            </div>
+
+                            <div class="chart-column">
+                                <div class="chart-value">81%</div>
+                                <div class="chart-bar"
+                                     style="height:81%">
+                                </div>
+                                <span>Sem 3</span>
+                            </div>
+
+                            <div class="chart-column">
+                                <div class="chart-value">86%</div>
+                                <div class="chart-bar"
+                                     style="height:86%">
+                                </div>
+                                <span>Predicted</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="insight-box">
+
+                    <i class="fas fa-wand-magic-sparkles"></i>
+
+                    <p>
+                        <strong>Insight:</strong>
+                        Student performance has improved by
+                        <strong>19.4%</strong> over the last
+                        three semesters.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- GROWTH SCORE -->
+
+            <div class="card growth-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            STUDENT DEVELOPMENT
+                        </span>
+
+                        <h2>Growth Score</h2>
+
+                    </div>
+
+                    <i class="fas fa-trophy trophy"></i>
+
+                </div>
+
+
+                <div class="growth-score">
+
+                    <strong>90</strong>
+
+                    <span>/ 100</span>
+
+                </div>
+
+
+                <div class="growth-bars">
+
+                    <div>
+                        <span>Academic</span>
+                        <div>
+                            <i style="width:86%"></i>
+                        </div>
+                        <strong>86</strong>
+                    </div>
+
+                    <div>
+                        <span>Attendance</span>
+                        <div>
+                            <i style="width:92%"></i>
+                        </div>
+                        <strong>92</strong>
+                    </div>
+
+                    <div>
+                        <span>Improvement</span>
+                        <div>
+                            <i style="width:94%"></i>
+                        </div>
+                        <strong>94</strong>
+                    </div>
+
+                    <div>
+                        <span>Consistency</span>
+                        <div>
+                            <i style="width:88%"></i>
+                        </div>
+                        <strong>88</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="growth-message">
+
+                    <i class="fas fa-medal"></i>
+
+                    <span>
+                        <strong>Most Improved</strong>
+                        <br>
+                        Top 10% growth this semester
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             WHAT IF SIMULATOR
+        ====================================================== -->
+
+        <section class="card simulator">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        PREDICTIVE SIMULATION
+                    </span>
+
+                    <h2>What-If Academic Simulator</h2>
+
+                    <p>
+                        See how future actions can affect
+                        student outcomes.
+                    </p>
+
+                </div>
+
+                <i class="fas fa-flask simulator-icon"></i>
+
+            </div>
+
+
+            <div class="simulator-grid">
+
+                <div class="simulator-input">
+
+                    <label>
+                        Current Attendance
+                    </label>
+
+                    <input type="number"
+                           id="currentAttendance"
+                           value="68"
+                           min="0"
+                           max="100">
+
+                    <label>
+                        Next Classes to Attend
+                    </label>
+
+                    <input type="number"
+                           id="futureClasses"
+                           value="10"
+                           min="1"
+                           max="100">
+
+                    <label>
+                        Current Performance
+                    </label>
+
+                    <input type="number"
+                           id="currentPerformance"
+                           value="64"
+                           min="0"
+                           max="100">
+
+                    <label>
+                        Expected Mid-2 Score
+                    </label>
+
+                    <input type="number"
+                           id="expectedMarks"
+                           value="80"
+                           min="0"
+                           max="100">
+
+                    <button class="btn-primary full-width"
+                            onclick="runSimulation()">
+
+                        <i class="fas fa-play"></i>
+                        Run Simulation
+
+                    </button>
+
+                </div>
+
+
+                <div class="simulation-result">
+
+                    <span>Predicted Attendance</span>
+
+                    <strong id="simAttendance">
+                        75.0%
+                    </strong>
+
+                    <div class="simulation-arrow">
+                        68%
+                        <i class="fas fa-arrow-right"></i>
+                        75%
+                    </div>
+
+
+                    <span>Predicted Performance</span>
+
+                    <strong id="simPerformance">
+                        71%
+                    </strong>
+
+
+                    <div id="simRisk"
+                         class="simulation-status moderate">
+
+                        MODERATE RISK
+
+                    </div>
+
+                    <p id="simMessage">
+                        Attending the next 10 classes
+                        significantly improves the student's
+                        academic outlook.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ATTENDANCE RECOVERY
+        ====================================================== -->
+
+        <section class="two-column">
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ATTENDANCE INTELLIGENCE
+                        </span>
+
+                        <h2>Recovery Planner</h2>
+
+                    </div>
+
+                    <i class="fas fa-calendar-check feature-icon"></i>
+
+                </div>
+
+
+                <div class="recovery-input">
+
+                    <label>
+                        Current Attendance %
+                    </label>
+
+                    <input id="recoveryAttendance"
+                           type="number"
+                           value="62">
+
+                    <label>
+                        Required Attendance %
+                    </label>
+
+                    <input id="requiredAttendance"
+                           type="number"
+                           value="75">
+
+                    <label>
+                        Upcoming Classes
+                    </label>
+
+                    <input id="upcomingClasses"
+                           type="number"
+                           value="30">
+
+                    <button class="btn-primary"
+                            onclick="calculateRecovery()">
+
+                        Calculate Recovery
+
+                    </button>
+
+                </div>
+
+
+                <div class="recovery-result"
+                     id="recoveryResult">
+
+                    Attend approximately
+                    <strong>19 consecutive classes</strong>
+                    to reach the required attendance target.
+
+                </div>
+
+            </div>
+
+
+            <!-- ANOMALY -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            SECURITY INTELLIGENCE
+                        </span>
+
+                        <h2>Attendance Anomaly</h2>
+
+                    </div>
+
+                    <i class="fas fa-shield-halved feature-icon"></i>
+
+                </div>
+
+
+                <div class="anomaly-alert">
+
+                    <div class="anomaly-icon">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            3 anomalies detected
+                        </strong>
+
+                        <p>
+                            Unusual attendance patterns
+                            require verification.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="anomaly-list">
+
+                    <div>
+                        <span>
+                            <i class="fas fa-clock"></i>
+                            Duplicate session
+                        </span>
+                        <strong>2</strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            <i class="fas fa-location-dot"></i>
+                            Location mismatch
+                        </span>
+                        <strong>1</strong>
+                    </div>
+
+                    <div>
+                        <span>
+                            <i class="fas fa-user-group"></i>
+                            Pattern anomaly
+                        </span>
+                        <strong>0</strong>
+                    </div>
+
+                </div>
+
+
+                <button class="outline-button full-width"
+                        onclick="openAnomalyDetails()">
+
+                    Review Anomalies
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+             NATURAL LANGUAGE ANALYTICS
+        ====================================================== -->
+
+        <section class="card ai-search">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        NATURAL LANGUAGE ANALYTICS
+                    </span>
+
+                    <h2>Ask PresenTrack</h2>
+
+                    <p>
+                        Ask questions about your academic data.
+                    </p>
+
+                </div>
+
+                <i class="fas fa-comments ai-icon"></i>
+
+            </div>
+
+
+            <div class="ai-input">
+
+                <input id="analyticsQuery"
+                       type="text"
+                       placeholder="Try: Show students below 75% attendance">
+
+                <button class="btn-primary"
+                        onclick="askAnalytics()">
+
+                    <i class="fas fa-paper-plane"></i>
+
+                    Ask
+
+                </button>
+
+            </div>
+
+
+            <div class="suggested-queries">
+
+                <button onclick="useQuery(this)">
+                    Students below 75% attendance
+                </button>
+
+                <button onclick="useQuery(this)">
+                    Which subject has lowest performance?
+                </button>
+
+                <button onclick="useQuery(this)">
+                    Show high risk students
+                </button>
+
+                <button onclick="useQuery(this)">
+                    Who improved the most?
+                </button>
+
+            </div>
+
+
+            <div id="analyticsResult"
+                 class="analytics-result">
+
+                <i class="fas fa-sparkles"></i>
+
+                <span>
+                    Ask a question to generate an insight.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             INSTITUTION ANALYTICS
+        ====================================================== -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        INSTITUTION ANALYTICS
+                    </span>
+
+                    <h2>College Performance Overview</h2>
+
+                </div>
+
+                <button class="outline-button"
+                        onclick="openInstitutionAnalytics()">
+
+                    Full Analytics
+
+                </button>
+
+            </div>
+
+
+            <div class="institution-grid">
+
+                <div>
+                    <span>Total Students</span>
+                    <strong>2,480</strong>
+                </div>
+
+                <div>
+                    <span>Average Attendance</span>
+                    <strong>84.6%</strong>
+                </div>
+
+                <div>
+                    <span>Average Performance</span>
+                    <strong>78.2%</strong>
+                </div>
+
+                <div>
+                    <span>At-Risk Students</span>
+                    <strong class="danger-text">126</strong>
+                </div>
+
+            </div>
+
+
+            <div class="department-bars">
+
+                <div>
+                    <span>CSE</span>
+                    <div>
+                        <i style="width:84%"></i>
+                    </div>
+                    <strong>84%</strong>
+                </div>
+
+                <div>
+                    <span>ECE</span>
+                    <div>
+                        <i style="width:79%"></i>
+                    </div>
+                    <strong>79%</strong>
+                </div>
+
+                <div>
+                    <span>EEE</span>
+                    <div>
+                        <i style="width:76%"></i>
+                    </div>
+                    <strong>76%</strong>
+                </div>
+
+                <div>
+                    <span>MECH</span>
+                    <div>
+                        <i style="width:72%"></i>
+                    </div>
+                    <strong>72%</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             REPORT CENTER
+        ====================================================== -->
+
+        <section class="card">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        REPORT CENTER
+                    </span>
+
+                    <h2>Performance Reports</h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-grid">
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="fas fa-file-lines"></i>
+                    </div>
+
+                    <div>
+                        <h3>Academic Transcript</h3>
+                        <p>
+                            Complete academic marks and grades.
+                        </p>
+                    </div>
+
+                    <button onclick="openTranscript()">
+                        Generate
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="fas fa-user-group"></i>
+                    </div>
+
+                    <div>
+                        <h3>Parent Report</h3>
+                        <p>
+                            Academic and attendance summary.
+                        </p>
+                    </div>
+
+                    <button onclick="openParentReport()">
+                        Generate
+                    </button>
+
+                </div>
+
+
+                <div class="report-card">
+
+                    <div class="report-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+
+                    <div>
+                        <h3>Performance Report</h3>
+                        <p>
+                            Detailed student analytics.
+                        </p>
+                    </div>
+
+                    <button onclick="generateReport()">
+                        Generate
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL
+========================================================= -->
+
+<div id="modalOverlay"
+     class="modal-overlay"
+     onclick="closeModal(event)">
+
+    <div class="modal"
+         onclick="event.stopPropagation()">
+
+        <button class="modal-close"
+                onclick="closeModal()">
+
+            <i class="fas fa-xmark"></i>
+
+        </button>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATION PANEL
+========================================================= -->
+
+<div id="notificationPanel"
+     class="notification-panel">
+
+    <div class="notification-header">
+
+        <h3>Notifications</h3>
+
+        <button onclick="toggleNotifications()">
+            <i class="fas fa-xmark"></i>
+        </button>
+
+    </div>
+
+
+    <div class="notification">
+
+        <i class="fas fa-triangle-exclamation"></i>
+
+        <div>
+            <strong>3 new risk alerts</strong>
+            <p>Students require intervention.</p>
+        </div>
+
+    </div>
+
+
+    <div class="notification">
+
+        <i class="fas fa-chart-line"></i>
+
+        <div>
+            <strong>Performance improved</strong>
+            <p>86 students are trending upward.</p>
+        </div>
+
+    </div>
+
+
+    <div class="notification">
+
+        <i class="fas fa-shield-halved"></i>
+
+        <div>
+            <strong>Attendance anomaly</strong>
+            <p>3 records require verification.</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../js/performance.js"></script>
+
+</body>
+</html>
