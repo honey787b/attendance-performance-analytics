@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | PresentTrack</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/settings.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>PresentTrack</h2>
+            <span>Attendance & Performance</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html">🏠 Dashboard</a>
+            <a href="attendance.html">📅 Attendance</a>
+            <a href="performance.html">📊 Performance</a>
+            <a href="analytics.html">📈 Analytics</a>
+            <a href="timetable.html">🕐 Timetable</a>
+            <a href="students.html">👥 Students</a>
+            <a href="faculty.html">👨‍🏫 Faculty</a>
+            <a href="reports.html">📄 Reports</a>
+            <a href="at-risk.html">⚠️ At-Risk</a>
+            <a href="settings.html" class="active">⚙️ Settings</a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div>
+                <h1>Settings</h1>
+
+                <p>
+                    Manage your PresentTrack preferences
+                </p>
+            </div>
+
+        </header>
+
+
+        <div class="settings-container">
+
+
+            <!-- PROFILE -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+                        <h2>Profile Settings</h2>
+
+                        <p>
+                            Manage your account information
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="profile-section">
+
+                    <div class="profile-avatar">
+                        SG
+                    </div>
+
+                    <div class="profile-info">
+
+                        <h3>Syamala Gowri</h3>
+
+                        <p>
+                            Administrator
+                        </p>
+
+                        <span>
+                            CSE Department
+                        </span>
+
+                    </div>
+
+                    <button class="btn-secondary">
+                        Edit Profile
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- GENERAL -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+                        <h2>General Settings</h2>
+
+                        <p>
+                            Customize basic application preferences
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="setting-list">
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Academic Year</h3>
+
+                            <p>
+                                Current academic year
+                            </p>
+
+                        </div>
+
+                        <select>
+
+                            <option selected>
+                                2026 - 2027
+                            </option>
+
+                            <option>
+                                2025 - 2026
+                            </option>
+
+                            <option>
+                                2024 - 2025
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Current Semester</h3>
+
+                            <p>
+                                Semester used for reports and analytics
+                            </p>
+
+                        </div>
+
+                        <select>
+
+                            <option selected>
+                                Semester 1
+                            </option>
+
+                            <option>
+                                Semester 2
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Default Department</h3>
+
+                            <p>
+                                Department displayed by default
+                            </p>
+
+                        </div>
+
+                        <select>
+
+                            <option selected>
+                                Computer Science & Engineering
+                            </option>
+
+                            <option>
+                                Artificial Intelligence
+                            </option>
+
+                            <option>
+                                Electronics & Communication
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ATTENDANCE -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+                        <h2>Attendance Settings</h2>
+
+                        <p>
+                            Configure attendance preferences
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="setting-list">
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Minimum Attendance</h3>
+
+                            <p>
+                                Minimum percentage required
+                            </p>
+
+                        </div>
+
+                        <div class="percentage-input">
+
+                            <input
+                                type="number"
+                                value="75"
+                                min="0"
+                                max="100"
+                            >
+
+                            <span>%</span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Late Attendance</h3>
+
+                            <p>
+                                Count late students separately
+                            </p>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input type="checkbox" checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Attendance Alerts</h3>
+
+                            <p>
+                                Notify when attendance falls below the limit
+                            </p>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input type="checkbox" checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+                        <h2>Notifications</h2>
+
+                        <p>
+                            Choose which notifications you receive
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="setting-list">
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Attendance Notifications</h3>
+
+                            <p>
+                                Receive attendance updates
+                            </p>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input type="checkbox" checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Performance Alerts</h3>
+
+                            <p>
+                                Receive alerts about academic performance
+                            </p>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input type="checkbox" checked>
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="setting-item">
+
+                        <div>
+
+                            <h3>Report Notifications</h3>
+
+                            <p>
+                                Get notified when reports are generated
+                            </p>
+
+                        </div>
+
+                        <label class="toggle">
+
+                            <input type="checkbox">
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SECURITY -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+                        <h2>Security</h2>
+
+                        <p>
+                            Manage account security
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="security-row">
+
+                    <div>
+
+                        <h3>Password</h3>
+
+                        <p>
+                            Last changed 30 days ago
+                        </p>
+
+                    </div>
+
+                    <button class="btn-secondary">
+                        Change Password
+                    </button>
+
+                </div>
+
+
+                <div class="security-row">
+
+                    <div>
+
+                        <h3>Two-Factor Authentication</h3>
+
+                        <p>
+                            Add an extra layer of account security
+                        </p>
+
+                    </div>
+
+                    <button class="btn-secondary">
+                        Enable
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- SAVE -->
+
+            <div class="settings-actions">
+
+                <button class="btn-secondary">
+                    Cancel
+                </button>
+
+                <button class="btn-primary">
+                    Save Changes
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+        <footer class="page-footer">
+
+            PresentTrack — Attendance & Performance Analytics
+
+        </footer>
+
+    </main>
+<script src="../js/settings.js"></script>
+</body>
+
+</html>

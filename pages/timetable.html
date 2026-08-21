@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Timetable | PresentTrack</title>
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Timetable CSS -->
+    <link rel="stylesheet" href="../css/timetable.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <h2>PresentTrack</h2>
+
+            <span>
+                Attendance & Performance
+            </span>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html">
+                🏠 Dashboard
+            </a>
+
+            <a href="attendance.html">
+                📅 Attendance
+            </a>
+
+            <a href="performance.html">
+                📊 Performance
+            </a>
+
+            <a href="analytics.html">
+                📈 Analytics
+            </a>
+
+            <a href="timetable.html" class="active">
+                🕐 Timetable
+            </a>
+
+            <a href="students.html">
+                👥 Students
+            </a>
+
+            <a href="faculty.html">
+                👨‍🏫 Faculty
+            </a>
+
+            <a href="reports.html">
+                📄 Reports
+            </a>
+
+            <a href="at-risk.html">
+                ⚠️ At-Risk
+            </a>
+
+            <a href="settings.html">
+                ⚙️ Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="page-header">
+
+            <div>
+
+                <h1>
+                    Timetable
+                </h1>
+
+                <p>
+                    View and manage the weekly academic schedule
+                </p>
+
+            </div>
+
+
+            <div class="header-actions">
+
+                <button class="btn-secondary">
+                    📥 Export
+                </button>
+
+                <button class="btn-primary">
+                    + Add Class
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <div class="timetable-container">
+
+
+            <!-- =================================================
+                 WEEK SELECTOR
+            ================================================== -->
+
+            <section class="content-card">
+
+                <div class="timetable-controls">
+
+
+                    <div>
+
+                        <h2>
+                            Weekly Timetable
+                        </h2>
+
+                        <p>
+                            Current academic schedule
+                        </p>
+
+                    </div>
+
+
+                    <div class="week-controls">
+
+                        <button class="date-btn">
+                            ‹
+                        </button>
+
+                        <strong>
+                            August 17 – August 22, 2026
+                        </strong>
+
+                        <button class="date-btn">
+                            ›
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TODAY'S CLASSES
+            ================================================== -->
+
+            <section class="today-card">
+
+                <div class="today-icon">
+                    📚
+                </div>
+
+                <div>
+
+                    <p>
+                        Today's Classes
+                    </p>
+
+                    <h2>
+                        5 Classes Scheduled
+                    </h2>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TIMETABLE
+            ================================================== -->
+
+            <section class="content-card timetable-card">
+
+                <div class="table-wrapper">
+
+                    <table class="timetable-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Time
+                                </th>
+
+                                <th>
+                                    Monday
+                                </th>
+
+                                <th>
+                                    Tuesday
+                                </th>
+
+                                <th>
+                                    Wednesday
+                                </th>
+
+                                <th>
+                                    Thursday
+                                </th>
+
+                                <th>
+                                    Friday
+                                </th>
+
+                                <th>
+                                    Saturday
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- 9:00 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    9:20 – 10:10
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Generative AI
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 203
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Lab
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- 10:10 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    10:10 – 11:00
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- BREAK -->
+
+                            <tr class="break-row">
+
+                                <td class="time-cell">
+                                    11:00 – 11:20
+                                </td>
+
+                                <td colspan="6">
+
+                                    ☕ Break
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- 11:20 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    11:20 – 12:10
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Generative AI
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 203
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python Lab
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 2
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- 12:10 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    12:10 – 1:00
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Generative AI
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 203
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            —
+                                        </strong>
+
+                                        <span>
+                                            Free Period
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- LUNCH -->
+
+                            <tr class="break-row lunch-row">
+
+                                <td class="time-cell">
+                                    1:00 – 2:00
+                                </td>
+
+                                <td colspan="6">
+
+                                    🍱 Lunch Break
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- 2:00 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    2:00 – 2:50
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python Lab
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 2
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Generative AI
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 203
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python Lab
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 2
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            —
+                                        </strong>
+
+                                        <span>
+                                            Free Period
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- 2:50 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    2:50 – 3:40
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Generative AI
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 203
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python Lab
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 2
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Web Development
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Lab 1
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Generative AI
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 203
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Python
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 201
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            —
+                                        </strong>
+
+                                        <span>
+                                            Free Period
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+
+                            <!-- 3:40 -->
+
+                            <tr>
+
+                                <td class="time-cell">
+                                    3:40 – 4:30
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Activity
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Seminar Hall
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Activity
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Seminar Hall
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Mathematics
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Room 204
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            Activity
+                                        </strong>
+
+                                        <span>
+                                            CSE-A
+                                        </span>
+
+                                        <small>
+                                            Seminar Hall
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="class-card">
+
+                                        <strong>
+                                            —
+                                        </strong>
+
+                                        <span>
+                                            Free Period
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 LEGEND
+            ================================================== -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>
+                            Schedule Legend
+                        </h2>
+
+                        <p>
+                            Types of activities shown in the timetable
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="legend">
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot lecture"></span>
+
+                        <span>
+                            Lecture
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot lab"></span>
+
+                        <span>
+                            Laboratory
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot activity"></span>
+
+                        <span>
+                            Activity
+                        </span>
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot free"></span>
+
+                        <span>
+                            Free Period
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <footer class="page-footer">
+
+            PresentTrack — Attendance & Performance Analytics
+
+        </footer>
+
+
+    </main>
+
+<script src="../js/timetable.js"></script>
+</body>
+
+</html>
