@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Faculty page loaded successfully!");
 
-
     // =================================================
     // ELEMENTS
     // =================================================
@@ -46,15 +45,176 @@ document.addEventListener("DOMContentLoaded", () => {
             ".pagination-btn:last-child"
         );
 
+    const pageText =
+        document.querySelector(".pagination span");
+
 
     // =================================================
-    // FACULTY ROWS
+    // FACULTY DATA
     // =================================================
 
-    const facultyRows =
-        Array.from(
-            tableBody.querySelectorAll("tr")
-        );
+    let faculty = [];
+
+    let currentPage = 1;
+
+    const facultyPerPage = 10;
+
+
+    // =================================================
+    // GET STATUS CLASS
+    // =================================================
+
+    function getStatusClass(status) {
+
+        if (status === "Inactive") {
+            return "status-danger";
+        }
+
+        return "status-active";
+
+    }
+
+
+    // =================================================
+    // DISPLAY FACULTY
+    // =================================================
+
+    function displayFaculty(facultyList) {
+
+        tableBody.innerHTML = "";
+
+
+        if (facultyList.length === 0) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align:center;">
+                        No faculty found
+                    </td>
+                </tr>
+            `;
+
+            facultyCount.textContent =
+                "0 Faculty";
+
+            updatePagination(0);
+
+            return;
+
+        }
+
+
+        const totalPages =
+            Math.ceil(
+                facultyList.length /
+                facultyPerPage
+            );
+
+
+        if (currentPage > totalPages) {
+            currentPage = totalPages;
+        }
+
+
+        const startIndex =
+            (currentPage - 1) *
+            facultyPerPage;
+
+
+        const endIndex =
+            startIndex +
+            facultyPerPage;
+
+
+        const pageFaculty =
+            facultyList.slice(
+                startIndex,
+                endIndex
+            );
+
+
+        pageFaculty.forEach(member => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const subjects =
+                member.subjects || "—";
+
+
+            const classCount =
+                member.class_count || 0;
+
+
+            const status =
+                member.status || "Active";
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${member.faculty_code}
+                </td>
+
+                <td>
+                    <strong>
+                        ${member.name}
+                    </strong>
+                </td>
+
+                <td>
+                    ${member.department}
+                </td>
+
+                <td>
+                    ${member.designation || "Faculty"}
+                </td>
+
+                <td>
+                    ${subjects}
+                </td>
+
+                <td>
+                    ${classCount}
+                </td>
+
+                <td>
+
+                    <span class="status-badge ${getStatusClass(status)}">
+                        ${status}
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="action-btn"
+                        data-id="${member.id}">
+                        View
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tableBody.appendChild(row);
+
+        });
+
+
+        facultyCount.textContent =
+            `${facultyList.length} Faculty`;
+
+
+        updatePagination(totalPages);
+
+
+        attachViewButtons();
+
+    }
 
 
     // =================================================
@@ -68,91 +228,273 @@ document.addEventListener("DOMContentLoaded", () => {
                 .trim()
                 .toLowerCase();
 
+
         const selectedDepartment =
             departmentFilter.value;
+
 
         const selectedStatus =
             statusFilter.value;
 
 
-        let visibleFaculty = 0;
+        const filteredFaculty =
+            faculty.filter(member => {
+
+                const facultyCode =
+                    String(member.faculty_code)
+                        .toLowerCase();
 
 
-        facultyRows.forEach(row => {
-
-            const facultyId =
-                row.cells[0].textContent
-                    .trim()
-                    .toLowerCase();
-
-            const facultyName =
-                row.cells[1].textContent
-                    .trim()
-                    .toLowerCase();
-
-            const department =
-                row.cells[2].textContent
-                    .trim();
-
-            const status =
-                row.cells[6].textContent
-                    .trim();
+                const facultyName =
+                    String(member.name)
+                        .toLowerCase();
 
 
-            // SEARCH
-
-            const matchesSearch =
-                facultyId.includes(searchValue) ||
-                facultyName.includes(searchValue);
+                const department =
+                    String(member.department);
 
 
-            // DEPARTMENT
-
-            const matchesDepartment =
-                selectedDepartment === "All Departments" ||
-                department === selectedDepartment;
+                const status =
+                    String(member.status);
 
 
-            // STATUS
-
-            const matchesStatus =
-                selectedStatus === "All Status" ||
-                status === selectedStatus;
-
-
-            // FINAL RESULT
-
-            const shouldShow =
-                matchesSearch &&
-                matchesDepartment &&
-                matchesStatus;
+                const matchesSearch =
+                    facultyCode.includes(
+                        searchValue
+                    ) ||
+                    facultyName.includes(
+                        searchValue
+                    );
 
 
-            if (shouldShow) {
-
-                row.style.display = "";
-
-                visibleFaculty++;
-
-            } else {
-
-                row.style.display = "none";
-
-            }
-
-        });
+                const matchesDepartment =
+                    selectedDepartment ===
+                    "All Departments" ||
+                    department ===
+                    selectedDepartment;
 
 
-        // UPDATE COUNT
+                const matchesStatus =
+                    selectedStatus ===
+                    "All Status" ||
+                    status ===
+                    selectedStatus;
 
-        facultyCount.textContent =
-            `${visibleFaculty} Faculty`;
+
+                return (
+                    matchesSearch &&
+                    matchesDepartment &&
+                    matchesStatus
+                );
+
+            });
+
+
+        currentPage = 1;
+
+
+        displayFaculty(
+            filteredFaculty
+        );
 
     }
 
 
     // =================================================
-    // SEARCH WHILE TYPING
+    // VIEW FACULTY
+    // =================================================
+
+    function attachViewButtons() {
+
+        const viewButtons =
+            document.querySelectorAll(
+                ".action-btn"
+            );
+
+
+        viewButtons.forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const facultyId =
+                        Number(
+                            button.dataset.id
+                        );
+
+
+                    const member =
+                        faculty.find(
+                            f =>
+                                Number(f.id) ===
+                                facultyId
+                        );
+
+
+                    if (!member) {
+                        return;
+                    }
+
+
+                    alert(
+                        `Faculty Details\n\n` +
+                        `ID: ${member.faculty_code}\n` +
+                        `Name: ${member.name}\n` +
+                        `Department: ${member.department}\n` +
+                        `Designation: ${member.designation || "Faculty"}\n` +
+                        `Subjects: ${member.subjects || "None"}\n` +
+                        `Classes: ${member.class_count || 0}\n` +
+                        `Status: ${member.status}`
+                    );
+
+                }
+            );
+
+        });
+
+    }
+
+
+    // =================================================
+    // PAGINATION
+    // =================================================
+
+    function updatePagination(
+        totalPages
+    ) {
+
+        if (totalPages === 0) {
+
+            pageText.textContent =
+                "Page 0 of 0";
+
+            previousButton.disabled =
+                true;
+
+            nextButton.disabled =
+                true;
+
+            return;
+
+        }
+
+
+        pageText.textContent =
+            `Page ${currentPage} of ${totalPages}`;
+
+
+        previousButton.disabled =
+            currentPage === 1;
+
+
+        nextButton.disabled =
+            currentPage === totalPages;
+
+    }
+
+
+    previousButton.addEventListener(
+        "click",
+        () => {
+
+            if (currentPage > 1) {
+
+                currentPage--;
+
+                filterFaculty();
+
+            }
+
+        }
+    );
+
+
+    nextButton.addEventListener(
+        "click",
+        () => {
+
+            const searchValue =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const selectedDepartment =
+                departmentFilter.value;
+
+
+            const selectedStatus =
+                statusFilter.value;
+
+
+            const filteredFaculty =
+                faculty.filter(member => {
+
+                    const matchesSearch =
+                        String(
+                            member.faculty_code
+                        )
+                            .toLowerCase()
+                            .includes(
+                                searchValue
+                            ) ||
+                        String(member.name)
+                            .toLowerCase()
+                            .includes(
+                                searchValue
+                            );
+
+
+                    const matchesDepartment =
+                        selectedDepartment ===
+                        "All Departments" ||
+                        member.department ===
+                        selectedDepartment;
+
+
+                    const matchesStatus =
+                        selectedStatus ===
+                        "All Status" ||
+                        member.status ===
+                        selectedStatus;
+
+
+                    return (
+                        matchesSearch &&
+                        matchesDepartment &&
+                        matchesStatus
+                    );
+
+                });
+
+
+            const totalPages =
+                Math.ceil(
+                    filteredFaculty.length /
+                    facultyPerPage
+                );
+
+
+            if (
+                currentPage <
+                totalPages
+            ) {
+
+                currentPage++;
+
+                displayFaculty(
+                    filteredFaculty
+                );
+
+            }
+
+        }
+    );
+
+
+    // =================================================
+    // SEARCH
     // =================================================
 
     searchInput.addEventListener(
@@ -172,60 +514,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =================================================
-    // VIEW FACULTY
-    // =================================================
-
-    const viewButtons =
-        document.querySelectorAll(".action-btn");
-
-
-    viewButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const row =
-                button.closest("tr");
-
-
-            const facultyId =
-                row.cells[0].textContent.trim();
-
-            const facultyName =
-                row.cells[1].textContent.trim();
-
-            const department =
-                row.cells[2].textContent.trim();
-
-            const designation =
-                row.cells[3].textContent.trim();
-
-            const subjects =
-                row.cells[4].textContent.trim();
-
-            const classes =
-                row.cells[5].textContent.trim();
-
-            const status =
-                row.cells[6].textContent.trim();
-
-
-            alert(
-                `Faculty Details\n\n` +
-                `ID: ${facultyId}\n` +
-                `Name: ${facultyName}\n` +
-                `Department: ${department}\n` +
-                `Designation: ${designation}\n` +
-                `Subjects: ${subjects}\n` +
-                `Classes: ${classes}\n` +
-                `Status: ${status}`
-            );
-
-        });
-
-    });
-
-
-    // =================================================
     // ADD FACULTY
     // =================================================
 
@@ -242,71 +530,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =================================================
-    // PAGINATION
+    // LOAD FACULTY FROM DATABASE
     // =================================================
 
-    let currentPage = 1;
+    async function loadFaculty() {
 
-    const totalPages = 5;
+        try {
 
-
-    function updatePagination() {
-
-        const pageText =
-            document.querySelector(".pagination span");
-
-
-        pageText.textContent =
-            `Page ${currentPage} of ${totalPages}`;
+            const response =
+                await fetch(
+                    "/api/faculty"
+                );
 
 
-        previousButton.disabled =
-            currentPage === 1;
+            if (!response.ok) {
 
-        nextButton.disabled =
-            currentPage === totalPages;
+                throw new Error(
+                    "Failed to load faculty"
+                );
+
+            }
+
+
+            faculty =
+                await response.json();
+
+
+            console.log(
+                "Faculty loaded from database:",
+                faculty
+            );
+
+
+            displayFaculty(
+                faculty
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Error loading faculty:",
+                error
+            );
+
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align:center;">
+                        Unable to load faculty from database
+                    </td>
+                </tr>
+            `;
+
+
+            facultyCount.textContent =
+                "0 Faculty";
+
+        }
 
     }
-
-
-    previousButton.addEventListener(
-        "click",
-        () => {
-
-            if (currentPage > 1) {
-
-                currentPage--;
-
-                updatePagination();
-
-            }
-
-        }
-    );
-
-
-    nextButton.addEventListener(
-        "click",
-        () => {
-
-            if (currentPage < totalPages) {
-
-                currentPage++;
-
-                updatePagination();
-
-            }
-
-        }
-    );
 
 
     // =================================================
     // INITIALIZE
     // =================================================
 
-    updatePagination();
-
-    filterFaculty();
+    loadFaculty();
 
 });

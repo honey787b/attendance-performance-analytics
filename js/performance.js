@@ -1015,7 +1015,222 @@ function showToast(message) {
     }, 2500);
 
 }
+/* =========================================================
+   LOAD PERFORMANCE DATA FROM BACKEND
+   ========================================================= */
 
+async function loadPerformanceData() {
+
+    try {
+
+        const statsResponse =
+            await fetch("/api/dashboard/stats");
+
+        const stats =
+            await statsResponse.json();
+
+
+        const riskResponse =
+            await fetch("/api/at-risk");
+
+        const riskStudents =
+            await riskResponse.json();
+
+
+        console.log("Performance stats:", stats);
+        console.log("At-risk students:", riskStudents);
+
+
+        /* =====================================================
+           TOTAL STUDENTS
+        ===================================================== */
+
+        const metricCards =
+            document.querySelectorAll(
+                ".metric-card"
+            );
+
+
+        if (metricCards[0]) {
+
+            const value =
+                metricCards[0].querySelector("h2");
+
+            if (value) {
+
+                value.textContent =
+                    stats.totalStudents;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           AVERAGE PERFORMANCE
+           =====================================================
+
+           For now we leave the existing performance
+           percentage because dashboard/stats currently
+           provides attendance, not performance.
+        */
+
+
+        /* =====================================================
+           AT-RISK COUNT
+        ===================================================== */
+
+        const riskCount =
+            document.getElementById("riskCount");
+
+
+        if (riskCount) {
+
+            riskCount.textContent =
+                stats.atRiskCount;
+
+        }
+
+
+        /* =====================================================
+           RISK STUDENT LIST
+        ===================================================== */
+
+        const riskContainer =
+            document.querySelector(
+                ".risk-students"
+            );
+
+
+        if (!riskContainer) {
+            return;
+        }
+
+
+        riskContainer.innerHTML = "";
+
+
+        riskStudents.forEach(student => {
+
+            const attendance =
+                Number(
+                    student.attendance_percent
+                );
+
+
+            const gpa =
+                Number(
+                    student.gpa
+                );
+
+
+            let riskClass =
+                "moderate";
+
+
+            let riskLabel =
+                "Moderate";
+
+
+            if (
+                student.risk_type === "both" ||
+                student.risk_type === "gpa"
+            ) {
+
+                riskClass =
+                    "high";
+
+                riskLabel =
+                    "High Risk";
+
+            }
+
+
+            const initials =
+                student.name
+                    .trim()
+                    .split(/\s+/)
+                    .map(word => word[0])
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase();
+
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "student-risk-row";
+
+
+            row.onclick =
+                function() {
+
+                    selectStudent(
+                        student.name.trim()
+                    );
+
+                };
+
+
+            row.innerHTML = `
+
+                <div class="student-mini-avatar ${riskClass}">
+                    ${initials}
+                </div>
+
+
+                <div class="student-info">
+
+                    <strong>
+                        ${student.name.trim()}
+                    </strong>
+
+                    <span>
+                        ${student.roll_no}
+                        ·
+                        ${student.branch}
+                        ·
+                        Year ${student.year || ""}
+                    </span>
+
+                </div>
+
+
+                <div class="risk-score ${riskClass}">
+
+                    <strong>
+                        ${attendance.toFixed(0)}%
+                    </strong>
+
+                    <span>
+                        ${riskLabel}
+                    </span>
+
+                </div>
+
+
+                <i class="fas fa-chevron-right"></i>
+
+            `;
+
+
+            riskContainer.appendChild(row);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load performance data:",
+            error
+        );
+
+    }
+
+}
 
 /* =========================================================
    LOAD SAVED ROLE
@@ -1033,10 +1248,15 @@ document.addEventListener(
 
         if (savedRole) {
 
-            document.getElementById(
-                "currentRole"
-            ).textContent =
-                savedRole;
+            const roleElement =
+                document.getElementById("currentRole");
+
+            if (roleElement) {
+
+                roleElement.textContent =
+                    savedRole;
+
+            }
 
         }
 
@@ -1044,6 +1264,8 @@ document.addEventListener(
         calculateRecovery();
 
         runSimulation();
+
+        loadPerformanceData();
 
     }
 );

@@ -221,17 +221,18 @@ app.get("/api/attendance/records", async (req, res) => {
     const { session_id } = req.query;
     if (!session_id) return res.status(400).json({ error: "session_id is required" });
 
-    const [rows] = await pool.query(
-      `SELECT s.id AS student_id, s.name, s.roll_no, s.branch, s.year, s.attendance_percent,
-              COALESCE(ar.status, 'not-marked') AS status
-       FROM students s
-       LEFT JOIN attendance_records ar
-         ON ar.student_id = s.id AND ar.session_id = ?
-       WHERE s.branch = (SELECT branch FROM attendance_sessions WHERE id = ?)
-         AND s.year = (SELECT year FROM attendance_sessions WHERE id = ?)
-       ORDER BY s.roll_no`,
-      [session_id, session_id, session_id]
-    );
+   const [rows] = await pool.query(
+  `SELECT s.id AS student_id, s.name, s.roll_no, s.branch, s.year, s.attendance_percent,
+          COALESCE(ar.status, 'not-marked') AS status
+   FROM students s
+   LEFT JOIN attendance_records ar
+     ON ar.student_id = s.id AND ar.session_id = ?
+   WHERE s.branch = (SELECT branch FROM attendance_sessions WHERE id = ?)
+     AND s.year = (SELECT year FROM attendance_sessions WHERE id = ?)
+     AND s.section = (SELECT section FROM attendance_sessions WHERE id = ?)
+   ORDER BY s.roll_no`,
+  [session_id, session_id, session_id, session_id]
+);
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
