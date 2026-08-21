@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Attendance Sessions | PresentTrack</title>
+
+    <link rel="stylesheet" href="../css/attendance.css">
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-logo">PT</div>
+
+                <div>
+                    <h2>PresentTrack</h2>
+                    <p>Attendance &amp; Performance</p>
+                </div>
+
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="sidebar-nav" aria-label="Main navigation">
+
+                <a href="dashboard.html" class="nav-link">
+                    <span aria-hidden="true">🏠</span>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="attendance.html" class="nav-link active" aria-current="page">
+                    <span aria-hidden="true">📅</span>
+                    <span>Attendance</span>
+                </a>
+
+                <a href="performance.html" class="nav-link">
+                    <span aria-hidden="true">📊</span>
+                    <span>Performance</span>
+                </a>
+
+                <a href="analytics.html" class="nav-link">
+                    <span aria-hidden="true">📈</span>
+                    <span>Analytics</span>
+                </a>
+
+                <a href="timetable.html" class="nav-link">
+                    <span aria-hidden="true">🕐</span>
+                    <span>Timetable</span>
+                </a>
+
+                <a href="students.html" class="nav-link">
+                    <span aria-hidden="true">👥</span>
+                    <span>Students</span>
+                </a>
+
+                <a href="faculty.html" class="nav-link">
+                    <span aria-hidden="true">👨‍🏫</span>
+                    <span>Faculty</span>
+                </a>
+
+                <a href="reports.html" class="nav-link">
+                    <span aria-hidden="true">📄</span>
+                    <span>Reports</span>
+                </a>
+
+                <a href="at-risk.html" class="nav-link">
+                    <span aria-hidden="true">⚠️</span>
+                    <span>At-Risk</span>
+                </a>
+
+                <a href="settings.html" class="nav-link">
+                    <span aria-hidden="true">⚙️</span>
+                    <span>Settings</span>
+                </a>
+
+            </nav>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- HEADER -->
+            <header class="top-header">
+
+                <div>
+
+                    <p class="welcome-text">
+                        Attendance Management
+                    </p>
+
+                    <h1>Attendance Sessions</h1>
+
+                </div>
+
+            </header>
+
+            <!-- HERO -->
+            <section class="attendance-hero">
+
+                <div class="hero-content">
+
+                    <span class="hero-icon" aria-hidden="true">📝</span>
+
+                    <div>
+
+                        <h2>Attendance Sessions</h2>
+
+                        <p>
+                            Create and manage daily attendance sessions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CREATE SESSION -->
+            <section class="filter-card session-card">
+
+                <div class="filter-heading">
+
+                    <div>
+
+                        <h3>Create New Session</h3>
+
+                        <p>
+                            Start a new attendance session for a class.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="filter-grid">
+
+                    <!-- DATE -->
+                    <div class="input-group">
+
+                        <label for="sessionDate">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="sessionDate"
+                            name="sessionDate">
+
+                    </div>
+
+                    <!-- DEPARTMENT -->
+                    <div class="input-group">
+
+                        <label for="sessionDepartment">
+                            Department
+                        </label>
+
+                        <select
+                            id="sessionDepartment"
+                            name="sessionDepartment">
+
+                            <option value="CSE">CSE</option>
+                            <option value="ECE">ECE</option>
+                            <option value="EEE">EEE</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- YEAR -->
+                    <div class="input-group">
+
+                        <label for="sessionYear">
+                            Year
+                        </label>
+
+                        <select
+                            id="sessionYear"
+                            name="sessionYear">
+
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- SECTION -->
+                    <div class="input-group">
+
+                        <label for="sessionSection">
+                            Section
+                        </label>
+
+                        <select
+                            id="sessionSection"
+                            name="sessionSection">
+
+                            <option value="A">Section A</option>
+                            <option value="B">Section B</option>
+                            <option value="C">Section C</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="button-area">
+
+                    <button
+                        type="button"
+                        class="save-button"
+                        id="createSession">
+
+                        + Create Session
+
+                    </button>
+
+                </div>
+
+                <p
+                    id="sessionMessage"
+                    class="session-message"
+                    aria-live="polite">
+                </p>
+
+            </section>
+
+            <!-- RECENT SESSIONS -->
+            <section class="attendance-table-card sessions-table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h3>Recent Sessions</h3>
+
+                        <p>
+                            Attendance sessions created recently
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <caption class="sr-only">
+                            Recent attendance sessions
+                        </caption>
+
+                        <thead>
+
+                            <tr>
+
+                                <th scope="col">#</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Section</th>
+                                <th scope="col">Status</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="sessionTableBody">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script
+        src="../js/attendance-sessions.js"
+        defer>
+    </script>
+
+</body>
+
+</html>
