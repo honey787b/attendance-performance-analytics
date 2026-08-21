@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>cript | PresenTrack</title>
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/transcript.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-content">
+
+        <div class="page-header">
+
+            <div>
+
+                <br><h1 style="font-size: 50px;color:rgb(38, 0, 255);"><bold>Academic Transcript</bold></h1>
+
+                <p>
+                    Complete academic performance record
+                </p>
+
+            </div>
+
+
+            <button class="btn-primary"
+                    onclick="printTranscript()">
+
+                <i class="fas fa-print"></i>
+
+                Print Transcript
+
+            </button>
+
+        </div>
+
+
+        <!-- ================= STUDENT ================= -->
+
+        <section class="card transcript-header">
+
+            <div>
+
+                <h2>Aarav Sharma</h2>
+
+                <p>
+                    Student ID: <strong>PT101</strong>
+                </p>
+
+                <p>
+                    Computer Science & Engineering
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    Academic Year
+                </p>
+
+                <strong>
+                    2025 - 2026
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SEMESTER ================= -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>Semester Performance</h2>
+
+                    <p>
+                        Select semester to view academic results
+                    </p>
+
+                </div>
+
+
+                <select id="semesterSelect"
+                        onchange="changeSemester()">
+
+                    <option value="1">
+                        Semester 1
+                    </option>
+
+                    <option value="2">
+                        Semester 2
+                    </option>
+
+                    <option value="3" selected>
+                        Semester 3
+                    </option>
+
+                    <option value="4">
+                        Semester 4
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ================= MARKS TABLE ================= -->
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Code</th>
+
+                            <th>Subject</th>
+
+                            <th>Credits</th>
+
+                            <th>Mid 1</th>
+
+                            <th>Mid 2</th>
+
+                            <th>Internal</th>
+
+                            <th>Grade</th>
+
+                            <th>Grade Point</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>CS301</td>
+
+                            <td>Data Structures</td>
+
+                            <td>4</td>
+
+                            <td>43</td>
+
+                            <td>45</td>
+
+                            <td>88</td>
+
+                            <td>
+                                <span class="grade-a">
+                                    A+
+                                </span>
+                            </td>
+
+                            <td>9</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>CS302</td>
+
+                            <td>Database Management</td>
+
+                            <td>4</td>
+
+                            <td>41</td>
+
+                            <td>43</td>
+
+                            <td>84</td>
+
+                            <td>
+                                <span class="grade-a">
+                                    A
+                                </span>
+                            </td>
+
+                            <td>8</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>CS303</td>
+
+                            <td>Operating Systems</td>
+
+                            <td>4</td>
+
+                            <td>38</td>
+
+                            <td>41</td>
+
+                            <td>79</td>
+
+                            <td>
+                                <span class="grade-b">
+                                    B+
+                                </span>
+                            </td>
+
+                            <td>8</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>CS304</td>
+
+                            <td>Computer Networks</td>
+
+                            <td>4</td>
+
+                            <td>45</td>
+
+                            <td>46</td>
+
+                            <td>91</td>
+
+                            <td>
+                                <span class="grade-a">
+                                    A+
+                                </span>
+                            </td>
+
+                            <td>9</td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>CS305</td>
+
+                            <td>Web Technologies</td>
+
+                            <td>3</td>
+
+                            <td>40</td>
+
+                            <td>42</td>
+
+                            <td>82</td>
+
+                            <td>
+                                <span class="grade-a">
+                                    A
+                                </span>
+                            </td>
+
+                            <td>8</td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SUMMARY ================= -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <span>Total Credits</span>
+
+                <strong>19</strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>Credits Earned</span>
+
+                <strong>19</strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>SGPA</span>
+
+                <strong>8.54</strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>CGPA</span>
+
+                <strong>8.72</strong>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PERFORMANCE STATUS ================= -->
+
+        <section class="card performance-status">
+
+            <div>
+
+                <h2>Academic Status</h2>
+
+                <p>
+                    Student has successfully completed the semester
+                    with satisfactory academic performance.
+                </p>
+
+            </div>
+
+
+            <span class="status-badge">
+                PASS
+            </span>
+
+        </section>
+
+
+        <!-- ================= ACTIONS ================= -->
+
+        <section class="report-actions">
+
+            <button class="btn-primary"
+                    onclick="printTranscript()">
+
+                <i class="fas fa-print"></i>
+
+                Print
+
+            </button>
+
+
+            <button class="btn-success"
+                    onclick="downloadTranscript()">
+
+                <i class="fas fa-download"></i>
+
+                Download Transcript
+
+            </button>
+
+
+            <button class="btn-danger"
+                    onclick="goBack()">
+
+                <i class="fas fa-arrow-left"></i>
+
+                Back to Performance
+
+            </button>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="../js/transcript.js"></script>
+
+</body>
+</html>

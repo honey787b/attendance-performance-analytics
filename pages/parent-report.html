@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parent Report | PresenTrack</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/parent-report.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+
+    <!-- ================= MAIN CONTENT ================= -->
+
+    <main class="main-content">
+
+        <div class="page-header">
+
+            <div>
+                <h1 style="font-size: 50px;color:rgb(38, 0, 255);"><bold>Parent Report</bold></h1>
+                <p>Student academic and attendance progress summary</p>
+            </div>
+
+            <button class="btn-primary" onclick="printReport()">
+                <i class="fas fa-print"></i>
+                Print Report
+            </button>
+
+        </div>
+
+
+        <!-- ================= STUDENT INFORMATION ================= -->
+
+        <section class="card student-profile">
+
+            <div class="student-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+
+            <div class="student-details">
+
+                <h2>Aarav Sharma</h2>
+
+                <p>
+                    <strong>Student ID:</strong> PT101
+                </p>
+
+                <p>
+                    <strong>Branch:</strong> Computer Science & Engineering
+                </p>
+
+                <p>
+                    <strong>Year:</strong> 2nd Year
+                </p>
+
+            </div>
+
+            <div class="report-status">
+                <span>Overall Status</span>
+                <strong class="safe">Good Standing</strong>
+            </div>
+
+        </section>
+
+
+        <!-- ================= PERFORMANCE OVERVIEW ================= -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>Overall Performance</h4>
+                <h2>86%</h2>
+                <span class="positive">↑ 5.2% from last semester</span>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-calendar-check"></i>
+                <h4>Attendance</h4>
+                <h2>92%</h2>
+                <span class="positive">Good Attendance</span>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-book"></i>
+                <h4>Internal Marks</h4>
+                <h2>84%</h2>
+                <span class="positive">Above Average</span>
+            </div>
+
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <h4>Class Rank</h4>
+                <h2>#12</h2>
+                <span class="positive">Top 10%</span>
+            </div>
+
+        </section>
+
+
+        <!-- ================= SUBJECT PERFORMANCE ================= -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Subject Performance</h2>
+                    <p>Current semester academic performance</p>
+                </div>
+
+                <select id="semesterSelect"
+                        onchange="changeSemester()">
+
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3" selected>Semester 3</option>
+                    <option value="4">Semester 4</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="subject-list">
+
+                <div class="subject-row">
+
+                    <div>
+                        <strong>Data Structures</strong>
+                        <span>Internal: 88/100</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:88%"></div>
+                    </div>
+
+                    <strong>88%</strong>
+
+                </div>
+
+
+                <div class="subject-row">
+
+                    <div>
+                        <strong>Database Management</strong>
+                        <span>Internal: 84/100</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:84%"></div>
+                    </div>
+
+                    <strong>84%</strong>
+
+                </div>
+
+
+                <div class="subject-row">
+
+                    <div>
+                        <strong>Operating Systems</strong>
+                        <span>Internal: 79/100</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:79%"></div>
+                    </div>
+
+                    <strong>79%</strong>
+
+                </div>
+
+
+                <div class="subject-row">
+
+                    <div>
+                        <strong>Computer Networks</strong>
+                        <span>Internal: 91/100</span>
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:91%"></div>
+                    </div>
+
+                    <strong>91%</strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ATTENDANCE ================= -->
+
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Attendance Summary</h2>
+                    <p>Current semester attendance</p>
+                </div>
+
+                <button class="btn-primary"
+                        onclick="openAttendance()">
+                    View Attendance
+                </button>
+
+            </div>
+
+
+            <div class="attendance-grid">
+
+                <div class="attendance-item">
+                    <span>Total Classes</span>
+                    <strong>120</strong>
+                </div>
+
+                <div class="attendance-item">
+                    <span>Classes Attended</span>
+                    <strong>110</strong>
+                </div>
+
+                <div class="attendance-item">
+                    <span>Classes Missed</span>
+                    <strong>10</strong>
+                </div>
+
+                <div class="attendance-item">
+                    <span>Attendance</span>
+                    <strong class="safe">91.7%</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PARENT OBSERVATION ================= -->
+
+        <section class="card observation">
+
+            <h2>Academic Observation</h2>
+
+            <p>
+                Aarav has demonstrated consistent academic progress
+                throughout the semester. His performance in Data Structures
+                and Computer Networks is particularly strong.
+            </p>
+
+            <p>
+                Attendance is currently above the required threshold.
+                Continued participation and regular revision are recommended
+                to maintain his academic performance.
+            </p>
+
+        </section>
+
+
+        <!-- ================= ACTIONS ================= -->
+
+        <section class="report-actions">
+
+            <button class="btn-primary"
+                    onclick="printReport()">
+
+                <i class="fas fa-print"></i>
+                Print Report
+
+            </button>
+
+            <button class="btn-success"
+                    onclick="downloadReport()">
+
+                <i class="fas fa-download"></i>
+                Download Report
+
+            </button>
+
+            <button class="btn-danger"
+                    onclick="goBack()">
+
+                <i class="fas fa-arrow-left"></i>
+                Back to Performance
+
+            </button>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="../js/parent-report.js"></script>
+
+</body>
+</html>
