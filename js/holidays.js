@@ -6,11 +6,9 @@
 
 /* =========================================================
    PREDEFINED HOLIDAYS
-   FRONTEND DEMO DATA
 ========================================================= */
 
 const holidays = [
-
     {
         date: "2026-08-15",
         name: "Independence Day",
@@ -73,7 +71,6 @@ const holidays = [
         description:
             "Christmas is observed as a public holiday."
     }
-
 ];
 
 
@@ -153,16 +150,31 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        renderCalendar();
-
-        renderUpcomingHolidays();
-
-        updateHolidayCounts();
-
-        setupEvents();
+        initializeHolidayPage();
 
     }
 );
+
+
+/* =========================================================
+   INITIALIZE PAGE
+========================================================= */
+
+function initializeHolidayPage() {
+
+    if (calendarDays) {
+        renderCalendar();
+    }
+
+    if (upcomingList) {
+        renderUpcomingHolidays();
+    }
+
+    updateHolidayCounts();
+
+    setupEvents();
+
+}
 
 
 /* =========================================================
@@ -170,6 +182,10 @@ document.addEventListener(
 ========================================================= */
 
 function renderCalendar() {
+
+    if (!calendarDays || !monthYear) {
+        return;
+    }
 
     calendarDays.innerHTML = "";
 
@@ -180,9 +196,11 @@ function renderCalendar() {
         currentDate.getMonth();
 
 
+    /* MONTH NAME */
+
     const monthName =
         currentDate.toLocaleString(
-            "default",
+            "en-IN",
             {
                 month: "long"
             }
@@ -192,9 +210,14 @@ function renderCalendar() {
     monthYear.textContent =
         `${monthName} ${year}`;
 
-    monthSubtitle.textContent =
-        "Holiday Calendar";
 
+    if (monthSubtitle) {
+        monthSubtitle.textContent =
+            "Holiday Calendar";
+    }
+
+
+    /* FIRST DAY */
 
     const firstDay =
         new Date(
@@ -204,6 +227,8 @@ function renderCalendar() {
         ).getDay();
 
 
+    /* DAYS IN MONTH */
+
     const daysInMonth =
         new Date(
             year,
@@ -212,12 +237,14 @@ function renderCalendar() {
         ).getDate();
 
 
-    /* EMPTY DAYS */
+    /* =====================================================
+       EMPTY DAYS
+    ====================================================== */
 
     for (
-        let i = 0;
-        i < firstDay;
-        i++
+        let index = 0;
+        index < firstDay;
+        index++
     ) {
 
         const emptyDay =
@@ -233,7 +260,9 @@ function renderCalendar() {
     }
 
 
-    /* ACTUAL DAYS */
+    /* =====================================================
+       ACTUAL DAYS
+    ====================================================== */
 
     for (
         let day = 1;
@@ -248,14 +277,19 @@ function renderCalendar() {
             "calendar-day";
 
 
+        /* DATE STRING */
+
         const dateString =
             `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 
 
+        /* FIND HOLIDAY */
+
         const holiday =
             holidays.find(
-                item =>
-                    item.date === dateString
+                function (item) {
+                    return item.date === dateString;
+                }
             );
 
 
@@ -275,11 +309,12 @@ function renderCalendar() {
         );
 
 
-        /* TODAY */
+        /* =================================================
+           TODAY
+        ================================================== */
 
         const today =
             new Date();
-
 
         const isToday =
             today.getFullYear() === year &&
@@ -296,11 +331,15 @@ function renderCalendar() {
         }
 
 
-        /* HOLIDAY */
+        /* =================================================
+           HOLIDAY
+        ================================================== */
 
         if (holiday) {
 
-            if (holiday.type === "public") {
+            if (
+                holiday.type === "public"
+            ) {
 
                 dayElement.classList.add(
                     "public-holiday"
@@ -328,6 +367,8 @@ function renderCalendar() {
                 holidayName
             );
 
+
+            /* CLICK EVENT */
 
             dayElement.addEventListener(
                 "click",
@@ -358,7 +399,12 @@ function renderCalendar() {
 
 function renderUpcomingHolidays() {
 
+    if (!upcomingList) {
+        return;
+    }
+
     upcomingList.innerHTML = "";
+
 
     const today =
         new Date();
@@ -374,33 +420,58 @@ function renderUpcomingHolidays() {
     const upcoming =
         holidays
             .filter(
-                holiday =>
-                    new Date(
-                        holiday.date
-                    ) >= today
+                function (holiday) {
+
+                    const holidayDate =
+                        parseHolidayDate(
+                            holiday.date
+                        );
+
+                    return holidayDate >= today;
+
+                }
             )
             .sort(
-                (a, b) =>
-                    new Date(a.date) -
-                    new Date(b.date)
+                function (first, second) {
+
+                    return (
+                        parseHolidayDate(first.date) -
+                        parseHolidayDate(second.date)
+                    );
+
+                }
             )
             .slice(0, 5);
 
 
+    /* =====================================================
+       NO UPCOMING HOLIDAYS
+    ====================================================== */
+
     if (upcoming.length === 0) {
 
         upcomingList.innerHTML =
-            `<div class="no-upcoming">
-                No upcoming holidays.
-            </div>`;
+            `
+                <div class="no-upcoming">
+                    No upcoming holidays.
+                </div>
+            `;
+
+        if (nextHolidayName) {
+            nextHolidayName.textContent =
+                "--";
+        }
 
         return;
-
     }
 
 
+    /* =====================================================
+       UPCOMING ITEMS
+    ====================================================== */
+
     upcoming.forEach(
-        holiday => {
+        function (holiday) {
 
             const item =
                 document.createElement("div");
@@ -410,7 +481,7 @@ function renderUpcomingHolidays() {
 
 
             const date =
-                new Date(
+                parseHolidayDate(
                     holiday.date
                 );
 
@@ -426,34 +497,37 @@ function renderUpcomingHolidays() {
                 );
 
 
-            item.innerHTML = `
+            const holidayType =
+                holiday.type === "public"
+                    ? "PUBLIC HOLIDAY"
+                    : "COLLEGE HOLIDAY";
 
-                <div class="upcoming-date">
-                    ${formattedDate}
-                </div>
 
-                <h3>
-                    ${holiday.icon}
-                    ${holiday.name}
-                </h3>
+            const typeClass =
+                holiday.type === "public"
+                    ? "type-public"
+                    : "type-college";
 
-                <p>
-                    ${holiday.description}
-                </p>
 
-                <span class="upcoming-type ${
-                    holiday.type === "public"
-                        ? "type-public"
-                        : "type-college"
-                }">
-                    ${
-                        holiday.type === "public"
-                            ? "PUBLIC HOLIDAY"
-                            : "COLLEGE HOLIDAY"
-                    }
-                </span>
+            item.innerHTML =
+                `
+                    <div class="upcoming-date">
+                        ${formattedDate}
+                    </div>
 
-            `;
+                    <h3>
+                        ${holiday.icon}
+                        ${holiday.name}
+                    </h3>
+
+                    <p>
+                        ${holiday.description}
+                    </p>
+
+                    <span class="upcoming-type ${typeClass}">
+                        ${holidayType}
+                    </span>
+                `;
 
 
             item.addEventListener(
@@ -476,12 +550,39 @@ function renderUpcomingHolidays() {
     );
 
 
-    /* NEXT HOLIDAY */
+    /* =====================================================
+       NEXT HOLIDAY
+    ====================================================== */
 
-    nextHolidayName.textContent =
-        upcoming[0]
-            ? upcoming[0].name
-            : "--";
+    if (nextHolidayName) {
+
+        nextHolidayName.textContent =
+            upcoming[0]
+                ? upcoming[0].name
+                : "--";
+
+    }
+
+}
+
+
+/* =========================================================
+   SAFE DATE PARSER
+========================================================= */
+
+function parseHolidayDate(
+    dateString
+) {
+
+    const parts =
+        dateString.split("-");
+
+
+    return new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        Number(parts[2])
+    );
 
 }
 
@@ -494,32 +595,49 @@ function updateHolidayCounts() {
 
     const publicCount =
         holidays.filter(
-            holiday =>
-                holiday.type === "public"
+            function (holiday) {
+
+                return holiday.type === "public";
+
+            }
         ).length;
 
 
     const collegeCount =
         holidays.filter(
-            holiday =>
-                holiday.type === "college"
+            function (holiday) {
+
+                return holiday.type === "college";
+
+            }
         ).length;
 
 
-    publicHolidayCount.textContent =
-        publicCount;
+    if (publicHolidayCount) {
 
-    collegeHolidayCount.textContent =
-        collegeCount;
+        publicHolidayCount.textContent =
+            publicCount;
+
+    }
+
+
+    if (collegeHolidayCount) {
+
+        collegeHolidayCount.textContent =
+            collegeCount;
+
+    }
 
 }
 
 
 /* =========================================================
-   MONTH NAVIGATION
+   PREVIOUS MONTH
 ========================================================= */
 
 function goToPreviousMonth() {
+
+    currentDate.setDate(1);
 
     currentDate.setMonth(
         currentDate.getMonth() - 1
@@ -530,7 +648,13 @@ function goToPreviousMonth() {
 }
 
 
+/* =========================================================
+   NEXT MONTH
+========================================================= */
+
 function goToNextMonth() {
+
+    currentDate.setDate(1);
 
     currentDate.setMonth(
         currentDate.getMonth() + 1
@@ -542,46 +666,72 @@ function goToNextMonth() {
 
 
 /* =========================================================
-   MODAL
+   SHOW HOLIDAY MODAL
 ========================================================= */
 
 function showHolidayModal(
     holiday
 ) {
 
-    modalIcon.textContent =
-        holiday.icon;
+    if (!holidayModal) {
+        return;
+    }
 
-    modalTitle.textContent =
-        holiday.name;
+
+    if (modalIcon) {
+
+        modalIcon.textContent =
+            holiday.icon;
+
+    }
+
+
+    if (modalTitle) {
+
+        modalTitle.textContent =
+            holiday.name;
+
+    }
 
 
     const date =
-        new Date(
+        parseHolidayDate(
             holiday.date
         );
 
 
-    modalDate.textContent =
-        date.toLocaleDateString(
-            "en-IN",
-            {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        );
+    if (modalDate) {
+
+        modalDate.textContent =
+            date.toLocaleDateString(
+                "en-IN",
+                {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+    }
 
 
-    modalType.textContent =
-        holiday.type === "public"
-            ? "PUBLIC HOLIDAY"
-            : "COLLEGE HOLIDAY";
+    if (modalType) {
+
+        modalType.textContent =
+            holiday.type === "public"
+                ? "PUBLIC HOLIDAY"
+                : "COLLEGE HOLIDAY";
+
+    }
 
 
-    modalDescription.textContent =
-        holiday.description;
+    if (modalDescription) {
+
+        modalDescription.textContent =
+            holiday.description;
+
+    }
 
 
     holidayModal.classList.add(
@@ -597,6 +747,10 @@ function showHolidayModal(
 
 function closeHolidayModal() {
 
+    if (!holidayModal) {
+        return;
+    }
+
     holidayModal.classList.remove(
         "show"
     );
@@ -610,46 +764,78 @@ function closeHolidayModal() {
 
 function setupEvents() {
 
-    prevMonth.addEventListener(
-        "click",
-        goToPreviousMonth
-    );
+
+    /* PREVIOUS MONTH */
+
+    if (prevMonth) {
+
+        prevMonth.addEventListener(
+            "click",
+            goToPreviousMonth
+        );
+
+    }
 
 
-    nextMonth.addEventListener(
-        "click",
-        goToNextMonth
-    );
+    /* NEXT MONTH */
+
+    if (nextMonth) {
+
+        nextMonth.addEventListener(
+            "click",
+            goToNextMonth
+        );
+
+    }
 
 
-    closeModal.addEventListener(
-        "click",
-        closeHolidayModal
-    );
+    /* CLOSE ICON */
+
+    if (closeModal) {
+
+        closeModal.addEventListener(
+            "click",
+            closeHolidayModal
+        );
+
+    }
 
 
-    modalCloseBtn.addEventListener(
-        "click",
-        closeHolidayModal
-    );
+    /* CLOSE BUTTON */
+
+    if (modalCloseBtn) {
+
+        modalCloseBtn.addEventListener(
+            "click",
+            closeHolidayModal
+        );
+
+    }
 
 
-    holidayModal.addEventListener(
-        "click",
-        function (event) {
+    /* CLICK OUTSIDE MODAL */
 
-            if (
-                event.target ===
-                holidayModal
-            ) {
+    if (holidayModal) {
 
-                closeHolidayModal();
+        holidayModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === holidayModal
+                ) {
+
+                    closeHolidayModal();
+
+                }
 
             }
+        );
 
-        }
-    );
+    }
 
+
+    /* ESCAPE KEY */
 
     document.addEventListener(
         "keydown",
@@ -667,7 +853,9 @@ function setupEvents() {
     );
 
 
-    /* LOGOUT */
+    /* =====================================================
+       LOGOUT
+    ====================================================== */
 
     const logoutBtn =
         document.getElementById(
