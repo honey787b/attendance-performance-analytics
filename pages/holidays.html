@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Holiday Calendar | PresentTrack</title>
+    <title>Holidays | PresentTrack</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/holidays.css">
@@ -12,136 +12,321 @@
 
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
     <aside class="sidebar">
 
-        <div class="sidebar-logo">
-            <h2>PresentTrack</h2>
-            <p>Student Portal</p>
+        <!-- LOGO -->
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">
+                PT
+            </div>
+
+            <div class="brand-text">
+                <h2>PresentTrack</h2>
+                <p>Attendance &amp;<br>Performance</p>
+            </div>
+
         </div>
 
+
+        <!-- NAVIGATION -->
         <nav class="sidebar-nav">
 
             <a href="dashboard.html">
-                🏠
+                <span class="nav-icon">🏠</span>
                 <span>Dashboard</span>
             </a>
 
             <a href="attendance.html">
-                📊
+                <span class="nav-icon">🗓️</span>
                 <span>Attendance</span>
             </a>
 
+            <a href="performance.html">
+                <span class="nav-icon">📊</span>
+                <span>Performance</span>
+            </a>
+
+            <a href="analytics.html">
+                <span class="nav-icon">✉️</span>
+                <span>Analytics</span>
+            </a>
+
+            <a href="timetable.html">
+                <span class="nav-icon">⏱️</span>
+                <span>Timetable</span>
+            </a>
+
+            <a href="students.html">
+                <span class="nav-icon">👥</span>
+                <span>Students</span>
+            </a>
+
+            <a href="faculty.html">
+                <span class="nav-icon">👨‍🏫</span>
+                <span>Faculty</span>
+            </a>
+
+            <a href="reports.html">
+                <span class="nav-icon">📄</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="at-risk.html">
+                <span class="nav-icon">⚠️</span>
+                <span>At-Risk</span>
+            </a>
+
             <a href="holidays.html" class="active">
-                🗓️
+                <span class="nav-icon">📅</span>
                 <span>Holidays</span>
             </a>
 
-            <a href="profile.html">
-                👤
-                <span>Profile</span>
-            </a>
-
-            <a href="notifications.html">
-                🔔
-                <span>Notifications</span>
+            <a href="settings.html">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
             </a>
 
         </nav>
 
+
+        <!-- SIDEBAR BOTTOM -->
         <div class="sidebar-bottom">
-            <button id="logoutBtn" class="logout-btn">
-                🚪 Logout
-            </button>
+
+            <div class="sidebar-user">
+
+                <div class="user-avatar">
+                    YA
+                </div>
+
+                <div class="user-info">
+                    <strong>Yasaswini</strong>
+                    <span>Administrator</span>
+                </div>
+
+            </div>
+
         </div>
 
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
     <main class="holiday-main">
 
-        <!-- HEADER -->
-        <header class="holiday-header">
+
+        <!-- =================================================
+             TOP PAGE BAR
+        ================================================== -->
+
+        <header class="holiday-page-top">
 
             <div>
-                <p class="page-label">ACADEMIC CALENDAR</p>
-                <h1>Holiday Calendar 🗓️</h1>
-                <p>
-                    View public and college holidays in one place.
+                <p class="welcome-text">
+                    Academic Calendar
                 </p>
+
+                <h1>
+                    Holidays
+                </h1>
             </div>
 
-            <div class="header-date">
-                <span>Academic Year</span>
-                <strong>2026 - 2027</strong>
+
+            <div class="top-user-area">
+
+                <button
+                    type="button"
+                    class="notification-button"
+                    aria-label="Notifications"
+                >
+                    🔔
+                </button>
+
+                <div class="top-avatar">
+                    YA
+                </div>
+
+                <div class="top-user-info">
+                    <strong>Yasaswini</strong>
+                    <span>Administrator</span>
+                </div>
+
             </div>
 
         </header>
 
 
-        <!-- SUMMARY CARDS -->
-        <section class="holiday-summary">
+        <!-- =================================================
+             HERO
+        ================================================== -->
 
-            <div class="summary-card public-card">
-                <div class="summary-icon">🇮🇳</div>
+        <section class="holiday-header">
 
-                <div>
-                    <span>Public Holidays</span>
-                    <strong id="publicHolidayCount">0</strong>
-                </div>
+            <div class="holiday-header-content">
+
+                <p class="page-label">
+                    ACADEMIC CALENDAR
+                </p>
+
+                <h1>
+                    Holiday Calendar
+                    <span>🗓️</span>
+                </h1>
+
+                <p class="holiday-description">
+                    View public and college holidays in one place.
+                </p>
+
             </div>
 
 
-            <div class="summary-card college-card">
-                <div class="summary-icon">🎓</div>
+            <div class="header-date">
 
-                <div>
-                    <span>College Holidays</span>
-                    <strong id="collegeHolidayCount">0</strong>
-                </div>
-            </div>
+                <span>
+                    Academic Year
+                </span>
 
+                <strong>
+                    2026 - 2027
+                </strong>
 
-            <div class="summary-card upcoming-card">
-                <div class="summary-icon">📅</div>
-
-                <div>
-                    <span>Next Holiday</span>
-                    <strong id="nextHolidayName">--</strong>
-                </div>
             </div>
 
         </section>
 
 
-        <!-- CALENDAR AREA -->
+        <!-- =================================================
+             SUMMARY CARDS
+        ================================================== -->
+
+        <section class="holiday-summary">
+
+
+            <!-- PUBLIC -->
+            <div class="summary-card public-card">
+
+                <div class="summary-icon">
+                    🇮🇳
+                </div>
+
+                <div class="summary-content">
+
+                    <span>
+                        Public Holidays
+                    </span>
+
+                    <strong id="publicHolidayCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- COLLEGE -->
+            <div class="summary-card college-card">
+
+                <div class="summary-icon">
+                    🎓
+                </div>
+
+                <div class="summary-content">
+
+                    <span>
+                        College Holidays
+                    </span>
+
+                    <strong id="collegeHolidayCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- NEXT -->
+            <div class="summary-card upcoming-card">
+
+                <div class="summary-icon">
+                    📅
+                </div>
+
+                <div class="summary-content">
+
+                    <span>
+                        Next Holiday
+                    </span>
+
+                    <strong id="nextHolidayName">
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CALENDAR SECTION
+        ================================================== -->
+
         <section class="calendar-section">
 
+
+            <!-- CALENDAR -->
             <div class="calendar-container">
 
-                <!-- CALENDAR HEADER -->
+
+                <!-- CALENDAR TOP -->
                 <div class="calendar-top">
 
-                    <button id="prevMonth" class="month-btn">
+                    <button
+                        type="button"
+                        id="prevMonth"
+                        class="month-btn"
+                        aria-label="Previous month"
+                    >
                         ❮
                     </button>
 
+
                     <div class="month-title">
-                        <h2 id="monthYear">August 2026</h2>
+
+                        <h2 id="monthYear">
+                            August 2026
+                        </h2>
+
                         <p id="monthSubtitle">
                             Holiday Calendar
                         </p>
+
                     </div>
 
-                    <button id="nextMonth" class="month-btn">
+
+                    <button
+                        type="button"
+                        id="nextMonth"
+                        class="month-btn"
+                        aria-label="Next month"
+                    >
                         ❯
                     </button>
 
                 </div>
 
 
-                <!-- WEEK DAYS -->
+                <!-- WEEKDAYS -->
                 <div class="weekdays">
 
                     <div>Sun</div>
@@ -155,8 +340,11 @@
                 </div>
 
 
-                <!-- CALENDAR DAYS -->
-                <div id="calendarDays" class="calendar-days"></div>
+                <!-- DAYS -->
+                <div
+                    id="calendarDays"
+                    class="calendar-days"
+                ></div>
 
 
                 <!-- LEGEND -->
@@ -182,69 +370,125 @@
             </div>
 
 
-            <!-- UPCOMING HOLIDAYS -->
+            <!-- =================================================
+                 UPCOMING HOLIDAYS
+            ================================================== -->
+
             <aside class="upcoming-panel">
 
                 <div class="panel-header">
 
                     <div>
-                        <p>PLAN AHEAD</p>
-                        <h2>Upcoming Holidays</h2>
+
+                        <p>
+                            PLAN AHEAD
+                        </p>
+
+                        <h2>
+                            Upcoming Holidays
+                        </h2>
+
                     </div>
 
-                    <span class="calendar-small-icon">📅</span>
+                    <span class="calendar-small-icon">
+                        📅
+                    </span>
 
                 </div>
 
-                <div id="upcomingList" class="upcoming-list"></div>
+
+                <div
+                    id="upcomingList"
+                    class="upcoming-list"
+                ></div>
 
             </aside>
 
         </section>
 
 
-        <!-- HOLIDAY DETAILS -->
+        <!-- =================================================
+             INFORMATION
+        ================================================== -->
+
         <section class="holiday-info">
 
             <div class="info-heading">
-                <span>✨</span>
+
+                <span>
+                    ✨
+                </span>
 
                 <div>
-                    <h2>Holiday Information</h2>
+
+                    <h2>
+                        Holiday Information
+                    </h2>
+
                     <p>
                         Holidays declared by the government and college
                         administration will appear here.
                     </p>
+
                 </div>
+
             </div>
+
 
             <div class="info-cards">
 
+
                 <div class="info-card">
-                    <span>🇮🇳</span>
-                    <h3>Public Holidays</h3>
+
+                    <span>
+                        🇮🇳
+                    </span>
+
+                    <h3>
+                        Public Holidays
+                    </h3>
+
                     <p>
                         Government-declared national and public holidays
                         are shown automatically.
                     </p>
+
                 </div>
 
+
                 <div class="info-card">
-                    <span>🎓</span>
-                    <h3>College Holidays</h3>
+
+                    <span>
+                        🎓
+                    </span>
+
+                    <h3>
+                        College Holidays
+                    </h3>
+
                     <p>
                         College administration can add academic holidays
                         and special holidays.
                     </p>
+
                 </div>
 
+
                 <div class="info-card">
-                    <span>🔔</span>
-                    <h3>Stay Updated</h3>
+
+                    <span>
+                        🔔
+                    </span>
+
+                    <h3>
+                        Stay Updated
+                    </h3>
+
                     <p>
                         Check this calendar regularly for updated holiday
                         information.
                     </p>
+
                 </div>
 
             </div>
@@ -254,38 +498,67 @@
     </main>
 
 
-    <!-- HOLIDAY DETAILS MODAL -->
-    <div id="holidayModal" class="modal-overlay">
+    <!-- =====================================================
+         HOLIDAY MODAL
+    ====================================================== -->
+
+    <div
+        id="holidayModal"
+        class="modal-overlay"
+    >
 
         <div class="holiday-modal">
 
-            <button id="closeModal" class="close-modal">
+            <button
+                type="button"
+                id="closeModal"
+                class="close-modal"
+                aria-label="Close"
+            >
                 ×
             </button>
 
-            <div id="modalIcon" class="modal-icon">
+
+            <div
+                id="modalIcon"
+                class="modal-icon"
+            >
                 🎉
             </div>
 
-            <p id="modalType" class="modal-type">
+
+            <p
+                id="modalType"
+                class="modal-type"
+            >
                 PUBLIC HOLIDAY
             </p>
+
 
             <h2 id="modalTitle">
                 Holiday
             </h2>
 
+
             <p id="modalDate">
                 Date
             </p>
 
+
             <div class="modal-description">
+
                 <p id="modalDescription">
                     Holiday details
                 </p>
+
             </div>
 
-            <button id="modalCloseBtn" class="modal-close-btn">
+
+            <button
+                type="button"
+                id="modalCloseBtn"
+                class="modal-close-btn"
+            >
                 Close
             </button>
 
