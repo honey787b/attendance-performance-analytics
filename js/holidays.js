@@ -90,16 +90,20 @@ let currentDate = new Date();
 let calendarDays;
 let monthYear;
 let monthSubtitle;
+
 let upcomingList;
+
 let publicHolidayCount;
 let collegeHolidayCount;
 let nextHolidayName;
+
 let prevMonth;
 let nextMonth;
 
 let holidayModal;
 let closeModal;
 let modalCloseBtn;
+
 let modalIcon;
 let modalType;
 let modalTitle;
@@ -108,7 +112,7 @@ let modalDescription;
 
 
 /* =========================================================
-   INITIALIZE
+   DOM READY
 ========================================================= */
 
 document.addEventListener(
@@ -159,7 +163,6 @@ document.addEventListener(
             document.getElementById(
                 "nextMonth"
             );
-
 
         holidayModal =
             document.getElementById(
@@ -235,7 +238,6 @@ function renderCalendar() {
         return;
     }
 
-
     calendarDays.innerHTML = "";
 
 
@@ -287,7 +289,9 @@ function renderCalendar() {
         ).getDate();
 
 
-    /* EMPTY DAYS */
+    /* =====================================================
+       EMPTY DAYS
+    ====================================================== */
 
     for (
         let i = 0;
@@ -310,7 +314,9 @@ function renderCalendar() {
     }
 
 
-    /* MONTH DAYS */
+    /* =====================================================
+       MONTH DAYS
+    ====================================================== */
 
     for (
         let day = 1;
@@ -360,7 +366,9 @@ function renderCalendar() {
         );
 
 
-        /* TODAY */
+        /* =================================================
+           TODAY
+        ================================================== */
 
         const today =
             new Date();
@@ -380,7 +388,9 @@ function renderCalendar() {
         }
 
 
-        /* HOLIDAY */
+        /* =================================================
+           HOLIDAY
+        ================================================== */
 
         if (holiday) {
 
@@ -471,9 +481,11 @@ function renderUpcomingHolidays() {
             .filter(
                 function (holiday) {
 
-                    return parseHolidayDate(
-                        holiday.date
-                    ) >= today;
+                    return (
+                        parseHolidayDate(
+                            holiday.date
+                        ) >= today
+                    );
 
                 }
             )
@@ -490,9 +502,7 @@ function renderUpcomingHolidays() {
             .slice(0, 5);
 
 
-    if (
-        upcoming.length === 0
-    ) {
+    if (upcoming.length === 0) {
 
         upcomingList.innerHTML =
             `
@@ -500,6 +510,7 @@ function renderUpcomingHolidays() {
                     No upcoming holidays.
                 </div>
             `;
+
 
         if (nextHolidayName) {
 
@@ -604,7 +615,7 @@ function renderUpcomingHolidays() {
 
 
 /* =========================================================
-   HOLIDAY DATE HELPER
+   DATE HELPER
 ========================================================= */
 
 function parseHolidayDate(
@@ -625,7 +636,7 @@ function parseHolidayDate(
 
 
 /* =========================================================
-   COUNTS
+   HOLIDAY COUNTS
 ========================================================= */
 
 function updateHolidayCounts() {
