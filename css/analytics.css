@@ -1,0 +1,181 @@
+/* ========================================
+   ANALYTICS & LAYOUT EXTENSIONS
+   (Saved in analytics.css)
+   ======================================== */
+
+/* 1. App Container Layout */
+body {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 2. Dark Sidebar Layout */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar);
+    color: var(--text-light);
+    padding: var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.sidebar-logo {
+    margin-bottom: var(--spacing-xl);
+    padding-left: var(--spacing-sm);
+}
+
+.sidebar-logo h2 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.sidebar-logo span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 10px 14px;
+    color: var(--text-light);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-nav a:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-nav a.active {
+    background: var(--primary);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* 3. Main Content Region */
+.main-content {
+    flex: 1;
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    color: var(--text);
+}
+
+.page-header p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* 4. Analytics Grid & Card Structures */
+.analytics-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.analytics-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+}
+
+/* Map existing card styles to summary cards */
+.summary-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.summary-icon {
+    font-size: 1.5rem;
+    background: var(--background);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-sm);
+}
+
+.summary-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.summary-card h3 {
+    font-size: 1.5rem;
+    color: var(--text);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.content-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+}
+
+.card-heading {
+    margin-bottom: var(--spacing-md);
+}
+
+.card-heading h2 {
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.card-heading p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.page-footer {
+    margin-top: var(--spacing-xl);
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-align: center;
+}
+
+@media (max-width: 1024px) {
+    .analytics-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}

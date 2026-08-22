@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>At-Risk Students | PresentTrack</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/at-risk.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h2>PresentTrack</h2>
+            <span>Attendance & Performance</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html">🏠 Dashboard</a>
+            <a href="attendance.html">📅 Attendance</a>
+            <a href="performance.html">📊 Performance</a>
+            <a href="analytics.html">📈 Analytics</a>
+            <a href="timetable.html">🕐 Timetable</a>
+            <a href="students.html">👥 Students</a>
+            <a href="faculty.html">👨‍🏫 Faculty</a>
+            <a href="reports.html">📄 Reports</a>
+            <a href="at-risk.html" class="active">⚠️ At-Risk</a>
+            <a href="holidays.html">📅 Holidays</a>
+            <a href="settings.html">⚙️ Settings</a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <header class="page-header">
+            <div>
+                <h1>At-Risk Students</h1>
+                <p>Identify, monitor, and support students requiring academic or attendance intervention</p>
+            </div>
+            <button class="btn-primary" id="notifyAllBtn">
+                📩 Send Alerts
+            </button>
+        </header>
+
+        <div class="atrisk-container">
+
+            <!-- METRICS SUMMARY -->
+            <section class="atrisk-summary">
+                <div class="summary-card border-danger">
+                    <span class="summary-icon icon-danger">⚠️</span>
+                    <div>
+                        <p>Total At-Risk</p>
+                        <h3>28 Students</h3>
+                    </div>
+                </div>
+
+                <div class="summary-card border-warning">
+                    <span class="summary-icon icon-warning">📅</span>
+                    <div>
+                        <p>Low Attendance (< 75%)</p>
+                        <h3>18 Students</h3>
+                    </div>
+                </div>
+
+                <div class="summary-card border-warning">
+                    <span class="summary-icon icon-warning">🎓</span>
+                    <div>
+                        <p>Low GPA (< 2.5)</p>
+                        <h3>10 Students</h3>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <span class="summary-icon icon-info">✅</span>
+                    <div>
+                        <p>Interventions Sent</p>
+                        <h3>15 Active</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AT-RISK STUDENTS TABLE CARD -->
+            <section class="content-card">
+                <div class="card-heading-flex">
+                    <div>
+                        <h2>Intervention Priority List</h2>
+                        <p>Students flagged for critical threshold breaches</p>
+                    </div>
+                    <div class="table-actions">
+                        <input type="text" id="searchInput" placeholder="Search student name or ID..." class="search-input">
+                        <select id="filterSelect" class="filter-select">
+                            <option value="all">All Risk Factors</option>
+                            <option value="attendance">Low Attendance</option>
+                            <option value="gpa">Low GPA</option>
+                            <option value="both">Both Critical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Roll ID</th>
+                                <th>Department</th>
+                                <th>Attendance Rate</th>
+                                <th>GPA</th>
+                                <th>Risk Reason</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="atRiskTableBody">
+                            <!-- Dynamic Rows via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+
+        <footer class="page-footer">
+            PresentTrack — Attendance & Performance Analytics
+        </footer>
+
+    </main>
+
+    <script src="../js/at-risk.js"></script>
+</body>
+
+</html>

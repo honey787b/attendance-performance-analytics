@@ -1,0 +1,696 @@
+/* =====================================================
+   PRESENTTRACK — REPORTS PAGE
+   Uses shared css/style.css
+===================================================== */
+
+
+/* SIDEBAR */
+
+.sidebar {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 240px;
+    height: 100vh;
+
+    background: var(--sidebar);
+
+    color: var(--card);
+
+    padding: 25px 15px;
+
+    overflow-y: auto;
+}
+
+
+.sidebar-logo {
+    padding: 0 15px 30px;
+}
+
+
+.sidebar-logo h2 {
+
+    font-size: 22px;
+
+    color: var(--card);
+
+    margin-bottom: 4px;
+
+}
+
+
+.sidebar-logo span {
+
+    font-size: 12px;
+
+    color: var(--text-light);
+
+}
+
+
+.sidebar-nav {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+
+}
+
+
+.sidebar-nav a {
+
+    display: block;
+
+    padding: 12px 15px;
+
+    border-radius: var(--radius-sm);
+
+    color: #CBD5E1;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition: 0.2s ease;
+
+}
+
+
+.sidebar-nav a:hover {
+
+    background: rgba(255, 255, 255, 0.08);
+
+    color: var(--card);
+
+}
+
+
+.sidebar-nav a.active {
+
+    background: var(--primary);
+
+    color: var(--card);
+
+}
+
+
+/* MAIN */
+
+.main-content {
+
+    margin-left: 240px;
+
+    min-height: 100vh;
+
+    background: var(--background);
+
+}
+
+
+/* HEADER */
+
+.page-header {
+
+    min-height: 90px;
+
+    background: var(--card);
+
+    border-bottom: 1px solid var(--border);
+
+    padding: 20px 35px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+.page-header h1 {
+
+    font-size: 28px;
+
+    color: var(--text);
+
+    margin-bottom: 4px;
+
+}
+
+
+.page-header p {
+
+    font-size: 14px;
+
+    color: var(--text-secondary);
+
+}
+
+
+/* CONTAINER */
+
+.reports-container {
+
+    width: 92%;
+
+    max-width: 1400px;
+
+    margin: 30px auto;
+
+}
+
+
+/* SUMMARY */
+
+.reports-summary {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: var(--spacing-lg);
+
+    margin-bottom: var(--spacing-lg);
+
+}
+
+
+.summary-card {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    padding: 22px;
+
+    border-radius: var(--radius-md);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition: 0.2s ease;
+
+}
+
+
+.summary-card:hover {
+
+    box-shadow: var(--shadow-md);
+
+    transform: translateY(-2px);
+
+}
+
+
+.summary-icon {
+
+    width: 52px;
+
+    height: 52px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(79, 70, 229, 0.08);
+
+    color: var(--primary);
+
+    border-radius: var(--radius-md);
+
+    font-size: 22px;
+
+}
+
+
+.summary-card p {
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.summary-card h3 {
+
+    color: var(--text);
+
+    font-size: 24px;
+
+}
+
+
+/* CONTENT CARD */
+
+.content-card {
+
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    padding: 25px;
+
+    border-radius: var(--radius-md);
+
+    margin-bottom: var(--spacing-lg);
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+
+.card-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+
+.card-heading h2 {
+
+    font-size: 20px;
+
+    color: var(--text);
+
+    margin-bottom: 4px;
+
+}
+
+
+.card-heading p {
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+
+.report-count {
+
+    color: var(--primary);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+/* REPORT FORM */
+
+.report-form {
+
+    display: flex;
+
+    align-items: end;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.filter-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+}
+
+
+.filter-group label {
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.filter-group select {
+
+    min-width: 210px;
+
+    padding: 10px 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+
+    background: var(--card);
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 14px;
+
+}
+
+
+.filter-group select:focus {
+
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(79, 70, 229, 0.1);
+
+}
+
+
+.generate-btn {
+
+    height: 40px;
+
+}
+
+
+/* TABLE */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 900px;
+
+}
+
+
+thead {
+
+    background: rgba(79, 70, 229, 0.05);
+
+}
+
+
+th,
+td {
+
+    padding: 14px;
+
+    border-bottom: 1px solid var(--border);
+
+    text-align: left;
+
+    font-size: 13px;
+
+}
+
+
+th {
+
+    color: var(--text-secondary);
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+
+td {
+
+    color: var(--text-secondary);
+
+}
+
+
+td strong {
+
+    color: var(--text);
+
+}
+
+
+/* STATUS */
+
+.status-badge {
+
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.status-ready {
+
+    background: rgba(16, 185, 129, 0.12);
+
+    color: var(--success);
+
+}
+
+
+/* ACTION */
+
+.action-btn {
+
+    border: 1px solid var(--border);
+
+    background: var(--card);
+
+    color: var(--primary);
+
+    padding: 7px 12px;
+
+    border-radius: var(--radius-sm);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.action-btn:hover {
+
+    background: var(--primary);
+
+    border-color: var(--primary);
+
+    color: var(--card);
+
+}
+
+
+/* QUICK REPORTS */
+
+.quick-reports {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.quick-report-card {
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    padding: 18px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    transition: 0.2s ease;
+
+}
+
+
+.quick-report-card:hover {
+
+    border-color: var(--primary);
+
+    transform: translateY(-2px);
+
+}
+
+
+.quick-report-icon {
+
+    width: 45px;
+
+    height: 45px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(79, 70, 229, 0.08);
+
+    border-radius: var(--radius-sm);
+
+    font-size: 20px;
+
+}
+
+
+.quick-report-card h3 {
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.quick-report-card p {
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+
+    margin-bottom: 10px;
+
+}
+
+
+/* FOOTER */
+
+.page-footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+
+    .reports-summary {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+    .quick-reports {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .sidebar {
+
+        position: static;
+
+        width: 100%;
+
+        height: auto;
+
+    }
+
+
+    .main-content {
+
+        margin-left: 0;
+
+    }
+
+
+    .page-header {
+
+        padding: 20px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+    }
+
+
+    .reports-container {
+
+        width: 94%;
+
+    }
+
+
+    .reports-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}

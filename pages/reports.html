@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports | PresentTrack</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/reports.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>PresentTrack</h2>
+            <span>Attendance & Performance</span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html">🏠 Dashboard</a>
+
+            <a href="attendance.html">📅 Attendance</a>
+
+            <a href="performance.html">📊 Performance</a>
+
+            <a href="analytics.html">📈 Analytics</a>
+
+            <a href="timetable.html">🕐 Timetable</a>
+
+            <a href="students.html">👥 Students</a>
+
+            <a href="faculty.html">👨‍🏫 Faculty</a>
+
+            <a href="reports.html" class="active">📄 Reports</a>
+
+            <a href="at-risk.html">⚠️ At-Risk</a>
+
+            <a href="holidays.html">📅 Holidays</a>
+
+            <a href="settings.html">⚙️ Settings</a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <header class="page-header">
+
+            <div>
+                <h1>Reports</h1>
+
+                <p>
+                    Generate and view attendance and academic reports
+                </p>
+            </div>
+
+            <button class="btn-primary">
+                + Generate Report
+            </button>
+
+        </header>
+
+
+        <div class="reports-container">
+
+
+            <!-- SUMMARY -->
+
+            <section class="reports-summary">
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        📄
+                    </span>
+
+                    <div>
+                        <p>Total Reports</p>
+                        <h3>36</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        📅
+                    </span>
+
+                    <div>
+                        <p>Attendance Reports</p>
+                        <h3>18</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        📊
+                    </span>
+
+                    <div>
+                        <p>Performance Reports</p>
+                        <h3>12</h3>
+                    </div>
+
+                </div>
+
+
+                <div class="summary-card">
+
+                    <span class="summary-icon">
+                        📈
+                    </span>
+
+                    <div>
+                        <p>Analytics Reports</p>
+                        <h3>6</h3>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- REPORT GENERATOR -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>Generate Report</h2>
+
+                        <p>
+                            Select the information you want to include
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="report-form">
+
+
+                    <div class="filter-group">
+
+                        <label for="report-type">
+                            Report Type
+                        </label>
+
+                        <select id="report-type">
+
+                            <option>
+                                Attendance Report
+                            </option>
+
+                            <option>
+                                Performance Report
+                            </option>
+
+                            <option>
+                                Student Report
+                            </option>
+
+                            <option>
+                                Faculty Report
+                            </option>
+
+                            <option>
+                                Complete Academic Report
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-group">
+
+                        <label for="report-period">
+                            Period
+                        </label>
+
+                        <select id="report-period">
+
+                            <option>
+                                Current Semester
+                            </option>
+
+                            <option>
+                                Current Month
+                            </option>
+
+                            <option>
+                                Last Month
+                            </option>
+
+                            <option>
+                                Academic Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="filter-group">
+
+                        <label for="report-format">
+                            Format
+                        </label>
+
+                        <select id="report-format">
+
+                            <option>
+                                PDF
+                            </option>
+
+                            <option>
+                                Excel
+                            </option>
+
+                            <option>
+                                CSV
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button class="btn-primary generate-btn">
+                        Generate Report
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- RECENT REPORTS -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>Recent Reports</h2>
+
+                        <p>
+                            Previously generated reports
+                        </p>
+
+                    </div>
+
+                    <span class="report-count">
+                        36 Reports
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Report Name</th>
+
+                                <th>Type</th>
+
+                                <th>Period</th>
+
+                                <th>Generated By</th>
+
+                                <th>Date</th>
+
+                                <th>Status</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        CSE Attendance Report
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Attendance
+                                </td>
+
+                                <td>
+                                    August 2026
+                                </td>
+
+                                <td>
+                                    Admin
+                                </td>
+
+                                <td>
+                                    20 Aug 2026
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-ready">
+                                        Ready
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Semester Performance Report
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Performance
+                                </td>
+
+                                <td>
+                                    Semester 1
+                                </td>
+
+                                <td>
+                                    Admin
+                                </td>
+
+                                <td>
+                                    18 Aug 2026
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-ready">
+                                        Ready
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        At-Risk Student Report
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Analytics
+                                </td>
+
+                                <td>
+                                    August 2026
+                                </td>
+
+                                <td>
+                                    Faculty
+                                </td>
+
+                                <td>
+                                    15 Aug 2026
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-ready">
+                                        Ready
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        Monthly Attendance Summary
+                                    </strong>
+                                </td>
+
+                                <td>
+                                    Attendance
+                                </td>
+
+                                <td>
+                                    July 2026
+                                </td>
+
+                                <td>
+                                    Admin
+                                </td>
+
+                                <td>
+                                    31 Jul 2026
+                                </td>
+
+                                <td>
+                                    <span class="status-badge status-ready">
+                                        Ready
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="action-btn">
+                                        View
+                                    </button>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUICK REPORTS -->
+
+            <section class="content-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <h2>Quick Reports</h2>
+
+                        <p>
+                            Frequently used reports
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-reports">
+
+
+                    <div class="quick-report-card">
+
+                        <div class="quick-report-icon">
+                            📅
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Attendance Summary
+                            </h3>
+
+                            <p>
+                                View overall attendance statistics
+                            </p>
+
+                        </div>
+
+                        <button class="action-btn">
+                            Generate
+                        </button>
+
+                    </div>
+
+
+                    <div class="quick-report-card">
+
+                        <div class="quick-report-icon">
+                            📊
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Performance Summary
+                            </h3>
+
+                            <p>
+                                View student academic performance
+                            </p>
+
+                        </div>
+
+                        <button class="action-btn">
+                            Generate
+                        </button>
+
+                    </div>
+
+
+                    <div class="quick-report-card">
+
+                        <div class="quick-report-icon">
+                            ⚠️
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                At-Risk Students
+                            </h3>
+
+                            <p>
+                                Identify students needing attention
+                            </p>
+
+                        </div>
+
+                        <button class="action-btn">
+                            Generate
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+
+        <footer class="page-footer">
+            PresentTrack — Attendance & Performance Analytics
+        </footer>
+
+    </main>
+<script src="../js/reports.js"></script>
+</body>
+
+</html>

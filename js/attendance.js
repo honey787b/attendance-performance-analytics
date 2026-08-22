@@ -1,99 +1,10 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
-    const students = [
-        {
-            id: 1,
-            name: "Arjun Reddy",
-            roll: "CSE001",
-            department: "CSE",
-            year: "1",
-            attendance: 96
-        },
-        {
-            id: 2,
-            name: "Sneha Rani",
-            roll: "CSE002",
-            department: "CSE",
-            year: "1",
-            attendance: 91
-        },
-        {
-            id: 3,
-            name: "Rahul Kumar",
-            roll: "CSE003",
-            department: "CSE",
-            year: "2",
-            attendance: 86
-        },
-        {
-            id: 4,
-            name: "Meghana Priya",
-            roll: "ECE001",
-            department: "ECE",
-            year: "2",
-            attendance: 78
-        },
-        {
-            id: 5,
-            name: "Sanjay Rao",
-            roll: "ECE002",
-            department: "ECE",
-            year: "3",
-            attendance: 93
-        },
-        {
-            id: 6,
-            name: "Kavya Sri",
-            roll: "EEE001",
-            department: "EEE",
-            year: "1",
-            attendance: 88
-        },
-        {
-            id: 7,
-            name: "Vishal Kumar",
-            roll: "CSE004",
-            department: "CSE",
-            year: "3",
-            attendance: 97
-        },
-        {
-            id: 8,
-            name: "Priya Sharma",
-            roll: "ECE003",
-            department: "ECE",
-            year: "4",
-            attendance: 82
-        },
-        {
-            id: 9,
-            name: "Nikhil Varma",
-            roll: "EEE002",
-            department: "EEE",
-            year: "2",
-            attendance: 74
-        },
-        {
-            id: 10,
-            name: "Anjali Devi",
-            roll: "CSE005",
-            department: "CSE",
-            year: "4",
-            attendance: 95
-        }
-    ];
+    console.log("Attendance page loaded successfully!");
 
-
-    let attendanceStatus = {};
-
-
-    const savedStatus =
-        localStorage.getItem("todayAttendanceStatus");
-
-    if (savedStatus) {
-        attendanceStatus = JSON.parse(savedStatus);
-    }
-
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
 
     const tableBody =
         document.getElementById("studentTableBody");
@@ -113,9 +24,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const dateInput =
         document.getElementById("attendanceDate");
 
-
     const totalStudentsElement =
         document.getElementById("totalStudents");
+
+    const averageAttendanceElement =
+        document.getElementById("averageAttendance");
 
     const presentTodayElement =
         document.getElementById("presentToday");
@@ -126,6 +39,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const studentCountElement =
         document.getElementById("studentCount");
 
+    const attendanceMessage =
+        document.getElementById("attendanceMessage");
+
+
+    // =====================================================
+    // API
+    // =====================================================
+
+    const API = "http://localhost:5050/api";
+
+
+    // =====================================================
+    // STATE
+    // =====================================================
+
+    let students = [];
+    let attendanceStatus = {};
+    let currentSessionId = null;
+
+
+    // =====================================================
+    // TODAY'S DATE
+    // =====================================================
 
     const today = new Date();
 
@@ -134,6 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     dateInput.value = formattedDate;
 
+
+    // =====================================================
+    // HELPERS
+    // =====================================================
 
     function getInitials(name) {
 
@@ -158,12 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         return "percentage-danger";
-    }
-
-
-    function getStatus(id) {
-
-        return attendanceStatus[id] || "not-marked";
 
     }
 
@@ -171,27 +105,33 @@ document.addEventListener("DOMContentLoaded", function () {
     function getStatusHTML(status) {
 
         if (status === "present") {
+
             return `
                 <span class="status-badge status-present">
                     Present
                 </span>
             `;
+
         }
 
         if (status === "absent") {
+
             return `
                 <span class="status-badge status-absent">
                     Absent
                 </span>
             `;
+
         }
 
         if (status === "late") {
+
             return `
                 <span class="status-badge status-late">
                     Late
                 </span>
             `;
+
         }
 
         return `
@@ -203,37 +143,196 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    // =====================================================
+    // CREATE / GET ATTENDANCE SESSION
+    // =====================================================
+
+    async function createSession() {
+
+        const branchValue =
+            departmentFilter.value === "all"
+                ? "CSE"
+                : departmentFilter.value.toUpperCase();
+
+        const yearValue =
+            yearFilter.value === "all"
+                ? 1
+                : Number(yearFilter.value);
+
+        const sectionValue =
+            sectionFilter.value === "all"
+                ? "A"
+                : sectionFilter.value;
+
+
+        try {
+
+            const response =
+                await fetch(`${API}/attendance/sessions`, {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        session_date: dateInput.value,
+                        branch: branchValue,
+                        year: yearValue,
+                        section: sectionValue
+                    })
+
+                });
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not create attendance session"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+            currentSessionId =
+                data.id;
+
+        } catch (error) {
+
+            console.error(error);
+
+            attendanceMessage.textContent =
+                "Unable to create attendance session.";
+
+        }
+
+    }
+
+
+    // =====================================================
+    // LOAD ATTENDANCE RECORDS
+    // =====================================================
+
+    async function loadAttendance() {
+
+        if (!currentSessionId) {
+            await createSession();
+        }
+
+
+        if (!currentSessionId) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `${API}/attendance/records?session_id=${currentSessionId}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not load attendance records"
+                );
+
+            }
+
+
+            students =
+                await response.json();
+
+
+            students.forEach(student => {
+
+                attendanceStatus[student.student_id] =
+                    student.status;
+
+            });
+
+
+            renderStudents();
+
+        } catch (error) {
+
+            console.error(error);
+
+            attendanceMessage.textContent =
+                "Unable to load attendance data.";
+
+        }
+
+    }
+
+
+    // =====================================================
+    // RENDER STUDENTS
+    // =====================================================
+
     function renderStudents() {
 
         const searchValue =
-            searchInput.value.toLowerCase().trim();
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
 
         const department =
             departmentFilter.value;
 
+
         const year =
             yearFilter.value;
+
+
+        const section =
+            sectionFilter.value;
 
 
         const filteredStudents =
             students.filter(student => {
 
                 const matchesSearch =
-                    student.name.toLowerCase().includes(searchValue) ||
-                    student.roll.toLowerCase().includes(searchValue);
+                    student.name
+                        .toLowerCase()
+                        .includes(searchValue) ||
+
+                    student.roll_no
+                        .toLowerCase()
+                        .includes(searchValue);
+
 
                 const matchesDepartment =
                     department === "all" ||
-                    student.department.toLowerCase() === department;
+
+                    student.branch
+                        .toLowerCase() === department;
+
 
                 const matchesYear =
                     year === "all" ||
-                    student.year === year;
+
+                    String(student.year) === year;
+
+
+                const matchesSection =
+                    section === "all" ||
+
+                    String(student.section) === section;
+
 
                 return (
                     matchesSearch &&
                     matchesDepartment &&
-                    matchesYear
+                    matchesYear &&
+                    matchesSection
                 );
 
             });
@@ -245,7 +344,9 @@ document.addEventListener("DOMContentLoaded", function () {
         filteredStudents.forEach((student, index) => {
 
             const status =
-                getStatus(student.id);
+                attendanceStatus[student.student_id]
+                || student.status
+                || "not-marked";
 
 
             const row =
@@ -257,7 +358,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>
                     ${index + 1}
                 </td>
-
 
                 <td>
 
@@ -275,38 +375,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 </td>
 
-
                 <td>
-                    ${student.roll}
+                    ${student.roll_no}
                 </td>
 
-
                 <td>
-                    ${student.department}
+                    ${student.branch}
                 </td>
-
 
                 <td>
                     ${student.year}
                 </td>
 
-
                 <td>
 
                     <span class="attendance-percentage
-                        ${getAttendanceClass(student.attendance)}">
+                        ${getAttendanceClass(
+                            Number(student.attendance_percent || 0)
+                        )}">
 
-                        ${student.attendance}%
+                        ${Number(
+                            student.attendance_percent || 0
+                        ).toFixed(0)}%
 
                     </span>
 
                 </td>
 
-
                 <td>
                     ${getStatusHTML(status)}
                 </td>
-
 
                 <td>
 
@@ -314,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <button
                             class="status-button present-button"
-                            data-id="${student.id}"
+                            data-id="${student.student_id}"
                             data-status="present">
 
                             ✓
@@ -323,7 +421,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <button
                             class="status-button absent-button"
-                            data-id="${student.id}"
+                            data-id="${student.student_id}"
                             data-status="absent">
 
                             ✕
@@ -332,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         <button
                             class="status-button late-button"
-                            data-id="${student.id}"
+                            data-id="${student.student_id}"
                             data-status="late">
 
                             L
@@ -362,6 +460,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    // =====================================================
+    // STATUS BUTTONS
+    // =====================================================
+
     function attachStatusEvents() {
 
         const buttons =
@@ -370,40 +472,93 @@ document.addEventListener("DOMContentLoaded", function () {
 
         buttons.forEach(button => {
 
-            button.addEventListener("click", function () {
+            button.addEventListener(
+                "click",
+                async function () {
 
-                const id =
-                    Number(this.dataset.id);
+                    const studentId =
+                        Number(this.dataset.id);
 
-                const status =
-                    this.dataset.status;
+                    const status =
+                        this.dataset.status;
 
-                attendanceStatus[id] =
-                    status;
 
-                localStorage.setItem(
-                    "todayAttendanceStatus",
-                    JSON.stringify(attendanceStatus)
-                );
+                    attendanceStatus[studentId] =
+                        status;
 
-                renderStudents();
 
-            });
+                    try {
+
+                        const response =
+                            await fetch(
+                                `${API}/attendance/records`,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+                                        session_id:
+                                            currentSessionId,
+
+                                        student_id:
+                                            studentId,
+
+                                        status:
+                                            status
+                                    })
+
+                                }
+                            );
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                "Failed to save attendance"
+                            );
+
+                        }
+
+
+                        renderStudents();
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        attendanceMessage.textContent =
+                            "Failed to save attendance.";
+
+                    }
+
+                }
+            );
 
         });
 
     }
 
 
+    // =====================================================
+    // SUMMARY
+    // =====================================================
+
     function updateSummary() {
 
         const statuses =
             Object.values(attendanceStatus);
 
+
         const present =
             statuses.filter(
                 status => status === "present"
             ).length;
+
 
         const absent =
             statuses.filter(
@@ -411,17 +566,49 @@ document.addEventListener("DOMContentLoaded", function () {
             ).length;
 
 
-        totalStudentsElement.textContent =
+        const total =
             students.length;
+
+
+        const attendanceValues =
+            students.map(
+                student =>
+                    Number(
+                        student.attendance_percent || 0
+                    )
+            );
+
+
+        const average =
+            attendanceValues.length
+                ? attendanceValues.reduce(
+                    (sum, value) => sum + value,
+                    0
+                ) / attendanceValues.length
+                : 0;
+
+
+        totalStudentsElement.textContent =
+            total;
+
+
+        averageAttendanceElement.textContent =
+            `${average.toFixed(1)}%`;
+
 
         presentTodayElement.textContent =
             present;
+
 
         absentTodayElement.textContent =
             absent;
 
     }
 
+
+    // =====================================================
+    // FILTER EVENTS
+    // =====================================================
 
     searchInput.addEventListener(
         "input",
@@ -431,106 +618,221 @@ document.addEventListener("DOMContentLoaded", function () {
 
     departmentFilter.addEventListener(
         "change",
-        renderStudents
+        async function () {
+
+            await createSession();
+
+            await loadAttendance();
+
+        }
     );
 
 
     yearFilter.addEventListener(
         "change",
-        renderStudents
+        async function () {
+
+            await createSession();
+
+            await loadAttendance();
+
+        }
     );
 
 
     sectionFilter.addEventListener(
         "change",
-        renderStudents
+        async function () {
+
+            await createSession();
+
+            await loadAttendance();
+
+        }
     );
 
 
+    dateInput.addEventListener(
+        "change",
+        async function () {
+
+            await createSession();
+
+            await loadAttendance();
+
+        }
+    );
+
+
+    // =====================================================
+    // CLEAR FILTERS
+    // =====================================================
+
     document
         .getElementById("clearFilters")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            async function () {
 
-            searchInput.value = "";
+                searchInput.value = "";
 
-            departmentFilter.value = "all";
+                departmentFilter.value = "all";
 
-            yearFilter.value = "all";
+                yearFilter.value = "all";
 
-            sectionFilter.value = "all";
+                sectionFilter.value = "all";
 
-            renderStudents();
 
-        });
+                await createSession();
 
+                await loadAttendance();
+
+            }
+        );
+
+
+    // =====================================================
+    // MARK ALL PRESENT
+    // =====================================================
 
     document
         .getElementById("markAllPresent")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            async function () {
 
-            students.forEach(student => {
-
-                attendanceStatus[student.id] =
-                    "present";
-
-            });
-
-
-            localStorage.setItem(
-                "todayAttendanceStatus",
-                JSON.stringify(attendanceStatus)
-            );
+                const studentIds =
+                    students.map(
+                        student => student.student_id
+                    );
 
 
-            renderStudents();
+                if (!studentIds.length) {
+                    return;
+                }
 
-        });
 
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API}/attendance/records/bulk`,
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    session_id:
+                                        currentSessionId,
+
+                                    student_ids:
+                                        studentIds,
+
+                                    status:
+                                        "present"
+
+                                })
+
+                            }
+                        );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Failed to mark students present"
+                        );
+
+                    }
+
+
+                    students.forEach(student => {
+
+                        attendanceStatus[
+                            student.student_id
+                        ] = "present";
+
+                    });
+
+
+                    renderStudents();
+
+                    attendanceMessage.textContent =
+                        "✓ All students marked present.";
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    attendanceMessage.textContent =
+                        "Failed to mark all students present.";
+
+                }
+
+            }
+        );
+
+
+    // =====================================================
+    // SAVE ATTENDANCE
+    // =====================================================
 
     document
         .getElementById("saveAttendance")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            function () {
 
-            localStorage.setItem(
-                "todayAttendanceStatus",
-                JSON.stringify(attendanceStatus)
-            );
+                attendanceMessage.textContent =
+                    "✓ Attendance saved successfully!";
 
-
-            const message =
-                document.getElementById(
-                    "attendanceMessage"
-                );
-
-            message.textContent =
-                "✓ Attendance saved successfully!";
-
-            message.style.color =
-                "#16a34a";
+                attendanceMessage.style.color =
+                    "#16a34a";
 
 
-            setTimeout(function () {
+                setTimeout(function () {
 
-                message.textContent =
-                    "Make sure attendance is updated before saving.";
+                    attendanceMessage.textContent =
+                        "Make sure attendance is updated before saving.";
 
-                message.style.color =
-                    "";
+                    attendanceMessage.style.color = "";
 
-            }, 2500);
+                }, 2500);
 
-        });
+            }
+        );
 
+
+    // =====================================================
+    // NOTIFICATIONS
+    // =====================================================
 
     document
         .getElementById("notificationButton")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            function () {
 
-            alert("No new attendance notifications.");
+                alert(
+                    "No new attendance notifications."
+                );
 
-        });
+            }
+        );
 
 
-    renderStudents();
+    // =====================================================
+    // INITIAL LOAD
+    // =====================================================
+
+    await createSession();
+
+    await loadAttendance();
 
 });

@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    const totalStudents = document.getElementById("totalStudents");
+    const averageAttendance = document.getElementById("averageAttendance");
+    const riskStudents = document.getElementById("riskStudents");
+
     const yearGroup = document.getElementById("yearGroup");
     const house = document.getElementById("house");
     const meals = document.getElementById("meals");
@@ -13,27 +17,84 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const clearFilters = document.getElementById("clearFilters");
     const studentCount = document.getElementById("studentCount");
-
     const searchButton = document.getElementById("searchButton");
 
 
-    /*
-     * UPDATE SIMD VALUE
-     */
+    // ============================================================
+    // LOAD REAL DASHBOARD DATA FROM BACKEND
+    // ============================================================
+
+    async function loadDashboardStats() {
+
+        try {
+
+            const response = await fetch("/api/dashboard/stats");
+
+            if (!response.ok) {
+                throw new Error("Failed to load dashboard statistics");
+            }
+
+            const data = await response.json();
+
+            // Total students
+            if (totalStudents) {
+                totalStudents.textContent = data.totalStudents;
+            }
+
+            // Average attendance
+            if (averageAttendance) {
+                averageAttendance.textContent =
+                    Number(data.avgAttendance || 0).toFixed(2) + "%";
+            }
+
+            // At-risk students
+            if (riskStudents) {
+                riskStudents.textContent = data.atRiskCount;
+            }
+
+            // Update student count if the element exists
+            if (studentCount) {
+                studentCount.textContent =
+                    "Showing " +
+                    data.totalStudents +
+                    " of " +
+                    data.totalStudents +
+                    " students";
+            }
+
+        } catch (error) {
+
+            console.error("Dashboard API error:", error);
+
+        }
+
+    }
+
+
+    // Load dashboard data immediately
+    loadDashboardStats();
+
+
+    // ============================================================
+    // UPDATE SIMD VALUE
+    // ============================================================
+
     if (simdRange && simdValue) {
 
         simdRange.addEventListener("input", function () {
 
-            simdValue.textContent = "1 - " + simdRange.value;
+            simdValue.textContent =
+                "1 - " + simdRange.value;
 
         });
 
     }
 
 
-    /*
-     * UPDATE ATTENDANCE VALUE
-     */
+    // ============================================================
+    // UPDATE ATTENDANCE VALUE
+    // ============================================================
+
     if (attendanceRange && attendanceValue) {
 
         attendanceRange.addEventListener("input", function () {
@@ -46,9 +107,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /*
-     * FILTER CHANGE
-     */
+    // ============================================================
+    // FILTERS
+    // ============================================================
+
     function updateFilters() {
 
         const selectedYear = yearGroup
@@ -72,55 +134,29 @@ document.addEventListener("DOMContentLoaded", function () {
             : "100";
 
 
-        let count = 779;
-
-
         /*
-         * Demo filter calculations.
-         * Later API/database data can replace this.
+         * The old dashboard used fake values such as 779 students.
+         *
+         * The actual student filtering will be connected to the
+         * /api/students endpoint later.
+         *
+         * For now, don't overwrite the real database total.
          */
 
-        if (selectedYear !== "all") {
-            count = Math.round(count * 0.16);
-        }
-
-        if (selectedHouse !== "all") {
-            count = Math.round(count * 0.14);
-        }
-
-        if (selectedMeals !== "all") {
-            count = Math.round(count * 0.12);
-        }
-
-        if (selectedGender !== "all") {
-            count = Math.round(count * 0.50);
-        }
-
-        if (Number(attendance) < 100) {
-
-            const percentage =
-                Number(attendance) / 100;
-
-            count = Math.round(count * percentage);
-
-        }
-
-
-        if (studentCount) {
-
-            studentCount.textContent =
-                "Showing " +
-                count +
-                " of 779 students";
-
-        }
+        console.log("Dashboard filters:", {
+            year: selectedYear,
+            house: selectedHouse,
+            meals: selectedMeals,
+            gender: selectedGender,
+            attendance: attendance
+        });
 
     }
 
 
-    /*
-     * ADD FILTER EVENTS
-     */
+    // ============================================================
+    // FILTER EVENTS
+    // ============================================================
 
     if (yearGroup) {
         yearGroup.addEventListener(
@@ -158,9 +194,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /*
-     * CLEAR FILTERS
-     */
+    // ============================================================
+    // CLEAR FILTERS
+    // ============================================================
 
     if (clearFilters) {
 
@@ -200,10 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     attendanceValue.textContent = "100%";
                 }
 
-                if (studentCount) {
-                    studentCount.textContent =
-                        "Showing 779 of 779 students";
-                }
+                loadDashboardStats();
 
             }
         );
@@ -211,9 +244,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /*
-     * SEARCH BUTTON
-     */
+    // ============================================================
+    // SEARCH BUTTON
+    // ============================================================
 
     if (searchButton) {
 
@@ -221,10 +254,9 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                const searchText =
-                    window.prompt(
-                        "Search students, houses or attendance data:"
-                    );
+                const searchText = window.prompt(
+                    "Search students, houses or attendance data:"
+                );
 
                 if (
                     searchText !== null &&
