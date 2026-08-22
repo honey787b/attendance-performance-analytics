@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="PresentTrack - Attendance and Performance Management System"
+    >
+
+    <title>PresentTrack | Login</title>
+
+    <style>
+        /* =========================================================
+           PRESENTTRACK
+           LOGIN PAGE
+           HTML + CSS + JAVASCRIPT ONLY
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #10192d;
+            --primary: #5545e8;
+            --primary-dark: #4634d5;
+            --blue: #4263df;
+            --purple: #7a3fe0;
+            --background: #f5f7fc;
+            --white: #ffffff;
+            --text: #17233b;
+            --muted: #71809a;
+            --border: #dfe4ef;
+            --danger: #e5484d;
+            --success: #20a464;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family:
+                Inter,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        /* =========================================================
+           MAIN CONTAINER
+        ========================================================= */
+
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================================================
+           LEFT BRAND SECTION
+        ========================================================= */
+
+        .brand-section {
+            position: relative;
+            width: 50%;
+            min-height: 100vh;
+            overflow: hidden;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 60px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #10192d 0%,
+                    #182545 45%,
+                    #30257c 100%
+                );
+
+            color: var(--white);
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        /* =========================================================
+           LOGO
+        ========================================================= */
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 55px;
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6544ee,
+                    #7b3fe4
+                );
+
+            box-shadow:
+                0 12px 30px rgba(86, 60, 226, 0.35);
+
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .brand-name {
+            font-size: 38px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .brand-tagline {
+            margin-top: 8px;
+            color: #c4cce0;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+        }
+
+        /* =========================================================
+           BRAND TEXT
+        ========================================================= */
+
+        .brand-content h1 {
+            max-width: 520px;
+
+            font-size: clamp(42px, 4.5vw, 68px);
+            line-height: 1.05;
+            letter-spacing: -2.5px;
+
+            margin-bottom: 25px;
+        }
+
+        .brand-content h1 span {
+            color: #8d7aff;
+        }
+
+        .brand-description {
+            max-width: 470px;
+
+            color: #c7cfe0;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        /* =========================================================
+           FEATURE ITEMS
+        ========================================================= */
+
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+
+            margin-top: 38px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 11px 15px;
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 30px;
+
+            background: rgba(255, 255, 255, 0.07);
+
+            color: #e8ebf5;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            width: 25px;
+            height: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: rgba(124, 103, 255, 0.25);
+
+            font-size: 13px;
+        }
+
+        /* =========================================================
+           DECORATIVE SHAPES
+        ========================================================= */
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .shape-one {
+            width: 420px;
+            height: 420px;
+
+            right: -180px;
+            top: -120px;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(111, 83, 229, 0.12);
+        }
+
+        .shape-two {
+            width: 300px;
+            height: 300px;
+
+            left: -160px;
+            bottom: -120px;
+
+            background: rgba(67, 91, 220, 0.12);
+        }
+
+        .shape-three {
+            width: 150px;
+            height: 150px;
+
+            right: 12%;
+            bottom: 10%;
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* =========================================================
+           RIGHT LOGIN SECTION
+        ========================================================= */
+
+        .form-section {
+            width: 50%;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px;
+
+            background: var(--background);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 470px;
+
+            padding: 42px;
+
+            background: var(--white);
+
+            border: 1px solid #e4e8f1;
+            border-radius: 22px;
+
+            box-shadow:
+                0 18px 50px rgba(23, 35, 59, 0.08);
+        }
+
+        /* =========================================================
+           FORM HEADER
+        ========================================================= */
+
+        .form-header {
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: var(--text);
+            font-size: 31px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+        }
+
+        .form-header p {
+            margin-top: 9px;
+
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           ROLE SELECTOR
+        ========================================================= */
+
+        .role-label {
+            display: block;
+
+            margin-bottom: 10px;
+
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+
+            margin-bottom: 25px;
+        }
+
+        .role-option {
+            position: relative;
+        }
+
+        .role-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .role-option label {
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            padding: 14px;
+
+            border: 1.5px solid var(--border);
+            border-radius: 13px;
+
+            background: #fbfcff;
+
+            color: #5d6b84;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .role-option label:hover {
+            border-color: #9b91ed;
+            transform: translateY(-1px);
+        }
+
+        .role-option input:checked + label {
+            border-color: var(--primary);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f1efff,
+                    #f7f4ff
+                );
+
+            color: var(--primary-dark);
+
+            box-shadow:
+                0 5px 16px rgba(85, 69, 232, 0.10);
+        }
+
+        .role-icon {
+            font-size: 20px;
+        }
+
+        /* =========================================================
+           FORM GROUP
+        ========================================================= */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #8793a9;
+            font-size: 17px;
+
+            pointer-events: none;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 52px;
+
+            padding: 0 46px;
+
+            border: 1.5px solid var(--border);
+            border-radius: 11px;
+
+            outline: none;
+
+            background: #ffffff;
+
+            color: var(--text);
+
+            font-family: inherit;
+            font-size: 14px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .form-input::placeholder {
+            color: #a2acbd;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 4px rgba(85, 69, 232, 0.10);
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+            background: transparent;
+
+            color: #7d899d;
+
+            font-size: 17px;
+
+            cursor: pointer;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        /* =========================================================
+           FORM OPTIONS
+        ========================================================= */
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin: 3px 0 25px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #68758c;
+
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            width: 15px;
+            height: 15px;
+
+            accent-color: var(--primary);
+
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            border: none;
+            background: transparent;
+
+            color: var(--primary);
+
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================================================
+           LOGIN BUTTON
+        ========================================================= */
+
+        .login-button {
+            width: 100%;
+            height: 53px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            border: none;
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--primary),
+                    var(--purple)
+                );
+
+            color: var(--white);
+
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 24px rgba(85, 69, 232, 0.22);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 30px rgba(85, 69, 232, 0.28);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .login-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================================================
+           MESSAGE
+        ========================================================= */
+
+        .message {
+            display: none;
+
+            margin-top: 16px;
+            padding: 12px 14px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+
+            border: 1px solid #f2c4c7;
+            background: #fff3f3;
+            color: var(--danger);
+        }
+
+        .message.success {
+            display: block;
+
+            border: 1px solid #bde8d1;
+            background: #f0fbf5;
+            color: var(--success);
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .login-footer {
+            margin-top: 27px;
+
+            text-align: center;
+
+            color: #8b96a8;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .login-footer strong {
+            color: #59667d;
+        }
+
+        /* =========================================================
+           LOADING SPINNER
+        ========================================================= */
+
+        .spinner {
+            width: 17px;
+            height: 17px;
+
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+
+            border-radius: 50%;
+
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =========================================================
+           RESPONSIVE DESIGN
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+            .brand-section {
+                padding: 40px;
+            }
+
+            .brand-name {
+                font-size: 32px;
+            }
+
+            .brand-content h1 {
+                font-size: 48px;
+            }
+
+            .form-section {
+                padding: 30px;
+            }
+
+            .login-card {
+                padding: 34px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .login-page {
+                flex-direction: column;
+            }
+
+            .brand-section {
+                width: 100%;
+                min-height: 0;
+
+                padding: 38px 25px 45px;
+            }
+
+            .brand-content {
+                max-width: 600px;
+            }
+
+            .logo-wrapper {
+                margin-bottom: 35px;
+            }
+
+            .brand-content h1 {
+                font-size: 42px;
+                margin-bottom: 18px;
+            }
+
+            .brand-description {
+                font-size: 15px;
+            }
+
+            .feature-list {
+                margin-top: 25px;
+            }
+
+            .form-section {
+                width: 100%;
+                min-height: 0;
+
+                padding: 35px 20px 45px;
+            }
+
+            .login-card {
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-section {
+                padding: 30px 20px 35px;
+            }
+
+            .logo {
+                width: 54px;
+                height: 54px;
+                border-radius: 15px;
+                font-size: 21px;
+            }
+
+            .brand-name {
+                font-size: 28px;
+            }
+
+            .brand-content h1 {
+                font-size: 35px;
+                letter-spacing: -1.5px;
+            }
+
+            .brand-description {
+                font-size: 14px;
+            }
+
+            .feature-item {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .form-section {
+                padding: 25px 15px 35px;
+            }
+
+            .login-card {
+                padding: 27px 21px;
+                border-radius: 17px;
+            }
+
+            .form-header h2 {
+                font-size: 27px;
+            }
+
+            .role-option label {
+                min-height: 64px;
+                font-size: 13px;
+            }
+
+            .form-options {
+                align-items: flex-start;
+                gap: 12px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <!-- =====================================================
+             LEFT SIDE - BRANDING
+        ====================================================== -->
+
+        <section class="brand-section">
+
+            <div class="shape shape-one"></div>
+            <div class="shape shape-two"></div>
+            <div class="shape shape-three"></div>
+
+            <div class="brand-content">
+
+                <div class="logo-wrapper">
+
+                    <div class="logo" aria-label="PresentTrack logo">
+                        PT
+                    </div>
+
+                    <div>
+                        <div class="brand-name">
+                            PresentTrack
+                        </div>
+
+                        <div class="brand-tagline">
+                            Attendance &amp; Performance
+                        </div>
+                    </div>
+
+                </div>
+
+                <h1>
+                    Smarter
+                    <span>Attendance.</span>
+                    Better Performance.
+                </h1>
+
+                <p class="brand-description">
+                    Track attendance, monitor student performance,
+                    identify attendance risks, and manage academic
+                    progress from one powerful platform.
+                </p>
+
+                <div class="feature-list">
+
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        Smart Attendance
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">◈</span>
+                        Performance Tracking
+                    </div>
+
+                    <div class="feature-item">
+                        <span class="feature-icon">⚡</span>
+                        Risk Detection
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RIGHT SIDE - LOGIN FORM
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <div class="login-card">
+
+                <div class="form-header">
+                    <h2>Welcome back 👋</h2>
+
+                    <p>
+                        Sign in to your PresentTrack account
+                        to continue.
+                    </p>
+                </div>
+
+
+                <!-- Role Selection -->
+
+                <div>
+                    <span class="role-label">
+                        Login as
+                    </span>
+
+                    <div class="role-selector">
+
+                        <div class="role-option">
+
+                            <input
+                                type="radio"
+                                id="studentRole"
+                                name="role"
+                                value="student"
+                                checked
+                            >
+
+                            <label for="studentRole">
+                                <span class="role-icon">🎓</span>
+                                Student
+                            </label>
+
+                        </div>
+
+
+                        <div class="role-option">
+
+                            <input
+                                type="radio"
+                                id="facultyRole"
+                                name="role"
+                                value="faculty"
+                            >
+
+                            <label for="facultyRole">
+                                <span class="role-icon">👨‍🏫</span>
+                                Faculty
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!-- Login Form -->
+
+                <form id="loginForm" novalidate>
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span
+                                class="input-icon"
+                                aria-hidden="true"
+                            >
+                                ✉
+                            </span>
+
+                            <input
+                                class="form-input"
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span
+                                class="input-icon"
+                                aria-hidden="true"
+                            >
+                                🔒
+                            </span>
+
+                            <input
+                                class="form-input"
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                minlength="6"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="togglePassword"
+                                aria-label="Show password"
+                                title="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Options -->
+
+                    <div class="form-options">
+
+                        <label class="remember-me">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                                name="rememberMe"
+                            >
+
+                            Remember me
+
+                        </label>
+
+
+                        <button
+                            type="button"
+                            class="forgot-password"
+                            id="forgotPassword"
+                        >
+                            Forgot password?
+                        </button>
+
+                    </div>
+
+
+                    <!-- Login Button -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                        id="loginButton"
+                    >
+                        <span id="loginButtonText">
+                            Sign In
+                        </span>
+
+                        <span
+                            id="loginSpinner"
+                            class="spinner"
+                            hidden
+                        ></span>
+
+                        <span id="loginArrow">
+                            →
+                        </span>
+                    </button>
+
+                    <!-- Message -->
+
+                    <div
+                        id="message"
+                        class="message"
+                        role="alert"
+                        aria-live="polite"
+                    ></div>
+
+                </form>
+
+
+                <!-- Footer -->
+
+                <div class="login-footer">
+                    <strong>PresentTrack</strong>
+                    &nbsp;•&nbsp;
+                    Attendance &amp; Performance Management System
+                    <br>
+                    © 2026 PresentTrack. All rights reserved.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+        /* =========================================================
+           PRESENTTRACK LOGIN JAVASCRIPT
+        ========================================================= */
+
+        "use strict";
+
+        const loginForm = document.getElementById("loginForm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+        const loginButton = document.getElementById("loginButton");
+        const loginButtonText = document.getElementById("loginButtonText");
+        const loginArrow = document.getElementById("loginArrow");
+        const loginSpinner = document.getElementById("loginSpinner");
+        const messageBox = document.getElementById("message");
+        const forgotPassword = document.getElementById("forgotPassword");
+
+
+        /* =========================================================
+           GET SELECTED ROLE
+        ========================================================= */
+
+        function getSelectedRole() {
+            const selectedRole = document.querySelector(
+                'input[name="role"]:checked'
+            );
+
+            return selectedRole
+                ? selectedRole.value
+                : "student";
+        }
+
+
+        /* =========================================================
+           SHOW MESSAGE
+        ========================================================= */
+
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.className = "message " + type;
+        }
+
+
+        /* =========================================================
+           CLEAR MESSAGE
+        ========================================================= */
+
+        function clearMessage() {
+            messageBox.textContent = "";
+            messageBox.className = "message";
+        }
+
+
+        /* =========================================================
+           PASSWORD SHOW / HIDE
+        ========================================================= */
+
+        togglePassword.addEventListener("click", function () {
+
+            const isPassword =
+                passwordInput.type === "password";
+
+            passwordInput.type =
+                isPassword ? "text" : "password";
+
+            togglePassword.textContent =
+                isPassword ? "🙈" : "👁";
+
+            togglePassword.setAttribute(
+                "aria-label",
+                isPassword
+                    ? "Hide password"
+                    : "Show password"
+            );
+
+            togglePassword.setAttribute(
+                "title",
+                isPassword
+                    ? "Hide password"
+                    : "Show password"
+            );
+        });
+
+
+        /* =========================================================
+           ROLE CHANGE
+        ========================================================= */
+
+        const roleInputs = document.querySelectorAll(
+            'input[name="role"]'
+        );
+
+        roleInputs.forEach(function (input) {
+
+            input.addEventListener("change", function () {
+
+                clearMessage();
+
+                const role = getSelectedRole();
+
+                if (role === "student") {
+                    emailInput.placeholder =
+                        "Enter student email";
+                } else {
+                    emailInput.placeholder =
+                        "Enter faculty email";
+                }
+            });
+        });
+
+
+        /* =========================================================
+           FORM VALIDATION
+        ========================================================= */
+
+        function validateForm() {
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!email) {
+                showMessage(
+                    "Please enter your email address.",
+                    "error"
+                );
+
+                emailInput.focus();
+                return false;
+            }
+
+            if (!emailInput.checkValidity()) {
+                showMessage(
+                    "Please enter a valid email address.",
+                    "error"
+                );
+
+                emailInput.focus();
+                return false;
+            }
+
+            if (!password) {
+                showMessage(
+                    "Please enter your password.",
+                    "error"
+                );
+
+                passwordInput.focus();
+                return false;
+            }
+
+            if (password.length < 6) {
+                showMessage(
+                    "Password must contain at least 6 characters.",
+                    "error"
+                );
+
+                passwordInput.focus();
+                return false;
+            }
+
+            return true;
+        }
+
+
+        /* =========================================================
+           BUTTON LOADING STATE
+        ========================================================= */
+
+        function setLoading(isLoading) {
+
+            loginButton.disabled = isLoading;
+
+            if (isLoading) {
+
+                loginButtonText.textContent =
+                    "Signing in...";
+
+                loginArrow.hidden = true;
+                loginSpinner.hidden = false;
+
+            } else {
+
+                loginButtonText.textContent =
+                    "Sign In";
+
+                loginArrow.hidden = false;
+                loginSpinner.hidden = true;
+            }
+        }
+
+
+        /* =========================================================
+           LOGIN FORM SUBMIT
+        ========================================================= */
+
+        loginForm.addEventListener("submit", async function (event) {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const role = getSelectedRole();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+
+            const rememberMe =
+                document.getElementById("rememberMe").checked;
+
+            setLoading(true);
+
+
+            /*
+             * -----------------------------------------------------
+             * BACKEND CONNECTION
+             * -----------------------------------------------------
+             *
+             * If your backend login endpoint is:
+             *
+             * POST /api/auth/login
+             *
+             * this request can be enabled directly.
+             *
+             * The frontend currently validates the form first.
+             */
+
+            try {
+
+                const response = await fetch(
+                    "/api/auth/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password,
+                            role: role
+                        })
+                    }
+                );
+
+
+                let data = {};
+
+                try {
+                    data = await response.json();
+                } catch {
+                    data = {};
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Invalid email or password."
+                    );
+                }
+
+
+                /*
+                 * Save token if backend returns one.
+                 */
+
+                if (data.token) {
+
+                    const storage =
+                        rememberMe
+                            ? localStorage
+                            : sessionStorage;
+
+                    storage.setItem(
+                        "token",
+                        data.token
+                    );
+                }
+
+
+                /*
+                 * Save selected role.
+                 */
+
+                const roleStorage =
+                    rememberMe
+                        ? localStorage
+                        : sessionStorage;
+
+                roleStorage.setItem(
+                    "userRole",
+                    role
+                );
+
+
+                showMessage(
+                    "Login successful. Redirecting...",
+                    "success"
+                );
+
+
+                /*
+                 * Redirect based on selected role.
+                 *
+                 * Change these paths if your project
+                 * uses different dashboard filenames.
+                 */
+
+                setTimeout(function () {
+
+                    if (role === "student") {
+
+                        window.location.href =
+                            "pages/dashboard.html";
+
+                    } else {
+
+                        window.location.href =
+                            "pages/faculty-dashboard.html";
+                    }
+
+                }, 700);
+
+            } catch (error) {
+
+                /*
+                 * If the backend is not running, this message
+                 * clearly tells the user instead of showing
+                 * an uncaught JavaScript error.
+                 */
+
+                showMessage(
+                    error.message ||
+                    "Unable to connect to the server. Please try again.",
+                    "error"
+                );
+
+            } finally {
+
+                setLoading(false);
+            }
+
+        });
+
+
+        /* =========================================================
+           FORGOT PASSWORD
+        ========================================================= */
+
+        forgotPassword.addEventListener("click", function () {
+
+            showMessage(
+                "Please contact your administrator to reset your password.",
+                "success"
+            );
+
+        });
+
+
+        /* =========================================================
+           REMOVE ERROR WHEN USER STARTS TYPING
+        ========================================================= */
+
+        emailInput.addEventListener(
+            "input",
+            clearMessage
+        );
+
+        passwordInput.addEventListener(
+            "input",
+            clearMessage
+        );
+    </script>
+
+</body>
+</html>
