@@ -1239,7 +1239,47 @@ async function loadPerformanceData() {
 document.addEventListener(
     "DOMContentLoaded",
     function() {
+                const storage =
+            localStorage.getItem("userName")
+                ? localStorage
+                : sessionStorage;
 
+        const userName =
+            storage.getItem("userName");
+
+        const userRole =
+            storage.getItem("userRole");
+
+        const nameElement =
+            document.getElementById("performanceUserName");
+
+        const avatarElement =
+            document.getElementById("userAvatar");
+
+        if (userName) {
+
+            nameElement.textContent =
+                userName;
+
+            avatarElement.textContent =
+                userName
+                    .split(/\s+/)
+                    .map(word => word[0])
+                    .join("")
+                    .substring(0, 2)
+                    .toUpperCase();
+
+        }
+
+        if (userRole) {
+
+            document.getElementById(
+                "currentRole"
+            ).textContent =
+                userRole.charAt(0).toUpperCase() +
+                userRole.slice(1);
+
+        }
         const savedRole =
             localStorage.getItem(
                 "presentrackRole"

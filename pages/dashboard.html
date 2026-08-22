@@ -101,14 +101,13 @@
                 <div class="profile-mini">
 
                     <div class="avatar" aria-hidden="true">
-                        YA
+                        U
                     </div>
 
                     <div class="profile-details">
-                        <strong>Yasaswini</strong>
-                        <small>Administrator</small>
-                    </div>
-
+    <strong id="profileName">User</strong>
+    <small id="profileRole">User</small>
+</div>
                 </div>
 
             </div>
@@ -126,9 +125,9 @@
 
                 <div class="page-heading">
 
-                    <p class="welcome-text">
-                        Welcome back, Yasaswini 👋
-                    </p>
+                   <p class="welcome-text">
+    Welcome back, <span id="welcomeName">User</span> 👋
+</p>
 
                     <h1>Dashboard</h1>
 
@@ -151,12 +150,12 @@
                     <div class="header-profile">
 
                         <div class="avatar" aria-hidden="true">
-                            YA
+                            U
                         </div>
 
                         <div class="header-profile-text">
-                            <strong>Yasaswini</strong>
-                            <span>Administrator</span>
+                            <strong id="headerProfileName">User</strong>
+<span id="headerProfileRole">User</span>
                         </div>
 
                     </div>
@@ -1097,6 +1096,31 @@
 
 
     <script src="../js/dashboard.js"></script>
+<script>
+    const storage = localStorage.getItem("userName")
+        ? localStorage
+        : sessionStorage;
+
+    const userName = storage.getItem("userName");
+    const userRole = storage.getItem("userRole");
+
+   if (userName) {
+    document.getElementById("profileName").textContent = userName;
+    document.getElementById("headerProfileName").textContent = userName;
+    document.getElementById("welcomeName").textContent = userName;
+}
+
+if (userRole) {
+    const formattedRole =
+        userRole.charAt(0).toUpperCase() + userRole.slice(1);
+
+    document.getElementById("profileRole").textContent =
+        formattedRole;
+
+    document.getElementById("headerProfileRole").textContent =
+        formattedRole;
+}
+</script>
 
 </body>
 </html>

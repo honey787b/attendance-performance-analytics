@@ -1386,7 +1386,11 @@
                     "userRole",
                     role
                 );
-
+                if (data.user) {
+    roleStorage.setItem("userName", data.user.name);
+    roleStorage.setItem("userEmail", data.user.email);
+    roleStorage.setItem("userId", data.user.id);
+}
 
                 showMessage(
                     "Login successful. Redirecting...",

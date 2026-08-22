@@ -5,6 +5,38 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     // ------------------------------------------
+    // LOAD LOGGED-IN USER PROFILE
+    // ------------------------------------------
+
+    const userName = localStorage.getItem("userName") || "User";
+    const userRole = localStorage.getItem("userRole") || "Student";
+
+    const profileAvatar = document.querySelector(".profile-avatar");
+    const profileName = document.querySelector(".profile-info h3");
+    const profileRole = document.querySelector(".profile-info p");
+
+    if (profileName) {
+        profileName.textContent = userName;
+    }
+
+    if (profileRole) {
+        profileRole.textContent = userRole;
+    }
+
+    if (profileAvatar) {
+        const initials = userName
+            .trim()
+            .split(/\s+/)
+            .map(word => word.charAt(0))
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+        profileAvatar.textContent = initials || "U";
+    }
+
+
+    // ------------------------------------------
     // ALL SELECT ELEMENTS
     // ------------------------------------------
 
