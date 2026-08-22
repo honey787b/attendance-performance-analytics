@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="PresentTrack - Attendance and Performance Management System"
+    >
+
+    <title>PresentTrack | Login</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <!-- =====================================================
+             LEFT SIDE - PRESENTTRACK BRANDING
+        ====================================================== -->
+
+        <section class="brand-section">
+
+            <div class="shape shape-one"></div>
+            <div class="shape shape-two"></div>
+            <div class="shape shape-three"></div>
+
+            <div class="brand-content">
+
+                <div class="logo-wrapper">
+
+                    <div
+                        class="logo"
+                        aria-label="PresentTrack logo"
+                    >
+                        PT
+                    </div>
+
+                    <div>
+
+                        <div class="brand-name">
+                            PresentTrack
+                        </div>
+
+                        <div class="brand-tagline">
+                            Attendance &amp; Performance
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <h1>
+                    Smarter
+                    <span>Attendance.</span>
+                    Better Performance.
+                </h1>
+
+
+                <p class="brand-description">
+                    Track attendance, monitor student performance,
+                    identify attendance risks, and manage academic
+                    progress from one powerful platform.
+                </p>
+
+
+                <div class="feature-list">
+
+                    <div class="feature-item">
+
+                        <span class="feature-icon">
+                            ✓
+                        </span>
+
+                        Smart Attendance
+
+                    </div>
+
+
+                    <div class="feature-item">
+
+                        <span class="feature-icon">
+                            ◈
+                        </span>
+
+                        Performance Tracking
+
+                    </div>
+
+
+                    <div class="feature-item">
+
+                        <span class="feature-icon">
+                            ⚡
+                        </span>
+
+                        Risk Detection
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RIGHT SIDE - LOGIN
+        ====================================================== -->
+
+        <section class="form-section">
+
+            <div class="login-card">
+
+                <div class="form-header">
+
+                    <h2>
+                        Welcome back 👋
+                    </h2>
+
+                    <p>
+                        Sign in to your PresentTrack account
+                        to continue.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     ROLE SELECTION
+                ================================================== -->
+
+                <div>
+
+                    <span class="role-label">
+                        Login as
+                    </span>
+
+
+                    <div class="role-selector">
+
+                        <div class="role-option">
+
+                            <input
+                                type="radio"
+                                id="studentRole"
+                                name="role"
+                                value="student"
+                                checked
+                            >
+
+                            <label for="studentRole">
+
+                                <span class="role-icon">
+                                    🎓
+                                </span>
+
+                                Student
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="role-option">
+
+                            <input
+                                type="radio"
+                                id="facultyRole"
+                                name="role"
+                                value="faculty"
+                            >
+
+                            <label for="facultyRole">
+
+                                <span class="role-icon">
+                                    👨‍🏫
+                                </span>
+
+                                Faculty
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     LOGIN FORM
+                ================================================== -->
+
+                <form
+                    id="loginForm"
+                    novalidate
+                >
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <span
+                                class="input-icon"
+                                aria-hidden="true"
+                            >
+                                ✉
+                            </span>
+
+
+                            <input
+                                class="form-input"
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter student email"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <span
+                                class="input-icon"
+                                aria-hidden="true"
+                            >
+                                🔒
+                            </span>
+
+
+                            <input
+                                class="form-input"
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                minlength="6"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="togglePassword"
+                                aria-label="Show password"
+                                title="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Options -->
+
+                    <div class="form-options">
+
+                        <label class="remember-me">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                                name="rememberMe"
+                            >
+
+                            Remember me
+
+                        </label>
+
+
+                        <button
+                            type="button"
+                            class="forgot-password"
+                            id="forgotPassword"
+                        >
+                            Forgot password?
+                        </button>
+
+                    </div>
+
+
+                    <!-- Login Button -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                        id="loginButton"
+                    >
+
+                        <span id="loginButtonText">
+                            Sign In
+                        </span>
+
+
+                        <span
+                            id="loginSpinner"
+                            class="spinner"
+                            hidden
+                        ></span>
+
+
+                        <span id="loginArrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                    <!-- Message -->
+
+                    <div
+                        id="message"
+                        class="message"
+                        role="alert"
+                        aria-live="polite"
+                    ></div>
+
+                </form>
+
+
+                <!-- Footer -->
+
+                <div class="login-footer">
+
+                    <strong>
+                        PresentTrack
+                    </strong>
+
+                    &nbsp;•&nbsp;
+
+                    Attendance &amp; Performance Management System
+
+                    <br>
+
+                    © 2026 PresentTrack.
+                    All rights reserved.
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         ONLY APP.JS CONNECTION
+         
+         No JavaScript code is written inside index.html.
+    ========================================================== -->
+
+    <script
+        src="js/app.js"
+        defer
+    ></script>
+
+</body>
+
+</html>
