@@ -398,7 +398,7 @@ document.addEventListener(
             } else {
 
                 window.location.assign(
-                    "pages/faculty-dashboard.html"
+                    "pages/faculty.html"
                 );
             }
         }
