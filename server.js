@@ -132,6 +132,145 @@ function authenticateToken(req, res, next) {
     });
   }
 }
+// ===============================================================
+// EDIT LOGGED-IN USER PROFILE
+// ===============================================================
+
+app.put("/api/auth/profile", authenticateToken, async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({
+        error: "Name and email are required"
+      });
+    }
+
+    // Check whether another user already has this email
+    const [existingUsers] = await pool.query(
+      "SELECT id FROM users WHERE email = ? AND id != ? LIMIT 1",
+      [email, req.user.id]
+    );
+
+    if (existingUsers.length) {
+      return res.status(409).json({
+        error: "Email is already being used by another account"
+      });
+    }
+
+    await pool.query(
+      `UPDATE users
+       SET name = ?,
+           email = ?,
+           phone = ?
+       WHERE id = ?`,
+      [
+        name.trim(),
+        email.trim(),
+        phone ? phone.trim() : null,
+        req.user.id
+      ]
+    );
+
+    // Get the updated user
+    const [users] = await pool.query(
+      `SELECT id, name, email, role, phone, two_factor_enabled
+       FROM users
+       WHERE id = ?
+       LIMIT 1`,
+      [req.user.id]
+    );
+
+    if (!users.length) {
+      return res.status(404).json({
+        error: "User not found"
+      });
+    }
+
+    res.json({
+      message: "Profile updated successfully",
+      user: users[0]
+    });
+
+  } catch (err) {
+    console.error("Profile update error:", err);
+
+    res.status(500).json({
+      error: "Failed to update profile"
+    });
+  }
+});
+
+// ===============================================================
+// CHANGE LOGGED-IN USER PASSWORD
+// ===============================================================
+
+app.put("/api/auth/change-password", authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        error: "Current password and new password are required"
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        error: "New password must be at least 6 characters long"
+      });
+    }
+
+    // Get the logged-in user's current password hash
+    const [users] = await pool.query(
+      `SELECT password_hash
+       FROM users
+       WHERE id = ?
+       LIMIT 1`,
+      [req.user.id]
+    );
+
+    if (!users.length) {
+      return res.status(404).json({
+        error: "User not found"
+      });
+    }
+
+    // Verify the current password
+    const passwordMatch = await bcrypt.compare(
+      currentPassword,
+      users[0].password_hash
+    );
+
+    if (!passwordMatch) {
+      return res.status(401).json({
+        error: "Current password is incorrect"
+      });
+    }
+
+    // Hash the new password
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+
+    // Update the password in MySQL
+    await pool.query(
+      `UPDATE users
+       SET password_hash = ?
+       WHERE id = ?`,
+      [newPasswordHash, req.user.id]
+    );
+
+    res.json({
+      message: "Password changed successfully"
+    });
+
+  } catch (err) {
+    console.error("Change password error:", err);
+
+    res.status(500).json({
+      error: "Failed to change password"
+    });
+  }
+});
 
 // ---------------------------------------------------------------
 // SERVE THE FRONTEND (css/js/pages) STATICALLY
@@ -145,7 +284,6 @@ app.use(express.static(path.join(__dirname)));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "pages",  "index.html"));
 });
-
 // =================================================================
 // STUDENTS  —  students.html / attendance.html
 // =================================================================

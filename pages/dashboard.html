@@ -109,7 +109,12 @@
     <small id="profileRole">User</small>
 </div>
                 </div>
-
+ <button
+        type="button"
+        id="logoutButton"
+        class="logout-button">
+        🚪 Logout
+    </button>
             </div>
 
         </aside>
@@ -1119,6 +1124,24 @@ if (userRole) {
 
     document.getElementById("headerProfileRole").textContent =
         formattedRole;
+}
+// ------------------------------------------
+// LOGOUT
+// ------------------------------------------
+
+const logoutButton = document.getElementById("logoutButton");
+
+if (logoutButton) {
+
+    logoutButton.addEventListener("click", function () {
+
+        localStorage.clear();
+        sessionStorage.clear();
+
+        window.location.href = "index.html";
+
+    });
+
 }
 </script>
 
