@@ -8,8 +8,15 @@ document.addEventListener("DOMContentLoaded", function () {
     // LOAD LOGGED-IN USER PROFILE
     // ------------------------------------------
 
-    const userName = localStorage.getItem("userName") || "User";
-    const userRole = localStorage.getItem("userRole") || "Student";
+    const userName =
+    localStorage.getItem("userName") ||
+    sessionStorage.getItem("userName") ||
+    "User";
+
+const userRole =
+    localStorage.getItem("userRole") ||
+    sessionStorage.getItem("userRole") ||
+    "Student";
 
     const profileAvatar = document.querySelector(".profile-avatar");
     const profileName = document.querySelector(".profile-info h3");

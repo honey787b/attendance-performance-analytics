@@ -118,6 +118,51 @@ let modalDescription;
 document.addEventListener(
     "DOMContentLoaded",
     function () {
+         // =====================================================
+        // LOAD LOGGED-IN USER PROFILE
+        // =====================================================
+
+        const storage = localStorage.getItem("userName")
+            ? localStorage
+            : sessionStorage;
+
+        const userName =
+            storage.getItem("userName") || "User";
+
+        const userRole =
+            storage.getItem("userRole") || "User";
+
+        const initials =
+            userName
+                .split(" ")
+                .map(name => name.charAt(0))
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
+
+
+        // Sidebar profile
+        document.getElementById("holidayUserName").textContent =
+            userName;
+
+        document.getElementById("holidayUserRole").textContent =
+            userRole;
+
+        document.getElementById("holidayUserAvatar").textContent =
+            initials;
+
+
+        // Header profile
+        document.getElementById("holidayHeaderUserName").textContent =
+            userName;
+
+        document.getElementById("holidayHeaderUserRole").textContent =
+            userRole;
+
+        document.getElementById("holidayHeaderAvatar").textContent =
+            initials;
+
+
 
         calendarDays =
             document.getElementById(

@@ -1,7 +1,50 @@
 document.addEventListener("DOMContentLoaded", async function () {
 
-    console.log("Attendance page loaded successfully!");
+    // =====================================================
+    // LOAD LOGGED-IN USER PROFILE
+    // =====================================================
 
+    const storage = localStorage.getItem("userName")
+    ? localStorage
+    : sessionStorage;
+
+const userName =
+    storage.getItem("userName") || "User";
+
+const userRole =
+    storage.getItem("userRole") || "User";
+    const initials =
+        userName
+            .split(" ")
+            .map(name => name.charAt(0))
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+
+
+    // Sidebar profile
+    document.getElementById("attendanceUserName").textContent =
+        userName;
+
+    document.getElementById("attendanceUserRole").textContent =
+        userRole;
+
+    document.getElementById("attendanceUserAvatar").textContent =
+        initials;
+
+
+    // Header profile
+    document.getElementById("attendanceHeaderUserName").textContent =
+        userName;
+
+    document.getElementById("attendanceHeaderUserRole").textContent =
+        userRole;
+
+    document.getElementById("attendanceHeaderAvatar").textContent =
+        initials;
+
+
+    console.log("Attendance page loaded successfully!");
     // =====================================================
     // ELEMENTS
     // =====================================================
