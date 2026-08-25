@@ -611,6 +611,222 @@
         </footer>
 
     </main>
+    <!-- ================================
+     ADD STUDENT MODAL
+================================= -->
+
+<div id="addStudentModal" class="student-modal">
+
+    <div class="student-modal-content">
+
+        <div class="student-modal-header">
+
+            <div>
+                <h2>Add Student</h2>
+                <p>Enter the student's information</p>
+            </div>
+
+            <button
+                type="button"
+                id="closeStudentModal"
+                class="modal-close">
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="addStudentForm">
+
+            <div class="student-form-grid">
+
+                <div class="filter-group">
+
+                    <label for="addRollNo">
+                        Roll Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="addRollNo"
+                        placeholder="e.g. CSE007"
+                        required>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="addName">
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="addName"
+                        placeholder="Student name"
+                        required>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="addEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="addEmail"
+                        placeholder="student@presentrack.edu">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="addPhone">
+                        Phone
+                    </label>
+
+                    <input
+                        type="text"
+                        id="addPhone"
+                        placeholder="Phone number">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="addBranch">
+                        Branch
+                    </label>
+
+                    <select id="addBranch" required>
+
+                        <option value="">
+                            Select Branch
+                        </option>
+
+                        <option value="CSE">
+                            CSE
+                        </option>
+
+                        <option value="AI & ML">
+                            AI & ML
+                        </option>
+
+                        <option value="ECE">
+                            ECE
+                        </option>
+
+                        <option value="EEE">
+                            EEE
+                        </option>
+
+                        <option value="MECH">
+                            MECH
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="addYear">
+                        Year
+                    </label>
+
+                    <select id="addYear" required>
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <option value="1">
+                            1st Year
+                        </option>
+
+                        <option value="2">
+                            2nd Year
+                        </option>
+
+                        <option value="3">
+                            3rd Year
+                        </option>
+
+                        <option value="4">
+                            4th Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="addSection">
+                        Section
+                    </label>
+
+                    <select id="addSection" required>
+
+                        <option value="">
+                            Select Section
+                        </option>
+
+                        <option value="A">
+                            A
+                        </option>
+
+                        <option value="B">
+                            B
+                        </option>
+
+                        <option value="C">
+                            C
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <p
+                id="addStudentMessage"
+                style="margin-top:15px;">
+            </p>
+
+
+            <div class="student-modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelStudentModal"
+                    class="btn-secondary">
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn-primary">
+                    Add Student
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 <script src="../js/students.js"></script>
 </body>
 </html>

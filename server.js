@@ -406,21 +406,51 @@ app.get("/api/subjects", async (req, res) => {
 });
 
 // =================================================================
-// TIMETABLE  —  timetable.html
+// TIMETABLE
 // =================================================================
+
 app.get("/api/timetable", async (req, res) => {
   try {
-    const { branch, year, section } = req.query;
+    const {
+      branch,
+      year,
+      section,
+      day
+    } = req.query;
 
     let sql = `
-      SELECT t.*, s.name AS subject_name, f.name AS faculty_name
+      SELECT
+        t.id,
+        t.day_name,
+        t.start_time,
+        t.end_time,
+        t.subject_id,
+        t.faculty_id,
+        t.branch,
+        t.year,
+        t.section,
+        t.room,
+
+        s.name AS subject_name,
+
+        f.name AS faculty_name
+
       FROM timetable t
-      LEFT JOIN subjects s ON s.id = t.subject_id
-      LEFT JOIN faculty f ON f.id = t.faculty_id
+
+      LEFT JOIN subjects s
+        ON s.id = t.subject_id
+
+      LEFT JOIN faculty f
+        ON f.id = t.faculty_id
+
       WHERE 1=1
     `;
 
     const params = [];
+
+    // -------------------------------------------------------------
+    // FILTERS
+    // -------------------------------------------------------------
 
     if (branch) {
       sql += " AND t.branch = ?";
@@ -437,14 +467,50 @@ app.get("/api/timetable", async (req, res) => {
       params.push(section);
     }
 
-    sql += " ORDER BY FIELD(t.day_name,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'), t.start_time";
+    if (day) {
+      sql += " AND t.day_name = ?";
+      params.push(day);
+    }
+
+    // -------------------------------------------------------------
+    // ORDER
+    // -------------------------------------------------------------
+
+    sql += `
+      ORDER BY
+        FIELD(
+          t.day_name,
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday'
+        ),
+        t.start_time
+    `;
+
+    // -------------------------------------------------------------
+    // EXECUTE
+    // -------------------------------------------------------------
 
     const [rows] = await pool.query(sql, params);
+
     res.json(rows);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.error("Get timetable error:", err);
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
+// =================================================================
+// ADD TIMETABLE CLASS
+// =================================================================
 
 app.post("/api/timetable", async (req, res) => {
   try {
@@ -460,11 +526,129 @@ app.post("/api/timetable", async (req, res) => {
       room
     } = req.body;
 
-    const [result] = await pool.query(
-      `INSERT INTO timetable
-       (day_name, start_time, end_time, subject_id, faculty_id, branch, year, section, room)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    // -------------------------------------------------------------
+    // VALIDATION
+    // -------------------------------------------------------------
+
+    if (
+      !day_name ||
+      !start_time ||
+      !end_time ||
+      !branch ||
+      !year ||
+      !section
+    ) {
+      return res.status(400).json({
+        error: "Missing required timetable fields."
+      });
+    }
+
+    const validDays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+
+    if (!validDays.includes(day_name)) {
+      return res.status(400).json({
+        error: "Invalid day."
+      });
+    }
+
+    // -------------------------------------------------------------
+    // CHECK SUBJECT
+    // -------------------------------------------------------------
+
+    if (
+      subject_id !== null &&
+      subject_id !== undefined &&
+      subject_id !== ""
+    ) {
+      const [subjects] = await pool.query(
+        "SELECT id FROM subjects WHERE id = ?",
+        [subject_id]
+      );
+
+      if (subjects.length === 0) {
+        return res.status(400).json({
+          error: "Invalid subject ID."
+        });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // CHECK FACULTY
+    // -------------------------------------------------------------
+
+    if (
+      faculty_id !== null &&
+      faculty_id !== undefined &&
+      faculty_id !== ""
+    ) {
+      const [faculty] = await pool.query(
+        "SELECT id FROM faculty WHERE id = ?",
+        [faculty_id]
+      );
+
+      if (faculty.length === 0) {
+        return res.status(400).json({
+          error: "Invalid faculty ID."
+        });
+      }
+    }
+
+    // -------------------------------------------------------------
+    // CHECK TIME
+    // -------------------------------------------------------------
+
+    if (start_time >= end_time) {
+      return res.status(400).json({
+        error: "End time must be later than start time."
+      });
+    }
+
+    // -------------------------------------------------------------
+    // CHECK DUPLICATE SLOT
+    // -------------------------------------------------------------
+
+    const [existing] = await pool.query(
+      `
+      SELECT id
+      FROM timetable
+      WHERE day_name = ?
+        AND branch = ?
+        AND year = ?
+        AND section = ?
+        AND start_time = ?
+        AND end_time = ?
+      `,
       [
+        day_name,
+        branch,
+        year,
+        section,
+        start_time,
+        end_time
+      ]
+    );
+
+    if (existing.length > 0) {
+      return res.status(409).json({
+        error: "A class already exists in this time slot."
+      });
+    }
+
+    // -------------------------------------------------------------
+    // INSERT INTO TIMETABLE
+    // -------------------------------------------------------------
+
+    const [result] = await pool.query(
+      `
+      INSERT INTO timetable
+      (
         day_name,
         start_time,
         end_time,
@@ -474,56 +658,121 @@ app.post("/api/timetable", async (req, res) => {
         year,
         section,
         room
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        day_name,
+        start_time,
+        end_time,
+        subject_id || null,
+        faculty_id || null,
+        branch,
+        year,
+        section,
+        room || null
       ]
     );
 
-    res.status(201).json({ id: result.insertId });
+    // -------------------------------------------------------------
+    // SUCCESS
+    // -------------------------------------------------------------
+
+    res.status(201).json({
+      message: "Class added successfully.",
+      id: result.insertId
+    });
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.error("Add timetable error:", err);
+
+    res.status(500).json({
+      error: err.message
+    });
   }
 });
+// =================================================================
+// ATTENDANCE SESSIONS
+// =================================================================
 
-// =================================================================
-// ATTENDANCE SESSIONS  —  attendance-sessions.html
-// =================================================================
+// Get attendance sessions
 app.get("/api/attendance/sessions", async (req, res) => {
   try {
-    const { date, branch, year, section } = req.query;
 
-    let sql = "SELECT * FROM attendance_sessions WHERE 1=1";
+    const {
+      date,
+      branch,
+      year,
+      section
+    } = req.query;
+
+
+    let sql = `
+      SELECT *
+      FROM attendance_sessions
+      WHERE 1=1
+    `;
+
     const params = [];
+
 
     if (date) {
       sql += " AND session_date = ?";
       params.push(date);
     }
 
+
     if (branch) {
       sql += " AND branch = ?";
       params.push(branch);
     }
+
 
     if (year) {
       sql += " AND year = ?";
       params.push(year);
     }
 
+
     if (section) {
       sql += " AND section = ?";
       params.push(section);
     }
 
-    sql += " ORDER BY session_date DESC, id DESC";
 
-    const [rows] = await pool.query(sql, params);
+    sql += `
+      ORDER BY
+        session_date DESC,
+        id DESC
+    `;
+
+
+    const [rows] =
+      await pool.query(sql, params);
+
+
     res.json(rows);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.error(
+      "Get attendance sessions error:",
+      err
+    );
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
 
+
+// Create an attendance session
 app.post("/api/attendance/sessions", async (req, res) => {
   try {
+
     const {
       session_date,
       branch,
@@ -533,10 +782,73 @@ app.post("/api/attendance/sessions", async (req, res) => {
       faculty_id
     } = req.body;
 
+
+    if (
+      !session_date ||
+      !branch ||
+      !year ||
+      !section
+    ) {
+
+      return res.status(400).json({
+        error:
+          "session_date, branch, year and section are required"
+      });
+
+    }
+
+
+    // Check whether this exact session already exists.
+    const [existing] = await pool.query(
+      `
+      SELECT id
+      FROM attendance_sessions
+      WHERE session_date = ?
+        AND branch = ?
+        AND year = ?
+        AND section = ?
+        AND (
+          subject_id = ?
+          OR (subject_id IS NULL AND ? IS NULL)
+        )
+      ORDER BY id DESC
+      LIMIT 1
+      `,
+      [
+        session_date,
+        branch,
+        year,
+        section,
+        subject_id || null,
+        subject_id || null
+      ]
+    );
+
+
+    if (existing.length) {
+
+      return res.json({
+        id: existing[0].id,
+        existing: true
+      });
+
+    }
+
+
     const [result] = await pool.query(
-      `INSERT INTO attendance_sessions
-       (session_date, branch, year, section, subject_id, faculty_id, status)
-       VALUES (?, ?, ?, ?, ?, ?, 'Active')`,
+      `
+      INSERT INTO attendance_sessions
+      (
+        session_date,
+        branch,
+        year,
+        section,
+        subject_id,
+        faculty_id,
+        status
+      )
+      VALUES (?, ?, ?, ?, ?, ?, 'Active')
+      `,
       [
         session_date,
         branch,
@@ -547,83 +859,828 @@ app.post("/api/attendance/sessions", async (req, res) => {
       ]
     );
 
-    res.status(201).json({ id: result.insertId });
+
+    res.status(201).json({
+      id: result.insertId,
+      existing: false
+    });
+
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.error(
+      "Create attendance session error:",
+      err
+    );
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
 
+
 // =================================================================
-// ATTENDANCE RECORDS  —  attendance.html present/absent/late marking
+// ATTENDANCE RECORDS
 // =================================================================
+
+// Get attendance records + calculated attendance percentage
 app.get("/api/attendance/records", async (req, res) => {
   try {
-    const { session_id } = req.query;
 
-    if (!session_id) {
-      return res.status(400).json({
-        error: "session_id is required"
-      });
+    const {
+      date,
+      branch,
+      year,
+      section
+    } = req.query;
+
+
+    // -------------------------------------------------------------
+    // STUDENT FILTER
+    // -------------------------------------------------------------
+
+    let studentSql = `
+      SELECT
+        id AS student_id,
+        roll_no,
+        name,
+        branch,
+        year,
+        section
+      FROM students
+      WHERE 1=1
+    `;
+
+    const studentParams = [];
+
+
+    if (branch) {
+      studentSql += " AND branch = ?";
+      studentParams.push(branch);
     }
 
-    const [rows] = await pool.query(
-      `SELECT s.id AS student_id, s.name, s.roll_no, s.branch, s.year, s.attendance_percent,
-              COALESCE(ar.status, 'not-marked') AS status
-       FROM students s
-       LEFT JOIN attendance_records ar
-         ON ar.student_id = s.id AND ar.session_id = ?
-       WHERE s.branch = (SELECT branch FROM attendance_sessions WHERE id = ?)
-         AND s.year = (SELECT year FROM attendance_sessions WHERE id = ?)
-         AND s.section = (SELECT section FROM attendance_sessions WHERE id = ?)
-       ORDER BY s.roll_no`,
-      [session_id, session_id, session_id, session_id]
+
+    if (year) {
+      studentSql += " AND year = ?";
+      studentParams.push(year);
+    }
+
+
+    if (section) {
+      studentSql += " AND section = ?";
+      studentParams.push(section);
+    }
+
+
+    studentSql += " ORDER BY roll_no";
+
+
+    const [students] =
+      await pool.query(
+        studentSql,
+        studentParams
+      );
+
+
+    // -------------------------------------------------------------
+    // CALCULATE ATTENDANCE FOR EACH STUDENT
+    //
+    // Leave is NOT counted as an absence.
+    //
+    // Attendance =
+    // present / (present + absent) * 100
+    // -------------------------------------------------------------
+
+    const result = [];
+
+
+    for (const student of students) {
+
+      const [percentageRows] =
+        await pool.query(
+          `
+          SELECT
+
+            SUM(
+              CASE
+                WHEN ar.status = 'present'
+                THEN 1
+                ELSE 0
+              END
+            ) AS present_count,
+
+            SUM(
+              CASE
+                WHEN ar.status = 'absent'
+                THEN 1
+                ELSE 0
+              END
+            ) AS absent_count
+
+          FROM attendance_records ar
+
+          WHERE ar.student_id = ?
+          `,
+          [student.student_id]
+        );
+
+
+      const presentCount =
+        Number(
+          percentageRows[0]?.present_count || 0
+        );
+
+
+      const absentCount =
+        Number(
+          percentageRows[0]?.absent_count || 0
+        );
+
+
+      const totalClasses =
+        presentCount + absentCount;
+
+
+      const attendancePercent =
+        totalClasses > 0
+          ? Number(
+              (
+                presentCount /
+                totalClasses *
+                100
+              ).toFixed(2)
+            )
+          : 0;
+
+
+      // -----------------------------------------------------------
+      // TODAY'S STATUS
+      // -----------------------------------------------------------
+
+      let todayStatus = "not-marked";
+
+
+      if (date) {
+
+        const [todayRows] =
+          await pool.query(
+            `
+            SELECT ar.status
+
+            FROM attendance_records ar
+
+            INNER JOIN attendance_sessions ats
+              ON ats.id = ar.session_id
+
+            WHERE ar.student_id = ?
+              AND ats.session_date = ?
+
+            ORDER BY ar.id DESC
+
+            LIMIT 1
+            `,
+            [
+              student.student_id,
+              date
+            ]
+          );
+
+
+        if (todayRows.length) {
+
+          todayStatus =
+            todayRows[0].status;
+
+        }
+
+      }
+
+
+      result.push({
+
+        student_id:
+          student.student_id,
+
+        roll_no:
+          student.roll_no,
+
+        name:
+          student.name,
+
+        branch:
+          student.branch,
+
+        year:
+          student.year,
+
+        section:
+          student.section,
+
+        attendance_percent:
+          attendancePercent,
+
+        today_status:
+          todayStatus,
+
+        present_count:
+          presentCount,
+
+        absent_count:
+          absentCount
+
+      });
+
+    }
+
+
+    res.json({
+      students: result
+    });
+
+
+  } catch (err) {
+
+    console.error(
+      "Get attendance records error:",
+      err
     );
 
-    res.json(rows);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
 
-// Mark or update one student's status for a session
+
+// =================================================================
+// MARK / UPDATE ONE STUDENT'S ATTENDANCE
+// =================================================================
+
 app.post("/api/attendance/records", async (req, res) => {
   try {
-    const { session_id, student_id, status } = req.body;
+
+    const {
+      student_id,
+      date,
+      status
+    } = req.body;
+
+
+    if (
+      !student_id ||
+      !date ||
+      !status
+    ) {
+
+      return res.status(400).json({
+        error:
+          "student_id, date and status are required"
+      });
+
+    }
+
+
+    // Only these three statuses are allowed.
+    if (
+      ![
+        "present",
+        "absent",
+        "leave"
+      ].includes(status)
+    ) {
+
+      return res.status(400).json({
+        error:
+          "Status must be present, absent or leave"
+      });
+
+    }
+
+
+    // -------------------------------------------------------------
+    // GET STUDENT DETAILS
+    // -------------------------------------------------------------
+
+    const [students] =
+      await pool.query(
+        `
+        SELECT
+          id,
+          branch,
+          year,
+          section
+        FROM students
+        WHERE id = ?
+        LIMIT 1
+        `,
+        [student_id]
+      );
+
+
+    if (!students.length) {
+
+      return res.status(404).json({
+        error: "Student not found"
+      });
+
+    }
+
+
+    const student = students[0];
+
+
+    // -------------------------------------------------------------
+    // FIND EXISTING SESSION
+    // -------------------------------------------------------------
+
+    const [sessions] =
+      await pool.query(
+        `
+        SELECT id
+
+        FROM attendance_sessions
+
+        WHERE session_date = ?
+          AND branch = ?
+          AND year = ?
+          AND section = ?
+
+        ORDER BY id DESC
+
+        LIMIT 1
+        `,
+        [
+          date,
+          student.branch,
+          student.year,
+          student.section
+        ]
+      );
+
+
+    let sessionId;
+
+
+    if (sessions.length) {
+
+      sessionId =
+        sessions[0].id;
+
+    } else {
+
+      // -----------------------------------------------------------
+      // CREATE SESSION ONLY IF IT DOESN'T EXIST
+      // -----------------------------------------------------------
+
+      const [newSession] =
+        await pool.query(
+          `
+          INSERT INTO attendance_sessions
+          (
+            session_date,
+            branch,
+            year,
+            section,
+            subject_id,
+            faculty_id,
+            status
+          )
+          VALUES (?, ?, ?, ?, NULL, NULL, 'Active')
+          `,
+          [
+            date,
+            student.branch,
+            student.year,
+            student.section
+          ]
+        );
+
+
+      sessionId =
+        newSession.insertId;
+
+    }
+
+
+    // -------------------------------------------------------------
+    // INSERT OR UPDATE ATTENDANCE
+    // -------------------------------------------------------------
 
     await pool.query(
-      `INSERT INTO attendance_records (session_id, student_id, status)
-       VALUES (?, ?, ?)
-       ON DUPLICATE KEY UPDATE
-       status = VALUES(status),
-       marked_at = CURRENT_TIMESTAMP`,
-      [session_id, student_id, status]
+      `
+      INSERT INTO attendance_records
+      (
+        session_id,
+        student_id,
+        status
+      )
+      VALUES (?, ?, ?)
+
+      ON DUPLICATE KEY UPDATE
+
+        status = VALUES(status),
+
+        marked_at = CURRENT_TIMESTAMP
+      `,
+      [
+        sessionId,
+        student_id,
+        status
+      ]
     );
 
-    res.json({ ok: true });
+
+    // -------------------------------------------------------------
+    // CALCULATE NEW ATTENDANCE
+    // -------------------------------------------------------------
+
+    const [counts] =
+      await pool.query(
+        `
+        SELECT
+
+          SUM(
+            CASE
+              WHEN status = 'present'
+              THEN 1
+              ELSE 0
+            END
+          ) AS present_count,
+
+          SUM(
+            CASE
+              WHEN status = 'absent'
+              THEN 1
+              ELSE 0
+            END
+          ) AS absent_count
+
+        FROM attendance_records
+
+        WHERE student_id = ?
+        `,
+        [student_id]
+      );
+
+
+    const presentCount =
+      Number(
+        counts[0]?.present_count || 0
+      );
+
+
+    const absentCount =
+      Number(
+        counts[0]?.absent_count || 0
+      );
+
+
+    const totalClasses =
+      presentCount + absentCount;
+
+
+    const attendancePercent =
+      totalClasses > 0
+        ? Number(
+            (
+              presentCount /
+              totalClasses *
+              100
+            ).toFixed(2)
+          )
+        : 0;
+
+
+    // Keep students.attendance_percent synchronized too.
+    await pool.query(
+      `
+      UPDATE students
+
+      SET attendance_percent = ?
+
+      WHERE id = ?
+      `,
+      [
+        attendancePercent,
+        student_id
+      ]
+    );
+
+
+    res.json({
+
+      ok: true,
+
+      session_id:
+        sessionId,
+
+      student_id,
+
+      status,
+
+      attendance_percent:
+        attendancePercent,
+
+      present_count:
+        presentCount,
+
+      absent_count:
+        absentCount
+
+    });
+
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.error(
+      "Save attendance error:",
+      err
+    );
+
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
 
-// Bulk mark (e.g. "Mark All Present")
+
+// =================================================================
+// BULK MARK ATTENDANCE
+// =================================================================
+
 app.post("/api/attendance/records/bulk", async (req, res) => {
   try {
-    const { session_id, student_ids, status } = req.body;
-    const values = student_ids.map((sid) => [session_id, sid, status]);
 
-    await pool.query(
-      `INSERT INTO attendance_records
-       (session_id, student_id, status)
-       VALUES ?
-       ON DUPLICATE KEY UPDATE
-       status = VALUES(status),
-       marked_at = CURRENT_TIMESTAMP`,
-      [values]
+    const {
+      student_ids,
+      date,
+      status
+    } = req.body;
+
+
+    if (
+      !Array.isArray(student_ids) ||
+      !student_ids.length ||
+      !date ||
+      !status
+    ) {
+
+      return res.status(400).json({
+        error:
+          "student_ids, date and status are required"
+      });
+
+    }
+
+
+    if (
+      ![
+        "present",
+        "absent",
+        "leave"
+      ].includes(status)
+    ) {
+
+      return res.status(400).json({
+        error:
+          "Status must be present, absent or leave"
+      });
+
+    }
+
+
+    for (const studentId of student_ids) {
+
+      // -----------------------------------------------------------
+      // GET STUDENT
+      // -----------------------------------------------------------
+
+      const [students] =
+        await pool.query(
+          `
+          SELECT
+            id,
+            branch,
+            year,
+            section
+
+          FROM students
+
+          WHERE id = ?
+
+          LIMIT 1
+          `,
+          [studentId]
+        );
+
+
+      if (!students.length) {
+        continue;
+      }
+
+
+      const student =
+        students[0];
+
+
+      // -----------------------------------------------------------
+      // FIND SESSION
+      // -----------------------------------------------------------
+
+      const [sessions] =
+        await pool.query(
+          `
+          SELECT id
+
+          FROM attendance_sessions
+
+          WHERE session_date = ?
+            AND branch = ?
+            AND year = ?
+            AND section = ?
+
+          ORDER BY id DESC
+
+          LIMIT 1
+          `,
+          [
+            date,
+            student.branch,
+            student.year,
+            student.section
+          ]
+        );
+
+
+      let sessionId;
+
+
+      if (sessions.length) {
+
+        sessionId =
+          sessions[0].id;
+
+      } else {
+
+        const [newSession] =
+          await pool.query(
+            `
+            INSERT INTO attendance_sessions
+            (
+              session_date,
+              branch,
+              year,
+              section,
+              subject_id,
+              faculty_id,
+              status
+            )
+
+            VALUES (?, ?, ?, ?, NULL, NULL, 'Active')
+            `,
+            [
+              date,
+              student.branch,
+              student.year,
+              student.section
+            ]
+          );
+
+
+        sessionId =
+          newSession.insertId;
+
+      }
+
+
+      // -----------------------------------------------------------
+      // SAVE ATTENDANCE
+      // -----------------------------------------------------------
+
+      await pool.query(
+        `
+        INSERT INTO attendance_records
+        (
+          session_id,
+          student_id,
+          status
+        )
+
+        VALUES (?, ?, ?)
+
+        ON DUPLICATE KEY UPDATE
+
+          status = VALUES(status),
+
+          marked_at = CURRENT_TIMESTAMP
+        `,
+        [
+          sessionId,
+          studentId,
+          status
+        ]
+      );
+
+
+      // -----------------------------------------------------------
+      // RECALCULATE STUDENT ATTENDANCE
+      // -----------------------------------------------------------
+
+      const [counts] =
+        await pool.query(
+          `
+          SELECT
+
+            SUM(
+              CASE
+                WHEN status = 'present'
+                THEN 1
+                ELSE 0
+              END
+            ) AS present_count,
+
+            SUM(
+              CASE
+                WHEN status = 'absent'
+                THEN 1
+                ELSE 0
+              END
+            ) AS absent_count
+
+          FROM attendance_records
+
+          WHERE student_id = ?
+          `,
+          [studentId]
+        );
+
+
+      const presentCount =
+        Number(
+          counts[0]?.present_count || 0
+        );
+
+
+      const absentCount =
+        Number(
+          counts[0]?.absent_count || 0
+        );
+
+
+      const totalClasses =
+        presentCount + absentCount;
+
+
+      const attendancePercent =
+        totalClasses > 0
+          ? Number(
+              (
+                presentCount /
+                totalClasses *
+                100
+              ).toFixed(2)
+            )
+          : 0;
+
+
+      await pool.query(
+        `
+        UPDATE students
+
+        SET attendance_percent = ?
+
+        WHERE id = ?
+        `,
+        [
+          attendancePercent,
+          studentId
+        ]
+      );
+
+    }
+
+
+    res.json({
+      ok: true,
+      count: student_ids.length
+    });
+
+
+  } catch (err) {
+
+    console.error(
+      "Bulk attendance error:",
+      err
     );
 
-    res.json({ ok: true });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({
+      error: err.message
+    });
+
   }
 });
 

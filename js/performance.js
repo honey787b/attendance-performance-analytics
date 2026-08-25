@@ -8,37 +8,23 @@
    ========================================================= */
 
 function generateReport() {
-
     window.location.href = "reports.html";
-
 }
-
 
 function openTranscript() {
-
     window.location.href = "transcript.html";
-
 }
-
 
 function openParentReport() {
-
     window.location.href = "parent-report.html";
-
 }
-
 
 function openAllStudents() {
-
     window.location.href = "students.html";
-
 }
 
-
 function openInstitutionAnalytics() {
-
     window.location.href = "analytics.html";
-
 }
 
 
@@ -51,30 +37,41 @@ function scrollToSection(id) {
     const section = document.getElementById(id);
 
     if (section) {
-
         section.scrollIntoView({
             behavior: "smooth"
         });
-
     }
-
 }
+
+
+/* =========================================================
+   CURRENT PERFORMANCE STATE
+   ========================================================= */
+
+let selectedStudent = null;
 
 
 /* =========================================================
    SEMESTER
    ========================================================= */
 
-function changeSemester() {
+async function changeSemester() {
 
-    const semester =
-        document.getElementById("semesterSelect").value;
+    const semesterSelect =
+        document.getElementById("semesterSelect");
+
+    if (!semesterSelect) {
+        console.error("semesterSelect not found");
+        return;
+    }
+
+    await loadPerformanceAnalysis();
 
     showToast(
-        "Semester " + semester +
+        "Semester " +
+        semesterSelect.value +
         " performance data loaded."
     );
-
 }
 
 
@@ -82,7 +79,7 @@ function changeSemester() {
    MID 1 / MID 2 / SEMESTER
    ========================================================= */
 
-function changeExam(type, button) {
+async function changeExam(type, button) {
 
     document
         .querySelectorAll(".segmented-control button")
@@ -90,8 +87,11 @@ function changeExam(type, button) {
             btn.classList.remove("active");
         });
 
-    button.classList.add("active");
+    if (button) {
+        button.classList.add("active");
+    }
 
+    await loadPerformanceAnalysis();
 
     const messages = {
 
@@ -106,9 +106,48 @@ function changeExam(type, button) {
 
     };
 
+    showToast(
+        messages[type] ||
+        "Performance data updated."
+    );
+}
 
-    showToast(messages[type]);
 
+/* =========================================================
+   GET ACTIVE EXAM
+   ========================================================= */
+
+function getActiveExamType() {
+
+    const activeExam =
+        document.querySelector(
+            ".segmented-control button.active"
+        );
+
+    if (!activeExam) {
+        return "mid1";
+    }
+
+    const text =
+        activeExam.textContent
+            .trim()
+            .toLowerCase();
+
+    if (
+        text.includes("mid 2") ||
+        text.includes("mid2")
+    ) {
+        return "mid2";
+    }
+
+    if (
+        text.includes("semester") ||
+        text.includes("final")
+    ) {
+        return "semester_exam";
+    }
+
+    return "mid1";
 }
 
 
@@ -116,39 +155,88 @@ function changeExam(type, button) {
    STUDENT SELECTION
    ========================================================= */
 
-function selectStudent(name) {
+async function selectStudent(
+    studentId,
+    name,
+    attendance = 0,
+    gpa = 0
+) {
 
-    const nameElement =
-        document.getElementById("selectedStudentName");
+    /*
+       Backward compatibility:
+       If an old onclick only passes a name,
+       still allow it to work.
+    */
 
-    const percentage =
-        document.getElementById("riskPercentage");
+    if (
+        typeof studentId === "string" &&
+        name === undefined
+    ) {
+        name = studentId;
+        studentId = null;
+    }
 
+    selectedStudent = {
 
-    nameElement.textContent = name;
+        id: studentId,
 
+        name:
+            name || "Selected Student",
 
-    const data = {
+        attendance:
+            Number(attendance || 0),
 
-        "Rahul Verma": 82,
-
-        "Vikram Singh": 76,
-
-        "Sneha Reddy": 64,
-
-        "Ishta Nair": 57
+        gpa:
+            Number(gpa || 0)
 
     };
 
 
-    percentage.textContent =
-        (data[name] || 50) + "%";
+    const nameElement =
+        document.getElementById(
+            "selectedStudentName"
+        );
+
+    if (nameElement) {
+        nameElement.textContent =
+            selectedStudent.name;
+    }
+
+
+    /*
+       Show actual attendance percentage
+       instead of the old hardcoded values.
+    */
+
+    const percentage =
+        document.getElementById(
+            "riskPercentage"
+        );
+
+    if (percentage) {
+
+        percentage.textContent =
+            selectedStudent.attendance.toFixed(0) +
+            "%";
+    }
+
+
+    /*
+       If we know the student's database ID,
+       load their real performance.
+    */
+
+    if (studentId) {
+
+        await loadPerformanceAnalysis();
+
+    }
 
 
     showToast(
-        "Showing risk analysis for " + name
+        "Showing performance for " +
+        selectedStudent.name
     );
-
 }
 
 
@@ -159,10 +247,99 @@ function selectStudent(name) {
 function openIntervention() {
 
     const modal =
-        document.getElementById("modalOverlay");
+        document.getElementById(
+            "modalOverlay"
+        );
 
     const content =
-        document.getElementById("modalContent");
+        document.getElementById(
+            "modalContent"
+        );
+
+    if (!modal || !content) {
+
+        console.error(
+            "Intervention modal not found"
+        );
+
+        return;
+    }
+
+
+    /*
+       If no student has been selected,
+       use a safe message instead of fake data.
+    */
+
+    if (!selectedStudent) {
+
+        content.innerHTML = `
+
+            <span class="section-label">
+                FACULTY INTERVENTION
+            </span>
+
+            <h2 style="margin:8px 0 20px">
+                Create Intervention Plan
+            </h2>
+
+            <div style="
+                background:#FFF7ED;
+                padding:15px;
+                border-radius:10px;
+                margin-bottom:15px;
+            ">
+
+                Please select a student first.
+
+            </div>
+
+            <button
+                class="btn-primary full-width"
+                onclick="closeModal()">
+
+                Close
+
+            </button>
+
+        `;
+
+        modal.classList.add("show");
+
+        return;
+    }
+
+
+    const attendance =
+        Number(
+            selectedStudent.attendance || 0
+        );
+
+    const gpa =
+        Number(
+            selectedStudent.gpa || 0
+        );
+
+
+    let risk = "Moderate";
+
+    if (
+        attendance < 60 ||
+        (gpa > 0 && gpa < 2.5)
+    ) {
+
+        risk = "High";
+
+    }
+
+    else if (
+        attendance >= 75 &&
+        (gpa === 0 || gpa >= 3)
+    ) {
+
+        risk = "Low";
+
+    }
 
 
     content.innerHTML = `
@@ -183,15 +360,24 @@ function openIntervention() {
         ">
 
             <strong>Student:</strong>
-            Rahul Verma
+            ${selectedStudent.name}
+
+            <br>
+
+            <strong>Attendance:</strong>
+            ${attendance.toFixed(1)}%
+
+            <br>
+
+            <strong>GPA:</strong>
+            ${gpa > 0 ? gpa.toFixed(2) : "Not available"}
 
             <br>
 
             <strong>Risk:</strong>
-            82% — High
+            ${risk}
 
         </div>
-
 
         <h3>Recommended Actions</h3>
 
@@ -200,44 +386,56 @@ function openIntervention() {
             margin:15px 0;
         ">
 
-            <input type="checkbox" checked>
+            <input
+                type="checkbox"
+                id="interventionMentoring"
+                checked>
+
             Faculty mentoring
 
         </label>
 
-
         <label style="
             display:block;
             margin:15px 0;
         ">
 
-            <input type="checkbox" checked>
+            <input
+                type="checkbox"
+                id="interventionAttendance"
+                ${attendance < 75 ? "checked" : ""}>
+
             Attendance recovery plan
 
         </label>
 
-
         <label style="
             display:block;
             margin:15px 0;
         ">
 
-            <input type="checkbox" checked>
+            <input
+                type="checkbox"
+                id="interventionParent"
+                ${risk === "High" ? "checked" : ""}>
+
             Parent notification
 
         </label>
 
-
         <label style="
             display:block;
             margin:15px 0;
         ">
 
-            <input type="checkbox">
+            <input
+                type="checkbox"
+                id="interventionMonitoring"
+                checked>
+
             Weekly performance monitoring
 
         </label>
-
 
         <button
             class="btn-primary full-width"
@@ -249,20 +447,116 @@ function openIntervention() {
 
     `;
 
-
     modal.classList.add("show");
-
 }
 
 
+/* =========================================================
+   SAVE INTERVENTION
+   ========================================================= */
+
 function saveIntervention() {
+
+    if (!selectedStudent) {
+
+        showToast(
+            "Please select a student first."
+        );
+
+        return;
+    }
+
+
+    const actions = [];
+
+    const mentoring =
+        document.getElementById(
+            "interventionMentoring"
+        );
+
+    const attendance =
+        document.getElementById(
+            "interventionAttendance"
+        );
+
+    const parent =
+        document.getElementById(
+            "interventionParent"
+        );
+
+    const monitoring =
+        document.getElementById(
+            "interventionMonitoring"
+        );
+
+
+    if (mentoring && mentoring.checked) {
+        actions.push("Faculty mentoring");
+    }
+
+    if (attendance && attendance.checked) {
+        actions.push("Attendance recovery plan");
+    }
+
+    if (parent && parent.checked) {
+        actions.push("Parent notification");
+    }
+
+    if (monitoring && monitoring.checked) {
+        actions.push(
+            "Weekly performance monitoring"
+        );
+    }
+
+
+    /*
+       Save locally for now.
+       This means the generated plan persists
+       during the current browser session.
+    */
+
+    const plans =
+        JSON.parse(
+            localStorage.getItem(
+                "presentrackInterventionPlans"
+            ) || "[]"
+        );
+
+
+    plans.push({
+
+        student_id:
+            selectedStudent.id,
+
+        student_name:
+            selectedStudent.name,
+
+        attendance:
+            selectedStudent.attendance,
+
+        gpa:
+            selectedStudent.gpa,
+
+        actions,
+
+        created_at:
+            new Date().toISOString()
+
+    });
+
+
+    localStorage.setItem(
+        "presentrackInterventionPlans",
+        JSON.stringify(plans)
+    );
+
 
     closeModal();
 
     showToast(
-        "Intervention plan created successfully."
+        "Intervention plan created for " +
+        selectedStudent.name
     );
-
 }
 
 
@@ -272,44 +566,61 @@ function saveIntervention() {
 
 function runSimulation() {
 
-    const currentAttendance =
-        Number(
-            document.getElementById(
-                "currentAttendance"
-            ).value
+    const attendanceInput =
+        document.getElementById(
+            "currentAttendance"
         );
 
+    const futureInput =
+        document.getElementById(
+            "futureClasses"
+        );
+
+    const performanceInput =
+        document.getElementById(
+            "currentPerformance"
+        );
+
+    const expectedInput =
+        document.getElementById(
+            "expectedMarks"
+        );
+
+
+    if (
+        !attendanceInput ||
+        !futureInput ||
+        !performanceInput ||
+        !expectedInput
+    ) {
+        return;
+    }
+
+
+    const currentAttendance =
+        Number(
+            attendanceInput.value
+        );
 
     const futureClasses =
         Number(
-            document.getElementById(
-                "futureClasses"
-            ).value
+            futureInput.value
         );
-
 
     const currentPerformance =
         Number(
-            document.getElementById(
-                "currentPerformance"
-            ).value
+            performanceInput.value
         );
-
 
     const expectedMarks =
         Number(
-            document.getElementById(
-                "expectedMarks"
-            ).value
+            expectedInput.value
         );
 
 
     /*
-       Assumption:
-       Current attendance represents
-       100 conducted classes.
-
-       This is a prototype model.
+       Approximate current attendance
+       as attended classes out of 100.
     */
 
     const currentAttended =
@@ -323,12 +634,6 @@ function runSimulation() {
         ) * 100;
 
 
-    /*
-       Performance prediction:
-       60% current performance
-       40% expected future marks
-    */
-
     const predictedPerformance =
         (
             currentPerformance * 0.6 +
@@ -339,31 +644,65 @@ function runSimulation() {
     const attendance =
         Math.min(
             100,
-            projectedAttendance
+            Math.max(
+                0,
+                projectedAttendance
+            )
         );
 
 
     const performance =
         Math.min(
             100,
-            predictedPerformance
+            Math.max(
+                0,
+                predictedPerformance
+            )
         );
 
 
-    document.getElementById(
-        "simAttendance"
-    ).textContent =
-        attendance.toFixed(1) + "%";
+    const simAttendance =
+        document.getElementById(
+            "simAttendance"
+        );
+
+    const simPerformance =
+        document.getElementById(
+            "simPerformance"
+        );
 
 
-    document.getElementById(
-        "simPerformance"
-    ).textContent =
-        performance.toFixed(1) + "%";
+    if (simAttendance) {
+
+        simAttendance.textContent =
+            attendance.toFixed(1) + "%";
+    }
+
+
+    if (simPerformance) {
+
+        simPerformance.textContent =
+            performance.toFixed(1) + "%";
+    }
 
 
     const riskElement =
-        document.getElementById("simRisk");
+        document.getElementById(
+            "simRisk"
+        );
+
+    const messageElement =
+        document.getElementById(
+            "simMessage"
+        );
+
+
+    if (
+        !riskElement ||
+        !messageElement
+    ) {
+        return;
+    }
 
 
     let risk;
@@ -376,6 +715,7 @@ function runSimulation() {
     ) {
 
         risk = "LOW RISK";
+
         riskElement.className =
             "simulation-status safe";
 
@@ -390,6 +730,7 @@ function runSimulation() {
     ) {
 
         risk = "MODERATE RISK";
+
         riskElement.className =
             "simulation-status moderate";
 
@@ -401,22 +742,20 @@ function runSimulation() {
     else {
 
         risk = "HIGH RISK";
+
         riskElement.className =
             "simulation-status high";
 
         message =
             "Immediate intervention is recommended.";
-
     }
 
 
-    riskElement.textContent = risk;
+    riskElement.textContent =
+        risk;
 
-
-    document.getElementById(
-        "simMessage"
-    ).textContent = message;
-
+    messageElement.textContent =
+        message;
 }
 
 
@@ -426,37 +765,56 @@ function runSimulation() {
 
 function calculateRecovery() {
 
-    const current =
-        Number(
-            document.getElementById(
-                "recoveryAttendance"
-            ).value
+    const currentInput =
+        document.getElementById(
+            "recoveryAttendance"
         );
 
-
-    const required =
-        Number(
-            document.getElementById(
-                "requiredAttendance"
-            ).value
+    const requiredInput =
+        document.getElementById(
+            "requiredAttendance"
         );
 
+    const upcomingInput =
+        document.getElementById(
+            "upcomingClasses"
+        );
 
-    const upcoming =
-        Number(
-            document.getElementById(
-                "upcomingClasses"
-            ).value
+    const result =
+        document.getElementById(
+            "recoveryResult"
         );
 
 
     if (
-        current >= required
+        !currentInput ||
+        !requiredInput ||
+        !upcomingInput ||
+        !result
     ) {
+        return;
+    }
 
-        document.getElementById(
-            "recoveryResult"
-        ).innerHTML = `
+
+    const current =
+        Number(
+            currentInput.value
+        );
+
+    const required =
+        Number(
+            requiredInput.value
+        );
+
+    const upcoming =
+        Number(
+            upcomingInput.value
+        );
+
+
+    if (current >= required) {
+
+        result.innerHTML = `
 
             <strong>
                 Attendance target already achieved.
@@ -468,15 +826,11 @@ function calculateRecovery() {
         `;
 
         return;
-
     }
 
 
-    /*
-       Assume 100 classes conducted.
-    */
-
-    const currentAttended = current;
+    const currentAttended =
+        current;
 
 
     let requiredClasses = 0;
@@ -495,18 +849,9 @@ function calculateRecovery() {
         if (
             requiredClasses > upcoming
         ) {
-
             break;
-
         }
-
     }
-
-
-    const result =
-        document.getElementById(
-            "recoveryResult"
-        );
 
 
     if (
@@ -544,9 +889,7 @@ function calculateRecovery() {
             Immediate faculty intervention recommended.
 
         `;
-
     }
-
 }
 
 
@@ -557,10 +900,19 @@ function calculateRecovery() {
 function openAnomalyDetails() {
 
     const modal =
-        document.getElementById("modalOverlay");
+        document.getElementById(
+            "modalOverlay"
+        );
 
     const content =
-        document.getElementById("modalContent");
+        document.getElementById(
+            "modalContent"
+        );
+
+
+    if (!modal || !content) {
+        return;
+    }
 
 
     content.innerHTML = `
@@ -572,7 +924,6 @@ function openAnomalyDetails() {
         <h2 style="margin:8px 0 20px">
             Attendance Anomaly Report
         </h2>
-
 
         <div style="
             padding:15px;
@@ -587,7 +938,6 @@ function openAnomalyDetails() {
 
         </div>
 
-
         <div style="
             padding:12px 0;
             border-bottom:1px solid #E2E8F0;
@@ -598,12 +948,13 @@ function openAnomalyDetails() {
             </strong>
 
             <p style="color:#64748B;font-size:12px">
+
                 Student PT105 recorded attendance
                 twice in the same session.
+
             </p>
 
         </div>
-
 
         <div style="
             padding:12px 0;
@@ -615,12 +966,13 @@ function openAnomalyDetails() {
             </strong>
 
             <p style="color:#64748B;font-size:12px">
+
                 Attendance location differs from
                 classroom location.
+
             </p>
 
         </div>
-
 
         <div style="margin-top:20px">
 
@@ -638,11 +990,7 @@ function openAnomalyDetails() {
 
 
     modal.classList.add("show");
-
 }
-
-
-
 
 
 /* =========================================================
@@ -651,31 +999,47 @@ function openAnomalyDetails() {
 
 function useQuery(button) {
 
-    document.getElementById(
-        "analyticsQuery"
-    ).value =
+    const input =
+        document.getElementById(
+            "analyticsQuery"
+        );
+
+
+    if (!input || !button) {
+        return;
+    }
+
+
+    input.value =
         button.textContent.trim();
 
 
     askAnalytics();
-
 }
 
 
 function askAnalytics() {
 
-    const query =
+    const input =
         document.getElementById(
             "analyticsQuery"
-        ).value
-        .toLowerCase()
-        .trim();
-
+        );
 
     const result =
         document.getElementById(
             "analyticsResult"
         );
+
+
+    if (!input || !result) {
+        return;
+    }
+
+
+    const query =
+        input.value
+            .toLowerCase()
+            .trim();
 
 
     if (!query) {
@@ -691,7 +1055,6 @@ function askAnalytics() {
         `;
 
         return;
-
     }
 
 
@@ -820,7 +1183,6 @@ function askAnalytics() {
             risk, subjects or improvement.
 
         `;
-
     }
 
 
@@ -831,7 +1193,6 @@ function askAnalytics() {
         <span>${answer}</span>
 
     `;
-
 }
 
 
@@ -842,10 +1203,19 @@ function askAnalytics() {
 function openRolePanel() {
 
     const modal =
-        document.getElementById("modalOverlay");
+        document.getElementById(
+            "modalOverlay"
+        );
 
     const content =
-        document.getElementById("modalContent");
+        document.getElementById(
+            "modalContent"
+        );
+
+
+    if (!modal || !content) {
+        return;
+    }
 
 
     content.innerHTML = `
@@ -858,7 +1228,6 @@ function openRolePanel() {
             Select User Role
         </h2>
 
-
         <button
             class="btn-primary full-width"
             style="margin-bottom:10px"
@@ -867,7 +1236,6 @@ function openRolePanel() {
             Administrator
 
         </button>
-
 
         <button
             class="btn-primary full-width"
@@ -878,7 +1246,6 @@ function openRolePanel() {
 
         </button>
 
-
         <button
             class="btn-primary full-width"
             style="margin-bottom:10px"
@@ -887,7 +1254,6 @@ function openRolePanel() {
             Student
 
         </button>
-
 
         <button
             class="btn-primary full-width"
@@ -901,15 +1267,21 @@ function openRolePanel() {
 
 
     modal.classList.add("show");
-
 }
 
 
 function setRole(role) {
 
-    document.getElementById(
-        "currentRole"
-    ).textContent = role;
+    const roleElement =
+        document.getElementById(
+            "currentRole"
+        );
+
+
+    if (roleElement) {
+        roleElement.textContent =
+            role;
+    }
 
 
     localStorage.setItem(
@@ -924,7 +1296,6 @@ function setRole(role) {
     showToast(
         "Role changed to " + role
     );
-
 }
 
 
@@ -934,12 +1305,15 @@ function setRole(role) {
 
 function toggleNotifications() {
 
-    document
-        .getElementById(
+    const panel =
+        document.getElementById(
             "notificationPanel"
-        )
-        .classList.toggle("show");
+        );
 
+
+    if (panel) {
+        panel.classList.toggle("show");
+    }
 }
 
 
@@ -949,21 +1323,26 @@ function toggleNotifications() {
 
 function closeModal(event) {
 
-    if (
-        event &&
-        event.target !==
-        document.getElementById("modalOverlay")
-    ) {
+    const modal =
+        document.getElementById(
+            "modalOverlay"
+        );
 
+
+    if (!modal) {
         return;
-
     }
 
 
-    document
-        .getElementById("modalOverlay")
-        .classList.remove("show");
+    if (
+        event &&
+        event.target !== modal
+    ) {
+        return;
+    }
 
+
+    modal.classList.remove("show");
 }
 
 
@@ -974,13 +1353,13 @@ function closeModal(event) {
 function showToast(message) {
 
     const oldToast =
-        document.querySelector(".presentrack-toast");
+        document.querySelector(
+            ".presentrack-toast"
+        );
 
 
     if (oldToast) {
-
         oldToast.remove();
-
     }
 
 
@@ -1008,13 +1387,17 @@ function showToast(message) {
 
         toast.classList.add("hide");
 
+
         setTimeout(() => {
+
             toast.remove();
+
         }, 300);
 
     }, 2500);
-
 }
+
+
 /* =========================================================
    LOAD PERFORMANCE DATA FROM BACKEND
    ========================================================= */
@@ -1024,26 +1407,56 @@ async function loadPerformanceData() {
     try {
 
         const statsResponse =
-            await fetch("/api/dashboard/stats");
+            await fetch(
+                "/api/dashboard/stats"
+            );
+
+
+        if (!statsResponse.ok) {
+
+            throw new Error(
+                "Failed to load dashboard statistics"
+            );
+        }
+
 
         const stats =
             await statsResponse.json();
 
 
         const riskResponse =
-            await fetch("/api/at-risk");
+            await fetch(
+                "/api/at-risk"
+            );
+
+
+        if (!riskResponse.ok) {
+
+            throw new Error(
+                "Failed to load at-risk students"
+            );
+        }
+
 
         const riskStudents =
             await riskResponse.json();
 
 
-        console.log("Performance stats:", stats);
-        console.log("At-risk students:", riskStudents);
+        console.log(
+            "Performance stats:",
+            stats
+        );
+
+
+        console.log(
+            "At-risk students:",
+            riskStudents
+        );
 
 
         /* =====================================================
            TOTAL STUDENTS
-        ===================================================== */
+           ===================================================== */
 
         const metricCards =
             document.querySelectorAll(
@@ -1054,47 +1467,39 @@ async function loadPerformanceData() {
         if (metricCards[0]) {
 
             const value =
-                metricCards[0].querySelector("h2");
+                metricCards[0].querySelector(
+                    "h2"
+                );
+
 
             if (value) {
 
                 value.textContent =
                     stats.totalStudents;
-
             }
-
         }
 
 
         /* =====================================================
-           AVERAGE PERFORMANCE
-           =====================================================
-
-           For now we leave the existing performance
-           percentage because dashboard/stats currently
-           provides attendance, not performance.
-        */
-
-
-        /* =====================================================
            AT-RISK COUNT
-        ===================================================== */
+           ===================================================== */
 
         const riskCount =
-            document.getElementById("riskCount");
+            document.getElementById(
+                "riskCount"
+            );
 
 
         if (riskCount) {
 
             riskCount.textContent =
                 stats.atRiskCount;
-
         }
 
 
         /* =====================================================
            RISK STUDENT LIST
-        ===================================================== */
+           ===================================================== */
 
         const riskContainer =
             document.querySelector(
@@ -1110,17 +1515,40 @@ async function loadPerformanceData() {
         riskContainer.innerHTML = "";
 
 
+        if (
+            !Array.isArray(riskStudents) ||
+            riskStudents.length === 0
+        ) {
+
+            riskContainer.innerHTML = `
+
+                <div style="
+                    padding:20px;
+                    text-align:center;
+                    color:#64748B;
+                ">
+
+                    No at-risk students found.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
         riskStudents.forEach(student => {
 
             const attendance =
                 Number(
-                    student.attendance_percent
+                    student.attendance_percent || 0
                 );
 
 
             const gpa =
                 Number(
-                    student.gpa
+                    student.gpa || 0
                 );
 
 
@@ -1142,7 +1570,19 @@ async function loadPerformanceData() {
 
                 riskLabel =
                     "High Risk";
+            }
 
+
+            if (
+                student.risk_type === "attendance" &&
+                attendance < 60
+            ) {
+
+                riskClass =
+                    "high";
+
+                riskLabel =
+                    "High Risk";
             }
 
 
@@ -1157,18 +1597,29 @@ async function loadPerformanceData() {
 
 
             const row =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             row.className =
                 "student-risk-row";
 
 
+            /*
+               IMPORTANT:
+               Pass the REAL database ID,
+               name, attendance and GPA.
+            */
+
             row.onclick =
                 function() {
 
                     selectStudent(
-                        student.name.trim()
+                        student.id,
+                        student.name.trim(),
+                        attendance,
+                        gpa
                     );
 
                 };
@@ -1179,7 +1630,6 @@ async function loadPerformanceData() {
                 <div class="student-mini-avatar ${riskClass}">
                     ${initials}
                 </div>
-
 
                 <div class="student-info">
 
@@ -1197,7 +1647,6 @@ async function loadPerformanceData() {
 
                 </div>
 
-
                 <div class="risk-score ${riskClass}">
 
                     <strong>
@@ -1210,13 +1659,14 @@ async function loadPerformanceData() {
 
                 </div>
 
-
                 <i class="fas fa-chevron-right"></i>
 
             `;
 
 
-            riskContainer.appendChild(row);
+            riskContainer.appendChild(
+                row
+            );
 
         });
 
@@ -1227,59 +1677,490 @@ async function loadPerformanceData() {
             "Failed to load performance data:",
             error
         );
+    }
+}
+
+
+/* =========================================================
+   LOAD REAL PERFORMANCE ANALYSIS
+   ========================================================= */
+
+async function loadPerformanceAnalysis() {
+
+    try {
+
+        /* =====================================================
+           GET CURRENT SEMESTER
+           ===================================================== */
+
+        const semesterSelect =
+            document.getElementById(
+                "semesterSelect"
+            );
+
+
+        if (!semesterSelect) {
+
+            console.error(
+                "semesterSelect element not found"
+            );
+
+            return;
+        }
+
+
+        const semester =
+            semesterSelect.value;
+
+
+        /* =====================================================
+           GET ACTIVE EXAM
+           ===================================================== */
+
+        const examType =
+            getActiveExamType();
+
+
+        console.log(
+            "Loading performance:",
+            {
+                semester,
+                examType,
+                selectedStudent
+            }
+        );
+
+
+        /* =====================================================
+           BUILD API URL
+           ===================================================== */
+
+        let url =
+            "/api/marks?semester=" +
+            encodeURIComponent(
+                semester
+            );
+
+
+        /*
+           If a real student has been selected,
+           request ONLY that student's marks.
+        */
+
+        if (
+            selectedStudent &&
+            selectedStudent.id
+        ) {
+
+            url +=
+                "&student_id=" +
+                encodeURIComponent(
+                    selectedStudent.id
+                );
+        }
+
+
+        /* =====================================================
+           REQUEST MARKS
+           ===================================================== */
+
+        const response =
+            await fetch(url);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Failed to load marks"
+            );
+        }
+
+
+        const marks =
+            await response.json();
+
+
+        console.log(
+            "Performance marks:",
+            marks
+        );
+
+
+        /* =====================================================
+           NO DATA
+           ===================================================== */
+
+        if (
+            !Array.isArray(marks) ||
+            marks.length === 0
+        ) {
+
+            updatePerformanceUI(
+                0,
+                semester,
+                examType,
+                true
+            );
+
+            return;
+        }
+
+
+        /* =====================================================
+           CALCULATE SELECTED EXAM PERFORMANCE
+           ===================================================== */
+
+        let totalMarks =
+            0;
+
+        let totalMax =
+            0;
+
+
+        marks.forEach(mark => {
+
+            let score = 0;
+
+
+            if (
+                examType === "mid1"
+            ) {
+
+                score =
+                    Number(
+                        mark.mid1 || 0
+                    );
+
+            }
+
+            else if (
+                examType === "mid2"
+            ) {
+
+                score =
+                    Number(
+                        mark.mid2 || 0
+                    );
+
+            }
+
+            else if (
+                examType === "semester_exam"
+            ) {
+
+                score =
+                    Number(
+                        mark.semester_exam || 0
+                    );
+            }
+
+
+            const max =
+                Number(
+                    mark.max_marks || 100
+                );
+
+
+            totalMarks +=
+                score;
+
+
+            totalMax +=
+                max;
+
+        });
+
+
+        const average =
+            totalMax > 0
+                ? (
+                    totalMarks /
+                    totalMax
+                ) * 100
+                : 0;
+
+
+        /* =====================================================
+           UPDATE UI
+           ===================================================== */
+
+        updatePerformanceUI(
+            average,
+            semester,
+            examType,
+            false
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Performance analysis error:",
+            error
+        );
+
+
+        showToast(
+            "Unable to load performance data."
+        );
+    }
+}
+
+
+/* =========================================================
+   UPDATE PERFORMANCE UI
+   ========================================================= */
+
+function updatePerformanceUI(
+    average,
+    semester,
+    examType,
+    noData
+) {
+
+    /* =====================================================
+       PERFORMANCE CARD
+       ===================================================== */
+
+    const metricCards =
+        document.querySelectorAll(
+            ".metric-card"
+        );
+
+
+    if (metricCards[1]) {
+
+        const value =
+            metricCards[1].querySelector(
+                "h2"
+            );
+
+
+        if (value) {
+
+            value.textContent =
+                noData
+                    ? "0.0%"
+                    : average.toFixed(1) + "%";
+        }
+    }
+
+
+    /* =====================================================
+       CHART
+       ===================================================== */
+
+    const chartValues =
+        document.querySelectorAll(
+            ".chart-value"
+        );
+
+
+    const chartBars =
+        document.querySelectorAll(
+            ".chart-bar"
+        );
+
+
+    if (chartValues.length) {
+
+        const currentValue =
+            chartValues[
+                chartValues.length - 1
+            ];
+
+
+        currentValue.textContent =
+            noData
+                ? "0.0%"
+                : average.toFixed(1) + "%";
+    }
+
+
+    if (chartBars.length) {
+
+        const currentBar =
+            chartBars[
+                chartBars.length - 1
+            ];
+
+
+        currentBar.style.height =
+            Math.min(
+                100,
+                Math.max(
+                    0,
+                    average
+                )
+            ) + "%";
+    }
+
+
+    /* =====================================================
+       INSIGHT
+       ===================================================== */
+
+    const insight =
+        document.querySelector(
+            ".insight-box p"
+        );
+
+
+    if (!insight) {
+        return;
+    }
+
+
+    let examName =
+        "Mid 1";
+
+
+    if (
+        examType === "mid2"
+    ) {
+
+        examName =
+            "Mid 2";
 
     }
 
+    else if (
+        examType === "semester_exam"
+    ) {
+
+        examName =
+            "Semester";
+    }
+
+
+    const studentText =
+        selectedStudent
+            ? " for " +
+              selectedStudent.name
+            : "";
+
+
+    if (noData) {
+
+        insight.innerHTML = `
+
+            <strong>Insight:</strong>
+
+            No ${examName} performance
+            data is available for
+            Semester ${semester}
+            ${studentText}.
+
+        `;
+
+    }
+
+    else {
+
+        insight.innerHTML = `
+
+            <strong>Insight:</strong>
+
+            ${examName} performance
+            ${studentText}
+            for Semester ${semester}
+            is
+
+            <strong>
+                ${average.toFixed(1)}%
+            </strong>.
+
+        `;
+    }
 }
 
+
 /* =========================================================
-   LOAD SAVED ROLE
+   LOAD SAVED ROLE / INITIAL PAGE LOAD
    ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
-                const storage =
-            localStorage.getItem("userName")
+
+        const storage =
+            localStorage.getItem(
+                "userName"
+            )
                 ? localStorage
                 : sessionStorage;
 
+
         const userName =
-            storage.getItem("userName");
+            storage.getItem(
+                "userName"
+            );
+
 
         const userRole =
-            storage.getItem("userRole");
+            storage.getItem(
+                "userRole"
+            );
+
 
         const nameElement =
-            document.getElementById("performanceUserName");
+            document.getElementById(
+                "performanceUserName"
+            );
+
 
         const avatarElement =
-            document.getElementById("userAvatar");
+            document.getElementById(
+                "userAvatar"
+            );
 
-        if (userName) {
+
+        if (
+            userName &&
+            nameElement
+        ) {
 
             nameElement.textContent =
                 userName;
+        }
+
+
+        if (
+            userName &&
+            avatarElement
+        ) {
 
             avatarElement.textContent =
                 userName
                     .split(/\s+/)
-                    .map(word => word[0])
+                    .map(
+                        word => word[0]
+                    )
                     .join("")
                     .substring(0, 2)
                     .toUpperCase();
-
         }
+
 
         if (userRole) {
 
-            document.getElementById(
-                "currentRole"
-            ).textContent =
-                userRole.charAt(0).toUpperCase() +
-                userRole.slice(1);
+            const roleElement =
+                document.getElementById(
+                    "currentRole"
+                );
 
+
+            if (roleElement) {
+
+                roleElement.textContent =
+                    userRole
+                        .charAt(0)
+                        .toUpperCase() +
+                    userRole.slice(1);
+            }
         }
+
+
         const savedRole =
             localStorage.getItem(
                 "presentrackRole"
@@ -1289,23 +2170,30 @@ document.addEventListener(
         if (savedRole) {
 
             const roleElement =
-                document.getElementById("currentRole");
+                document.getElementById(
+                    "currentRole"
+                );
+
 
             if (roleElement) {
 
                 roleElement.textContent =
                     savedRole;
-
             }
-
         }
 
+
+        /* =====================================================
+           INITIAL PAGE DATA
+           ===================================================== */
 
         calculateRecovery();
 
         runSimulation();
 
         loadPerformanceData();
+
+        loadPerformanceAnalysis();
 
     }
 );

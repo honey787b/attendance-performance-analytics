@@ -35,6 +35,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const pageText = document.querySelector(".pagination span");
 
+
+    // =================================================
+    // ADD STUDENT MODAL ELEMENTS
+    // =================================================
+
+    const addStudentModal =
+        document.getElementById("addStudentModal");
+
+    const closeStudentModal =
+        document.getElementById("closeStudentModal");
+
+    const cancelStudentModal =
+        document.getElementById("cancelStudentModal");
+
+    const addStudentForm =
+        document.getElementById("addStudentForm");
+
+    const addStudentMessage =
+        document.getElementById("addStudentMessage");
+
+
     // =================================================
     // STUDENT DATA
     // =================================================
@@ -44,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPage = 1;
 
     const studentsPerPage = 10;
+
 
     // =================================================
     // FORMAT YEAR
@@ -61,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return `${yearNumber}${suffix}`;
 
     }
+
 
     // =================================================
     // GET ATTENDANCE CLASS
@@ -80,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+
     // =================================================
     // GET STATUS
     // =================================================
@@ -87,30 +111,36 @@ document.addEventListener("DOMContentLoaded", () => {
     function getStatus(student) {
 
         if (student.status === "Inactive") {
+
             return {
                 text: "Inactive",
                 className: "status-danger"
             };
+
         }
 
         if (
             Number(student.attendance_percent) < 75 ||
             Number(student.gpa) < 2.5
         ) {
+
             return {
                 text: "At Risk",
                 className: "status-danger"
             };
+
         }
 
         if (
             Number(student.attendance_percent) < 85 ||
             Number(student.gpa) < 6.0
         ) {
+
             return {
                 text: "Attention",
                 className: "status-warning"
             };
+
         }
 
         return {
@@ -119,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
     }
+
 
     // =================================================
     // DISPLAY STUDENTS
@@ -145,38 +176,63 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         const totalPages =
-            Math.ceil(studentList.length / studentsPerPage);
+            Math.ceil(
+                studentList.length /
+                studentsPerPage
+            );
+
 
         if (currentPage > totalPages) {
             currentPage = totalPages;
         }
 
+
         const startIndex =
-            (currentPage - 1) * studentsPerPage;
+            (currentPage - 1) *
+            studentsPerPage;
+
 
         const endIndex =
-            startIndex + studentsPerPage;
+            startIndex +
+            studentsPerPage;
+
 
         const pageStudents =
-            studentList.slice(startIndex, endIndex);
+            studentList.slice(
+                startIndex,
+                endIndex
+            );
+
 
         pageStudents.forEach(student => {
 
             const attendance =
-                Number(student.attendance_percent || 0);
+                Number(
+                    student.attendance_percent || 0
+                );
+
 
             const performance =
-                Number(student.performance_percent || 0);
+                Number(
+                    student.performance_percent || 0
+                );
+
 
             const gpa =
-                Number(student.gpa || 0);
+                Number(
+                    student.gpa || 0
+                );
+
 
             const status =
                 getStatus(student);
 
+
             const row =
                 document.createElement("tr");
+
 
             row.innerHTML = `
 
@@ -238,14 +294,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+
         studentCount.textContent =
             `${studentList.length} Students`;
+
 
         updatePagination(totalPages);
 
         attachViewButtons();
 
     }
+
 
     // =================================================
     // FILTER STUDENTS
@@ -254,13 +313,18 @@ document.addEventListener("DOMContentLoaded", () => {
     function filterStudents() {
 
         const searchValue =
-            searchInput.value.trim().toLowerCase();
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
 
         const selectedYear =
             yearFilter.value;
 
+
         const selectedBranch =
             branchFilter.value;
+
 
         const filteredStudents =
             students.filter(student => {
@@ -269,19 +333,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     String(student.roll_no)
                         .toLowerCase();
 
+
                 const studentName =
                     String(student.name)
                         .toLowerCase();
 
+
                 const branch =
                     String(student.branch);
+
 
                 const year =
                     Number(student.year);
 
+
                 const matchesSearch =
                     studentId.includes(searchValue) ||
                     studentName.includes(searchValue);
+
 
                 const matchesYear =
                     selectedYear === "All Years" ||
@@ -289,9 +358,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         selectedYear.charAt(0)
                     );
 
+
                 const matchesBranch =
                     selectedBranch === "All Branches" ||
                     branch === selectedBranch;
+
 
                 return (
                     matchesSearch &&
@@ -301,11 +372,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             });
 
+
         currentPage = 1;
 
         displayStudents(filteredStudents);
 
     }
+
 
     // =================================================
     // VIEW STUDENT
@@ -316,40 +389,54 @@ document.addEventListener("DOMContentLoaded", () => {
         const viewButtons =
             document.querySelectorAll(".action-btn");
 
+
         viewButtons.forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                async () => {
 
-                const studentId =
-                    Number(button.dataset.id);
+                    const studentId =
+                        Number(
+                            button.dataset.id
+                        );
 
-                const student =
-                    students.find(
-                        s => Number(s.id) === studentId
+
+                    const student =
+                        students.find(
+                            s =>
+                                Number(s.id) ===
+                                studentId
+                        );
+
+
+                    if (!student) {
+                        return;
+                    }
+
+
+                    alert(
+                        `Student Details\n\n` +
+                        `ID: ${student.roll_no}\n` +
+                        `Name: ${student.name}\n` +
+                        `Email: ${student.email || "N/A"}\n` +
+                        `Phone: ${student.phone || "N/A"}\n` +
+                        `Branch: ${student.branch}\n` +
+                        `Year: ${formatYear(student.year)}\n` +
+                        `Section: ${student.section}\n` +
+                        `Attendance: ${student.attendance_percent || 0}%\n` +
+                        `Performance: ${student.performance_percent || 0}%\n` +
+                        `GPA: ${student.gpa || 0}\n` +
+                        `Status: ${student.status || "Active"}`
                     );
 
-                if (!student) {
-                    return;
                 }
-
-                alert(
-                    `Student Details\n\n` +
-                    `ID: ${student.roll_no}\n` +
-                    `Name: ${student.name}\n` +
-                    `Branch: ${student.branch}\n` +
-                    `Year: ${formatYear(student.year)}\n` +
-                    `Section: ${student.section}\n` +
-                    `Attendance: ${student.attendance_percent}%\n` +
-                    `Performance: ${student.performance_percent}%\n` +
-                    `GPA: ${student.gpa}\n` +
-                    `Status: ${student.status}`
-                );
-
-            });
+            );
 
         });
 
     }
+
 
     // =================================================
     // PAGINATION
@@ -358,7 +445,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function updatePagination(totalPages) {
 
         if (totalPages === 0) {
-            pageText.textContent = "Page 0 of 0";
+
+            pageText.textContent =
+                "Page 0 of 0";
 
             previousButton.disabled = true;
             nextButton.disabled = true;
@@ -366,16 +455,20 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+
         pageText.textContent =
             `Page ${currentPage} of ${totalPages}`;
 
+
         previousButton.disabled =
             currentPage === 1;
+
 
         nextButton.disabled =
             currentPage === totalPages;
 
     }
+
 
     previousButton.addEventListener(
         "click",
@@ -392,18 +485,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
+
     nextButton.addEventListener(
         "click",
         () => {
 
             const searchValue =
-                searchInput.value.trim().toLowerCase();
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
 
             const selectedYear =
                 yearFilter.value;
 
+
             const selectedBranch =
                 branchFilter.value;
+
 
             const filteredStudents =
                 students.filter(student => {
@@ -412,18 +511,24 @@ document.addEventListener("DOMContentLoaded", () => {
                         String(student.roll_no)
                             .toLowerCase()
                             .includes(searchValue) ||
+
                         String(student.name)
                             .toLowerCase()
                             .includes(searchValue);
 
+
                     const matchesYear =
                         selectedYear === "All Years" ||
                         Number(student.year) ===
-                        Number(selectedYear.charAt(0));
+                        Number(
+                            selectedYear.charAt(0)
+                        );
+
 
                     const matchesBranch =
                         selectedBranch === "All Branches" ||
                         student.branch === selectedBranch;
+
 
                     return (
                         matchesSearch &&
@@ -433,22 +538,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 });
 
+
             const totalPages =
                 Math.ceil(
                     filteredStudents.length /
                     studentsPerPage
                 );
 
+
             if (currentPage < totalPages) {
 
                 currentPage++;
 
-                displayStudents(filteredStudents);
+                displayStudents(
+                    filteredStudents
+                );
 
             }
 
         }
     );
+
 
     // =================================================
     // SEARCH
@@ -459,6 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
         filterStudents
     );
 
+
     // =================================================
     // APPLY FILTERS
     // =================================================
@@ -468,20 +579,228 @@ document.addEventListener("DOMContentLoaded", () => {
         filterStudents
     );
 
+
     // =================================================
-    // ADD STUDENT
+    // OPEN ADD STUDENT MODAL
     // =================================================
 
     addStudentButton.addEventListener(
         "click",
         () => {
 
-            alert(
-                "Add Student feature will be connected to the student database later."
-            );
+            addStudentForm.reset();
+
+            addStudentMessage.textContent = "";
+
+            addStudentModal.classList.add("show");
 
         }
     );
+
+
+    // =================================================
+    // CLOSE ADD STUDENT MODAL
+    // =================================================
+
+    function closeModal() {
+
+        addStudentModal.classList.remove("show");
+
+        addStudentForm.reset();
+
+        addStudentMessage.textContent = "";
+
+    }
+
+
+    closeStudentModal.addEventListener(
+        "click",
+        closeModal
+    );
+
+
+    cancelStudentModal.addEventListener(
+        "click",
+        closeModal
+    );
+
+
+    // Close when clicking outside modal
+    addStudentModal.addEventListener(
+        "click",
+        event => {
+
+            if (event.target === addStudentModal) {
+                closeModal();
+            }
+
+        }
+    );
+
+
+    // =================================================
+    // ADD STUDENT
+    // =================================================
+
+    addStudentForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const rollNo =
+                document.getElementById(
+                    "addRollNo"
+                ).value.trim();
+
+
+            const name =
+                document.getElementById(
+                    "addName"
+                ).value.trim();
+
+
+            const email =
+                document.getElementById(
+                    "addEmail"
+                ).value.trim();
+
+
+            const phone =
+                document.getElementById(
+                    "addPhone"
+                ).value.trim();
+
+
+            const branch =
+                document.getElementById(
+                    "addBranch"
+                ).value;
+
+
+            const year =
+                Number(
+                    document.getElementById(
+                        "addYear"
+                    ).value
+                );
+
+
+            const section =
+                document.getElementById(
+                    "addSection"
+                ).value;
+
+
+            if (
+                !rollNo ||
+                !name ||
+                !branch ||
+                !year ||
+                !section
+            ) {
+
+                addStudentMessage.textContent =
+                    "Please fill all required fields.";
+
+                addStudentMessage.style.color =
+                    "#dc2626";
+
+                return;
+
+            }
+
+
+            try {
+
+                addStudentMessage.textContent =
+                    "Adding student...";
+
+                addStudentMessage.style.color =
+                    "#2563eb";
+
+
+                const response =
+                    await fetch(
+                        "/api/students",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                roll_no: rollNo,
+                                name: name,
+                                email: email || null,
+                                phone: phone || null,
+                                branch: branch,
+                                year: year,
+                                section: section
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json()
+                        .catch(() => ({}));
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error ||
+                        "Failed to add student"
+                    );
+
+                }
+
+
+                addStudentMessage.textContent =
+                    "✓ Student added successfully!";
+
+                addStudentMessage.style.color =
+                    "#16a34a";
+
+
+                // Reload students from MySQL
+                await loadStudents();
+
+
+                // Close modal after successful save
+                setTimeout(
+                    closeModal,
+                    700
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Add student error:",
+                    error
+                );
+
+
+                addStudentMessage.textContent =
+                    "Failed to add student: " +
+                    error.message;
+
+                addStudentMessage.style.color =
+                    "#dc2626";
+
+            }
+
+        }
+    );
+
 
     // =================================================
     // LOAD STUDENTS FROM DATABASE
@@ -492,23 +811,34 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
 
             const response =
-                await fetch("/api/students");
+                await fetch(
+                    "/api/students"
+                );
+
 
             if (!response.ok) {
+
                 throw new Error(
                     "Failed to load students"
                 );
+
             }
+
 
             students =
                 await response.json();
+
 
             console.log(
                 "Students loaded from database:",
                 students
             );
 
+
+            currentPage = 1;
+
             displayStudents(students);
+
 
         } catch (error) {
 
@@ -516,6 +846,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Error loading students:",
                 error
             );
+
 
             tableBody.innerHTML = `
                 <tr>
@@ -525,12 +856,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 </tr>
             `;
 
+
             studentCount.textContent =
                 "0 Students";
 
         }
 
     }
+
 
     // =================================================
     // INITIALIZE

@@ -66,8 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getStatusClass(status) {
 
-        if (status === "Inactive") {
+        if (
+            status === "Inactive" ||
+            status === "inactive"
+        ) {
             return "status-danger";
+        }
+
+        if (
+            status === "On Leave" ||
+            status === "on leave"
+        ) {
+            return "status-warning";
         }
 
         return "status-active";
@@ -82,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function displayFaculty(facultyList) {
 
         tableBody.innerHTML = "";
-
 
         if (facultyList.length === 0) {
 
@@ -154,17 +163,17 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
 
                 <td>
-                    ${member.faculty_code}
+                    ${member.faculty_code || "—"}
                 </td>
 
                 <td>
                     <strong>
-                        ${member.name}
+                        ${member.name || "—"}
                     </strong>
                 </td>
 
                 <td>
-                    ${member.department}
+                    ${member.department || "—"}
                 </td>
 
                 <td>
@@ -241,30 +250,26 @@ document.addEventListener("DOMContentLoaded", () => {
             faculty.filter(member => {
 
                 const facultyCode =
-                    String(member.faculty_code)
+                    String(member.faculty_code || "")
                         .toLowerCase();
 
 
                 const facultyName =
-                    String(member.name)
+                    String(member.name || "")
                         .toLowerCase();
 
 
                 const department =
-                    String(member.department);
+                    String(member.department || "");
 
 
                 const status =
-                    String(member.status);
+                    String(member.status || "Active");
 
 
                 const matchesSearch =
-                    facultyCode.includes(
-                        searchValue
-                    ) ||
-                    facultyName.includes(
-                        searchValue
-                    );
+                    facultyCode.includes(searchValue) ||
+                    facultyName.includes(searchValue);
 
 
                 const matchesDepartment =
@@ -345,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         `Designation: ${member.designation || "Faculty"}\n` +
                         `Subjects: ${member.subjects || "None"}\n` +
                         `Classes: ${member.class_count || 0}\n` +
-                        `Status: ${member.status}`
+                        `Status: ${member.status || "Active"}`
                     );
 
                 }
@@ -360,9 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // PAGINATION
     // =================================================
 
-    function updatePagination(
-        totalPages
-    ) {
+    function updatePagination(totalPages) {
 
         if (totalPages === 0) {
 
@@ -433,13 +436,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const matchesSearch =
                         String(
-                            member.faculty_code
+                            member.faculty_code || ""
                         )
                             .toLowerCase()
                             .includes(
                                 searchValue
                             ) ||
-                        String(member.name)
+                        String(member.name || "")
                             .toLowerCase()
                             .includes(
                                 searchValue
@@ -456,7 +459,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const matchesStatus =
                         selectedStatus ===
                         "All Status" ||
-                        member.status ===
+                        (member.status || "Active") ===
                         selectedStatus;
 
 
@@ -519,11 +522,140 @@ document.addEventListener("DOMContentLoaded", () => {
 
     addFacultyButton.addEventListener(
         "click",
-        () => {
+        async () => {
 
-            alert(
-                "Add Faculty feature will be connected to the faculty database later."
-            );
+            const facultyCode =
+                prompt("Enter Faculty ID:");
+
+            if (!facultyCode) {
+                return;
+            }
+
+
+            const name =
+                prompt("Enter Faculty Name:");
+
+            if (!name) {
+                return;
+            }
+
+
+            const email =
+                prompt("Enter Faculty Email:");
+
+            if (!email) {
+                return;
+            }
+
+
+            const department =
+                prompt(
+                    "Enter Department:\n\nCSE\nAI & ML\nECE\nEEE\nMechanical\nCivil"
+                );
+
+            if (!department) {
+                return;
+            }
+
+
+            const designation =
+                prompt(
+                    "Enter Designation:",
+                    "Assistant Professor"
+                );
+
+            if (!designation) {
+                return;
+            }
+
+
+            try {
+
+                addFacultyButton.disabled = true;
+
+                addFacultyButton.textContent =
+                    "Adding...";
+
+
+                const response =
+                    await fetch(
+                        "/api/faculty",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                faculty_code:
+                                    facultyCode.trim(),
+
+                                name:
+                                    name.trim(),
+
+                                email:
+                                    email.trim(),
+
+                                department:
+                                    department.trim(),
+
+                                designation:
+                                    designation.trim()
+
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.error ||
+                        "Failed to add faculty"
+                    );
+
+                }
+
+
+                alert(
+                    "✓ Faculty added successfully!"
+                );
+
+
+                // Reload faculty from database
+                await loadFaculty();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Add faculty error:",
+                    error
+                );
+
+
+                alert(
+                    "Failed to add faculty.\n\n" +
+                    error.message
+                );
+
+
+            } finally {
+
+                addFacultyButton.disabled =
+                    false;
+
+                addFacultyButton.textContent =
+                    "+ Add Faculty";
+
+            }
 
         }
     );

@@ -1,59 +1,38 @@
 document.addEventListener("DOMContentLoaded", async function () {
 
-    // =====================================================
-    // LOAD LOGGED-IN USER PROFILE
-    // =====================================================
+    // =========================================================
+    // PROFILE
+    // =========================================================
 
     const storage = localStorage.getItem("userName")
-    ? localStorage
-    : sessionStorage;
+        ? localStorage
+        : sessionStorage;
 
-const userName =
-    storage.getItem("userName") || "User";
+    const userName = storage.getItem("userName") || "User";
+    const userRole = storage.getItem("userRole") || "User";
 
-const userRole =
-    storage.getItem("userRole") || "User";
-    const initials =
-        userName
-            .split(" ")
-            .map(name => name.charAt(0))
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
+    const initials = userName
+        .split(" ")
+        .map(name => name.charAt(0))
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
 
+    document.getElementById("attendanceUserName").textContent = userName;
+    document.getElementById("attendanceUserRole").textContent = userRole;
+    document.getElementById("attendanceUserAvatar").textContent = initials;
 
-    // Sidebar profile
-    document.getElementById("attendanceUserName").textContent =
-        userName;
-
-    document.getElementById("attendanceUserRole").textContent =
-        userRole;
-
-    document.getElementById("attendanceUserAvatar").textContent =
-        initials;
+    document.getElementById("attendanceHeaderUserName").textContent = userName;
+    document.getElementById("attendanceHeaderUserRole").textContent = userRole;
+    document.getElementById("attendanceHeaderAvatar").textContent = initials;
 
 
-    // Header profile
-    document.getElementById("attendanceHeaderUserName").textContent =
-        userName;
-
-    document.getElementById("attendanceHeaderUserRole").textContent =
-        userRole;
-
-    document.getElementById("attendanceHeaderAvatar").textContent =
-        initials;
-
-
-    console.log("Attendance page loaded successfully!");
-    // =====================================================
+    // =========================================================
     // ELEMENTS
-    // =====================================================
+    // =========================================================
 
-    const tableBody =
-        document.getElementById("studentTableBody");
-
-    const searchInput =
-        document.getElementById("studentSearch");
+    const tableBody = document.getElementById("studentTableBody");
+    const searchInput = document.getElementById("studentSearch");
 
     const departmentFilter =
         document.getElementById("departmentFilter");
@@ -86,41 +65,54 @@ const userRole =
         document.getElementById("attendanceMessage");
 
 
-    // =====================================================
+    // =========================================================
     // API
-    // =====================================================
+    // =========================================================
 
     const API = "http://localhost:5050/api";
 
 
-    // =====================================================
+    // =========================================================
     // STATE
-    // =====================================================
+    // =========================================================
 
     let students = [];
+
     let attendanceStatus = {};
-    let currentSessionId = null;
+
+    let originalAttendanceStatus = {};
 
 
-    // =====================================================
-    // TODAY'S DATE
-    // =====================================================
+    // =========================================================
+    // DATE
+    // =========================================================
 
-    const today = new Date();
+    function getTodayDate() {
 
-    const formattedDate =
-        today.toISOString().split("T")[0];
+        const now = new Date();
 
-    dateInput.value = formattedDate;
+        const year = now.getFullYear();
+
+        const month =
+            String(now.getMonth() + 1).padStart(2, "0");
+
+        const day =
+            String(now.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+    dateInput.value = getTodayDate();
 
 
-    // =====================================================
+    // =========================================================
     // HELPERS
-    // =====================================================
+    // =========================================================
 
     function getInitials(name) {
 
-        return name
+        return String(name || "")
             .split(" ")
             .map(word => word.charAt(0))
             .join("")
@@ -132,7 +124,7 @@ const userRole =
 
     function getAttendanceClass(value) {
 
-        if (value >= 90) {
+        if (value >= 95) {
             return "percentage-good";
         }
 
@@ -167,11 +159,11 @@ const userRole =
 
         }
 
-        if (status === "late") {
+        if (status === "leave") {
 
             return `
                 <span class="status-badge status-late">
-                    Late
+                    Leave
                 </span>
             `;
 
@@ -186,138 +178,155 @@ const userRole =
     }
 
 
-    // =====================================================
-    // CREATE / GET ATTENDANCE SESSION
-    // =====================================================
+    // =========================================================
+    // BUILD FILTER PARAMETERS
+    // =========================================================
 
-    async function createSession() {
+    function getFilterParams() {
 
-        const branchValue =
-            departmentFilter.value === "all"
-                ? "CSE"
-                : departmentFilter.value.toUpperCase();
+        const params = new URLSearchParams();
 
-        const yearValue =
-            yearFilter.value === "all"
-                ? 1
-                : Number(yearFilter.value);
+        if (departmentFilter.value !== "all") {
 
-        const sectionValue =
-            sectionFilter.value === "all"
-                ? "A"
-                : sectionFilter.value;
-
-
-        try {
-
-            const response =
-                await fetch(`${API}/attendance/sessions`, {
-
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        session_date: dateInput.value,
-                        branch: branchValue,
-                        year: yearValue,
-                        section: sectionValue
-                    })
-
-                });
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Could not create attendance session"
-                );
-
-            }
-
-
-            const data =
-                await response.json();
-
-            currentSessionId =
-                data.id;
-
-        } catch (error) {
-
-            console.error(error);
-
-            attendanceMessage.textContent =
-                "Unable to create attendance session.";
+            params.set(
+                "branch",
+                departmentFilter.value.toUpperCase()
+            );
 
         }
+
+        if (yearFilter.value !== "all") {
+
+            params.set(
+                "year",
+                yearFilter.value
+            );
+
+        }
+
+        if (sectionFilter.value !== "all") {
+
+            params.set(
+                "section",
+                sectionFilter.value
+            );
+
+        }
+
+        params.set(
+            "date",
+            dateInput.value
+        );
+
+        return params;
 
     }
 
 
-    // =====================================================
-    // LOAD ATTENDANCE RECORDS
-    // =====================================================
+    // =========================================================
+    // LOAD ATTENDANCE
+    // =========================================================
 
     async function loadAttendance() {
 
-        if (!currentSessionId) {
-            await createSession();
-        }
-
-
-        if (!currentSessionId) {
-            return;
-        }
-
-
         try {
 
-            const response =
-                await fetch(
-                    `${API}/attendance/records?session_id=${currentSessionId}`
-                );
+            attendanceMessage.textContent =
+                "Loading attendance...";
 
+            const params = getFilterParams();
+
+            const response = await fetch(
+                `${API}/attendance/records?${params.toString()}`
+            );
 
             if (!response.ok) {
 
+                const errorData =
+                    await response.json().catch(() => ({}));
+
                 throw new Error(
+                    errorData.error ||
                     "Could not load attendance records"
                 );
 
             }
 
+            const data = await response.json();
 
-            students =
-                await response.json();
+
+            // -------------------------------------------------
+            // Backend returns:
+            // {
+            //    students: [...]
+            // }
+            // -------------------------------------------------
+
+            students = Array.isArray(data)
+                ? data
+                : (data.students || []);
+
+
+            attendanceStatus = {};
+            originalAttendanceStatus = {};
 
 
             students.forEach(student => {
 
-                attendanceStatus[student.student_id] =
-                    student.status;
+                const status =
+                    student.today_status ||
+                    student.status ||
+                    "not-marked";
+
+                attendanceStatus[
+                    student.student_id
+                ] = status;
+
+                originalAttendanceStatus[
+                    student.student_id
+                ] = status;
 
             });
 
 
             renderStudents();
 
-        } catch (error) {
-
-            console.error(error);
 
             attendanceMessage.textContent =
-                "Unable to load attendance data.";
+                "Make sure attendance is updated before saving.";
+
+            attendanceMessage.style.color = "";
+
+
+        } catch (error) {
+
+            console.error(
+                "Attendance loading error:",
+                error
+            );
+
+            students = [];
+
+            attendanceStatus = {};
+            originalAttendanceStatus = {};
+
+            renderStudents();
+
+            attendanceMessage.textContent =
+                "Unable to load attendance data: " +
+                error.message;
+
+            attendanceMessage.style.color =
+                "#dc2626";
 
         }
 
     }
 
 
-    // =====================================================
+    // =========================================================
     // RENDER STUDENTS
-    // =====================================================
+    // =========================================================
 
     function renderStudents() {
 
@@ -327,55 +336,23 @@ const userRole =
                 .trim();
 
 
-        const department =
-            departmentFilter.value;
-
-
-        const year =
-            yearFilter.value;
-
-
-        const section =
-            sectionFilter.value;
-
+        // Search is intentionally done locally.
+        // Department/year/section/date are handled by backend.
 
         const filteredStudents =
             students.filter(student => {
 
-                const matchesSearch =
-                    student.name
-                        .toLowerCase()
-                        .includes(searchValue) ||
+                const name =
+                    String(student.name || "")
+                        .toLowerCase();
 
-                    student.roll_no
-                        .toLowerCase()
-                        .includes(searchValue);
-
-
-                const matchesDepartment =
-                    department === "all" ||
-
-                    student.branch
-                        .toLowerCase() === department;
-
-
-                const matchesYear =
-                    year === "all" ||
-
-                    String(student.year) === year;
-
-
-                const matchesSection =
-                    section === "all" ||
-
-                    String(student.section) === section;
-
+                const rollNo =
+                    String(student.roll_no || "")
+                        .toLowerCase();
 
                 return (
-                    matchesSearch &&
-                    matchesDepartment &&
-                    matchesYear &&
-                    matchesSection
+                    name.includes(searchValue) ||
+                    rollNo.includes(searchValue)
                 );
 
             });
@@ -384,12 +361,35 @@ const userRole =
         tableBody.innerHTML = "";
 
 
+        if (!filteredStudents.length) {
+
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="8"
+                        style="text-align:center; padding:30px;">
+                        No students found.
+                    </td>
+                </tr>
+            `;
+
+        }
+
+
         filteredStudents.forEach((student, index) => {
 
+            const studentId =
+                Number(student.student_id);
+
+
             const status =
-                attendanceStatus[student.student_id]
-                || student.status
-                || "not-marked";
+                attendanceStatus[studentId] ||
+                "not-marked";
+
+
+            const attendancePercent =
+                Number(
+                    student.attendance_percent || 0
+                );
 
 
             const row =
@@ -434,12 +434,10 @@ const userRole =
 
                     <span class="attendance-percentage
                         ${getAttendanceClass(
-                            Number(student.attendance_percent || 0)
+                            attendancePercent
                         )}">
 
-                        ${Number(
-                            student.attendance_percent || 0
-                        ).toFixed(0)}%
+                        ${attendancePercent.toFixed(0)}%
 
                     </span>
 
@@ -454,27 +452,33 @@ const userRole =
                     <div class="action-buttons">
 
                         <button
-                            class="status-button present-button"
-                            data-id="${student.student_id}"
-                            data-status="present">
+                            class="status-button present-button
+                                ${status === "present" ? "selected" : ""}"
+                            data-id="${studentId}"
+                            data-status="present"
+                            title="Present">
 
                             ✓
 
                         </button>
 
                         <button
-                            class="status-button absent-button"
-                            data-id="${student.student_id}"
-                            data-status="absent">
+                            class="status-button absent-button
+                                ${status === "absent" ? "selected" : ""}"
+                            data-id="${studentId}"
+                            data-status="absent"
+                            title="Absent">
 
                             ✕
 
                         </button>
 
                         <button
-                            class="status-button late-button"
-                            data-id="${student.student_id}"
-                            data-status="late">
+                            class="status-button late-button
+                                ${status === "leave" ? "selected" : ""}"
+                            data-id="${studentId}"
+                            data-status="leave"
+                            title="Leave">
 
                             L
 
@@ -503,9 +507,9 @@ const userRole =
     }
 
 
-    // =====================================================
+    // =========================================================
     // STATUS BUTTONS
-    // =====================================================
+    // =========================================================
 
     function attachStatusEvents() {
 
@@ -517,7 +521,7 @@ const userRole =
 
             button.addEventListener(
                 "click",
-                async function () {
+                function () {
 
                     const studentId =
                         Number(this.dataset.id);
@@ -530,54 +534,14 @@ const userRole =
                         status;
 
 
-                    try {
-
-                        const response =
-                            await fetch(
-                                `${API}/attendance/records`,
-                                {
-
-                                    method: "POST",
-
-                                    headers: {
-                                        "Content-Type":
-                                            "application/json"
-                                    },
-
-                                    body: JSON.stringify({
-                                        session_id:
-                                            currentSessionId,
-
-                                        student_id:
-                                            studentId,
-
-                                        status:
-                                            status
-                                    })
-
-                                }
-                            );
+                    renderStudents();
 
 
-                        if (!response.ok) {
+                    attendanceMessage.textContent =
+                        "Attendance changed. Click Save Attendance to save.";
 
-                            throw new Error(
-                                "Failed to save attendance"
-                            );
-
-                        }
-
-
-                        renderStudents();
-
-                    } catch (error) {
-
-                        console.error(error);
-
-                        attendanceMessage.textContent =
-                            "Failed to save attendance.";
-
-                    }
+                    attendanceMessage.style.color =
+                        "#2563eb";
 
                 }
             );
@@ -587,45 +551,45 @@ const userRole =
     }
 
 
-    // =====================================================
+    // =========================================================
     // SUMMARY
-    // =====================================================
+    // =========================================================
 
     function updateSummary() {
-
-        const statuses =
-            Object.values(attendanceStatus);
-
-
-        const present =
-            statuses.filter(
-                status => status === "present"
-            ).length;
-
-
-        const absent =
-            statuses.filter(
-                status => status === "absent"
-            ).length;
-
 
         const total =
             students.length;
 
 
+        const present =
+            Object.values(attendanceStatus)
+                .filter(
+                    status => status === "present"
+                )
+                .length;
+
+
+        const absent =
+            Object.values(attendanceStatus)
+                .filter(
+                    status => status === "absent"
+                )
+                .length;
+
+
         const attendanceValues =
-            students.map(
-                student =>
-                    Number(
-                        student.attendance_percent || 0
-                    )
+            students.map(student =>
+                Number(
+                    student.attendance_percent || 0
+                )
             );
 
 
         const average =
             attendanceValues.length
                 ? attendanceValues.reduce(
-                    (sum, value) => sum + value,
+                    (sum, value) =>
+                        sum + value,
                     0
                 ) / attendanceValues.length
                 : 0;
@@ -649,67 +613,79 @@ const userRole =
     }
 
 
-    // =====================================================
-    // FILTER EVENTS
-    // =====================================================
+    // =========================================================
+    // SEARCH
+    // =========================================================
 
     searchInput.addEventListener(
         "input",
-        renderStudents
+        function () {
+
+            renderStudents();
+
+        }
     );
 
+
+    // =========================================================
+    // DEPARTMENT FILTER
+    // =========================================================
 
     departmentFilter.addEventListener(
         "change",
         async function () {
 
-            await createSession();
-
             await loadAttendance();
 
         }
     );
 
+
+    // =========================================================
+    // YEAR FILTER
+    // =========================================================
 
     yearFilter.addEventListener(
         "change",
         async function () {
 
-            await createSession();
-
             await loadAttendance();
 
         }
     );
 
+
+    // =========================================================
+    // SECTION FILTER
+    // =========================================================
 
     sectionFilter.addEventListener(
         "change",
         async function () {
 
-            await createSession();
-
             await loadAttendance();
 
         }
     );
 
+
+    // =========================================================
+    // DATE FILTER
+    // =========================================================
 
     dateInput.addEventListener(
         "change",
         async function () {
 
-            await createSession();
-
             await loadAttendance();
 
         }
     );
 
 
-    // =====================================================
+    // =========================================================
     // CLEAR FILTERS
-    // =====================================================
+    // =========================================================
 
     document
         .getElementById("clearFilters")
@@ -725,8 +701,8 @@ const userRole =
 
                 sectionFilter.value = "all";
 
+                dateInput.value = getTodayDate();
 
-                await createSession();
 
                 await loadAttendance();
 
@@ -734,127 +710,199 @@ const userRole =
         );
 
 
-    // =====================================================
+    // =========================================================
     // MARK ALL PRESENT
-    // =====================================================
+    // =========================================================
 
     document
         .getElementById("markAllPresent")
         .addEventListener(
             "click",
-            async function () {
+            function () {
 
-                const studentIds =
-                    students.map(
-                        student => student.student_id
-                    );
+                if (!students.length) {
 
+                    attendanceMessage.textContent =
+                        "No students available.";
 
-                if (!studentIds.length) {
+                    attendanceMessage.style.color =
+                        "#dc2626";
+
                     return;
-                }
-
-
-                try {
-
-                    const response =
-                        await fetch(
-                            `${API}/attendance/records/bulk`,
-                            {
-
-                                method: "POST",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json"
-                                },
-
-                                body: JSON.stringify({
-
-                                    session_id:
-                                        currentSessionId,
-
-                                    student_ids:
-                                        studentIds,
-
-                                    status:
-                                        "present"
-
-                                })
-
-                            }
-                        );
-
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Failed to mark students present"
-                        );
-
-                    }
-
-
-                    students.forEach(student => {
-
-                        attendanceStatus[
-                            student.student_id
-                        ] = "present";
-
-                    });
-
-
-                    renderStudents();
-
-                    attendanceMessage.textContent =
-                        "✓ All students marked present.";
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    attendanceMessage.textContent =
-                        "Failed to mark all students present.";
 
                 }
+
+
+                students.forEach(student => {
+
+                    attendanceStatus[
+                        student.student_id
+                    ] = "present";
+
+                });
+
+
+                renderStudents();
+
+
+                attendanceMessage.textContent =
+                    "✓ All students marked present. Click Save Attendance to save.";
+
+                attendanceMessage.style.color =
+                    "#2563eb";
 
             }
         );
 
 
-    // =====================================================
+    // =========================================================
     // SAVE ATTENDANCE
-    // =====================================================
+    // =========================================================
 
     document
         .getElementById("saveAttendance")
         .addEventListener(
             "click",
-            function () {
+            async function () {
 
-                attendanceMessage.textContent =
-                    "✓ Attendance saved successfully!";
+                const changedStudents =
+                    students.filter(student => {
 
-                attendanceMessage.style.color =
-                    "#16a34a";
+                        const id =
+                            student.student_id;
+
+                        return (
+                            attendanceStatus[id] !==
+                            originalAttendanceStatus[id]
+                        );
+
+                    });
 
 
-                setTimeout(function () {
+                if (!changedStudents.length) {
 
                     attendanceMessage.textContent =
-                        "Make sure attendance is updated before saving.";
+                        "No attendance changes to save.";
 
-                    attendanceMessage.style.color = "";
+                    attendanceMessage.style.color =
+                        "#64748b";
 
-                }, 2500);
+                    return;
+
+                }
+
+
+                try {
+
+                    attendanceMessage.textContent =
+                        "Saving attendance...";
+
+                    attendanceMessage.style.color =
+                        "#2563eb";
+
+
+                    for (const student of changedStudents) {
+
+                        const response =
+                            await fetch(
+                                `${API}/attendance/records`,
+                                {
+
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json"
+                                    },
+
+                                    body: JSON.stringify({
+
+                                        student_id:
+                                            student.student_id,
+
+                                        date:
+                                            dateInput.value,
+
+                                        status:
+                                            attendanceStatus[
+                                                student.student_id
+                                            ]
+
+                                    })
+
+                                }
+                            );
+
+
+                        if (!response.ok) {
+
+                            const errorData =
+                                await response
+                                    .json()
+                                    .catch(() => ({}));
+
+
+                            throw new Error(
+                                errorData.error ||
+                                "Failed to save attendance"
+                            );
+
+                        }
+
+                    }
+
+
+                    // Reload from database.
+                    // This is important because the backend
+                    // calculates the new percentage.
+
+                    await loadAttendance();
+
+
+                    attendanceMessage.textContent =
+                        "✓ Attendance saved successfully!";
+
+                    attendanceMessage.style.color =
+                        "#16a34a";
+
+
+                    setTimeout(
+                        function () {
+
+                            attendanceMessage.textContent =
+                                "Make sure attendance is updated before saving.";
+
+                            attendanceMessage.style.color = "";
+
+                        },
+                        3000
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Save attendance error:",
+                        error
+                    );
+
+
+                    attendanceMessage.textContent =
+                        "Failed to save attendance: " +
+                        error.message;
+
+                    attendanceMessage.style.color =
+                        "#dc2626";
+
+                }
 
             }
         );
 
 
-    // =====================================================
+    // =========================================================
     // NOTIFICATIONS
-    // =====================================================
+    // =========================================================
 
     document
         .getElementById("notificationButton")
@@ -870,11 +918,9 @@ const userRole =
         );
 
 
-    // =====================================================
+    // =========================================================
     // INITIAL LOAD
-    // =====================================================
-
-    await createSession();
+    // =========================================================
 
     await loadAttendance();
 
