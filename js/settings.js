@@ -592,30 +592,7 @@ if (securityButtons.length > 0) {
 }
 
 
-    // ------------------------------------------
-    // TWO-FACTOR AUTHENTICATION
-    // ------------------------------------------
-
-    if (securityButtons.length > 1) {
-
-        securityButtons[1].addEventListener("click", function () {
-
-            if (this.textContent.trim() === "Enable") {
-
-                this.textContent = "Enabled";
-
-                alert("Two-Factor Authentication enabled.");
-
-            } else {
-
-                this.textContent = "Enable";
-
-            }
-
-        });
-
-    }
-
+    
 
     // ------------------------------------------
     // SAVE CHANGES

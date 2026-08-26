@@ -352,33 +352,48 @@ document.addEventListener(
         ===================================================== */
 
         function saveLoginData(
-            token,
-            role,
-            shouldRemember
-        ) {
+    token,
+    user,
+    shouldRemember
+) {
 
-            const storage =
-                shouldRemember
-                    ? window.localStorage
-                    : window.sessionStorage;
-
-
-            if (token) {
-
-                storage.setItem(
-                    "token",
-                    token
-                );
-            }
+    const storage =
+        shouldRemember
+            ? window.localStorage
+            : window.sessionStorage;
 
 
-            storage.setItem(
-                "userRole",
-                role
-            );
-        }
+    if (token) {
+        storage.setItem(
+            "token",
+            token
+        );
+    }
 
 
+    if (user) {
+
+        storage.setItem(
+            "userId",
+            String(user.id)
+        );
+
+        storage.setItem(
+            "userName",
+            user.name || ""
+        );
+
+        storage.setItem(
+            "userEmail",
+            user.email || ""
+        );
+
+        storage.setItem(
+            "userRole",
+            user.role || ""
+        );
+    }
+}
         /* =====================================================
            REDIRECT USER
         ===================================================== */
@@ -398,7 +413,7 @@ document.addEventListener(
             } else {
 
                 window.location.assign(
-                    "pages/faculty.html"
+                    "faculty.html"
                 );
             }
         }
@@ -528,11 +543,12 @@ document.addEventListener(
                     ========================================= */
 
                     saveLoginData(
-                        data.token || "",
-                        role,
-                        shouldRemember
-                    );
-
+    data.token || "",
+    data.user || {
+        role: role
+    },
+    shouldRemember
+);
 
                     /* =========================================
                        SUCCESS MESSAGE
