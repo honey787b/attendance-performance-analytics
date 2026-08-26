@@ -69,8 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // API
     // =========================================================
 
-    const API = "http://localhost:5050/api";
-
+    const API = "https://presentrack-3m74.onrender.com/api";
 
     // =========================================================
     // STATE
