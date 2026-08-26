@@ -412,9 +412,9 @@ document.addEventListener(
 
             } else {
 
-                window.location.assign(
-                    "faculty.html"
-                );
+               window.location.assign(
+    "pages/faculty.html"
+);
             }
         }
 
